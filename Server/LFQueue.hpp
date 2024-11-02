@@ -4,16 +4,22 @@
 template <typename T>
 class LFQueue
 {
+	static constexpr uint64_t MAX_TASK = 1024 * 1024;
+
 public:
 	void Push(T* const ptr)noexcept 
 	{
-		m_arrElements[m_pushIndex].store(ptr);
-		m_pushIndex = (m_pushIndex + 1) & (MAX_TASK - 1);
+		m_arrElements[(m_pushIndex++) & (MAX_TASK - 1)].store(ptr);
 	}
 	T* Pop()noexcept
 	{
-		const auto ptr = m_arrElements[m_popIndex];
-		if (ptr)m_popIndex = (m_popIndex + 1) & (MAX_TASK - 1);
+		const auto cur_idx = (m_popIndex) & (MAX_TASK - 1);
+		const auto ptr = m_arrElements[cur_idx];
+		if (ptr)
+		{
+			m_arrElements[cur_idx].store(nullptr,std::memory_order_relaxed);
+			++m_popIndex;
+		}
 		return ptr;
 	}
 private:
@@ -21,5 +27,5 @@ private:
 	alignas(64) uint64_t m_popIndex = 0;
 	alignas(64) uint64_t m_pushIndex = 0;
 
-	static constexpr uint64_t MAX_TASK = 1024 * 1024;
+	
 };
