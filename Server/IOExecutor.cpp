@@ -86,10 +86,10 @@ void IOExecutor::IORoutine() noexcept
                 }
                 else if (m_clientsFD[i].revents & POLLHUP)
                 {
-                   // TODO: Disconnect, ≈¿Â∑Á∆æ
+                    // TODO: Disconnect, ≈¿Â∑Á∆æ
                 }
             }
         }
-
+    }
         // TODO: SendQueue Flush
 }
