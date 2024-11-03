@@ -69,7 +69,7 @@ void IOExecutor::IORoutine() noexcept
             std::cerr << "WSAPoll 실패: " << WSAGetLastError() << std::endl;
             break;
         }
-
+        
         if (1 <= pollResult)
         {
             // 연결 요청 수락 및 데이터 처리
@@ -92,4 +92,16 @@ void IOExecutor::IORoutine() noexcept
         }
     }
         // TODO: SendQueue Flush
+}
+
+void IOExecutor::OnAccept(const int id) noexcept
+{
+}
+
+void IOExecutor::OnDisconnect(const int id) noexcept
+{
+}
+
+void IOExecutor::OnRecv(const int id) noexcept
+{
 }

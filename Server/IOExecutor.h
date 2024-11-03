@@ -13,6 +13,10 @@ class IOExecutor
 public:
 	bool InitServer(std::string_view port);
 	void IORoutine()noexcept;
+public:
+	void OnAccept(const int id)noexcept;
+	void OnDisconnect(const int id)noexcept;
+	void OnRecv(const int id)noexcept;
 private:
 	bool m_bIsRunning = false;
 	SOCKET m_serverSocket = INVALID_SOCKET;
