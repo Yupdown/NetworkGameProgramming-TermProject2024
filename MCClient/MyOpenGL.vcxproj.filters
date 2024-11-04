@@ -1,0 +1,700 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{862021e7-e2fb-4f2b-86a1-98ca3c0dd6f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{447a55f1-78f3-455b-85ad-3c2e37560e92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\pch">
+      <UniqueIdentifier>{bf46bbe3-4a58-4e51-9d76-3a5e6b7d99bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\01. Core">
+      <UniqueIdentifier>{b56df144-77b3-4fe7-9474-5a9e5780ab68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager">
+      <UniqueIdentifier>{384bd75c-381b-4936-a1c5-5ce5fadf46cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element">
+      <UniqueIdentifier>{0e6a677e-51b5-40cd-9f74-5f6e9d8615cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Mesh">
+      <UniqueIdentifier>{b28099ee-1f42-40b0-b3c4-09342d7b7423}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object">
+      <UniqueIdentifier>{ec982338-2ac4-413b-b11f-c4de565b46b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\func">
+      <UniqueIdentifier>{63f4325f-5594-48af-bc10-ab052d9d0099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\GameObj">
+      <UniqueIdentifier>{2b8d9299-4835-4318-a0b0-fb2507827fe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component">
+      <UniqueIdentifier>{3cde969f-fd50-4e66-9387-d71736f052fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component">
+      <UniqueIdentifier>{2d21ea17-155d-4ec4-ae9d-69fd964e0b4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\MonoBehavior">
+      <UniqueIdentifier>{afe68e28-3b74-4ac0-8b93-3e4769371023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Transform">
+      <UniqueIdentifier>{c670e1d7-8c4b-44de-85eb-e82a791fc830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\MeshRenderer">
+      <UniqueIdentifier>{347e7dad-45fb-486f-a644-84ad4512c81e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Factory">
+      <UniqueIdentifier>{f3567016-a959-4e9a-89fe-191cfba880ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene">
+      <UniqueIdentifier>{08ecdaf0-c9b6-4239-8c58-cc4b942ae55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\SceneMgr">
+      <UniqueIdentifier>{72e4aee7-546e-48c6-ba90-fe83d2a247a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Camera">
+      <UniqueIdentifier>{51875f39-ff7c-4cd9-aa74-29f545c19f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\TimeMgr">
+      <UniqueIdentifier>{5ed16b65-ddfa-4ab0-98d5-db1553b62f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\KeyMgr">
+      <UniqueIdentifier>{dc2e9017-d42b-4382-82a6-a7f984af7578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Factory\CompFactory">
+      <UniqueIdentifier>{41fdd793-5a0a-4663-9dba-1d16c0d15b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\MonoBehavior\CamMoveScript">
+      <UniqueIdentifier>{05b9b39c-ab93-4632-853c-3b51a1e80944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Textrue">
+      <UniqueIdentifier>{a2d6c6c5-ad8f-42c7-ad40-0021ce033fe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Shader">
+      <UniqueIdentifier>{527a3b51-f67e-412e-931a-e72eb1a51772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Shader\ShaderCodes">
+      <UniqueIdentifier>{31e9bf0f-7f60-47d2-9acd-5a7b680c6b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\ResMgr">
+      <UniqueIdentifier>{0c23f745-9da0-4a5e-9cdd-73c4b0ed412a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Material">
+      <UniqueIdentifier>{c600d6c9-040e-49d8-8b7b-8be43f2605fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\ResMgr\Resource">
+      <UniqueIdentifier>{b7e82984-12a6-4056-a509-1518c09641c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Textrue\CubeMapTex">
+      <UniqueIdentifier>{cfc72d38-1f46-4a31-8deb-3bb19458bfd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Textrue\Texture2D">
+      <UniqueIdentifier>{3e887b16-9afe-4b88-b5f3-d488b427fc5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\stb">
+      <UniqueIdentifier>{a4406683-32ba-4b9b-82b6-9adcc50af67e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component\Light">
+      <UniqueIdentifier>{caea3908-3131-4aa1-96d4-781bc9d230d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\ThreadMgr">
+      <UniqueIdentifier>{19c82c59-0612-46af-ad04-8f92d19f3824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\struct">
+      <UniqueIdentifier>{04b7b935-2825-42ef-b886-bb450409ac07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\InputHandler">
+      <UniqueIdentifier>{fe4a2608-982a-4bd1-b4d9-752d01ca0ea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Command">
+      <UniqueIdentifier>{9520b525-5fa1-438d-8301-483a4dedd713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Command\MoveCommand">
+      <UniqueIdentifier>{2456bb3f-d7ef-4f4e-8b3c-eb08a0e1d951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ForHomeWork">
+      <UniqueIdentifier>{88645399-b847-496b-9295-566b2bacca41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ForHomeWork\MyPolygon">
+      <UniqueIdentifier>{1a953290-27c9-4d3e-8d86-d27410707541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\CoRoutineHandler">
+      <UniqueIdentifier>{30debc73-3202-4fbc-8165-181bdb2f7ea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\EventMgr">
+      <UniqueIdentifier>{84591776-83ab-4445-ac73-039074d08f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\ImGuiMgr">
+      <UniqueIdentifier>{eb14ca3b-5c3c-4368-9dd6-341344bb6a96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\ImGuiMgr\imgui">
+      <UniqueIdentifier>{7169b969-6741-4c6c-808c-87d1057de0a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\UIMgr">
+      <UniqueIdentifier>{167f8616-e3fa-4ae5-b89c-cefe15518e0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\UIMgr\UI">
+      <UniqueIdentifier>{4d33633f-19db-4d4c-bba2-18135daf9066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\UIMgr\UI\Button">
+      <UniqueIdentifier>{970914b6-c56b-4dc9-847e-d7d359dfd03a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\UIMgr\UI\PannelUI">
+      <UniqueIdentifier>{a643f8e3-131d-4d92-8b44-6d70bcad7127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\EventMgr\Event">
+      <UniqueIdentifier>{93153502-f9d2-403e-8a53-d5f9fa6447b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\AssimpMgr">
+      <UniqueIdentifier>{0cfcae37-19b7-4341-986a-e01fa59fcd33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component\Animator">
+      <UniqueIdentifier>{e9c3e233-7960-46f5-b506-ba9de07b8fd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\BoneInfo">
+      <UniqueIdentifier>{2ad0f061-40d2-4e20-b552-788975492248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Element\Model">
+      <UniqueIdentifier>{9fd91ed4-d7be-45fd-acbd-d18b4184074f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component\Animator\Animation">
+      <UniqueIdentifier>{0c97ab48-3272-497b-90b4-c8af1c5ae6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\ParticleMgr">
+      <UniqueIdentifier>{7dc32d46-ef76-4e11-bfbc-d19cc67f34eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\ParticleMgr\Particle">
+      <UniqueIdentifier>{a4088c03-5963-4c18-aaf3-4b01728f7ae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Collider">
+      <UniqueIdentifier>{f0654ffa-ae63-4ebf-9f21-1374b863b7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Collider\CollisionHandler">
+      <UniqueIdentifier>{6bcafa4a-ecb0-47b2-89c5-6dfca99a09f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\CollisionMgr">
+      <UniqueIdentifier>{697fc49f-c18e-4f7a-8ee0-b2779e8f42df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\RayCaster">
+      <UniqueIdentifier>{71508c25-231f-44a6-85b2-37a48c1514a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\PathMgr">
+      <UniqueIdentifier>{42526276-4314-41c3-8962-3b795e0dbaa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component\RigidBody">
+      <UniqueIdentifier>{ea69a5bd-cd39-4a51-8340-00edb40923a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\SoundMgr">
+      <UniqueIdentifier>{2c49e032-5743-462d-9972-804e1e42cecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component\Light\SpotLight">
+      <UniqueIdentifier>{1b86bd98-12d8-4573-88d6-f45db87a390b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component\Light\DirectionalLight">
+      <UniqueIdentifier>{dab65a34-75be-466d-af39-92f6ad41804c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Component\Light\PointLight">
+      <UniqueIdentifier>{6cd932f5-8e5b-474a-b4d2-ebdb26a31e28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\SkyBox">
+      <UniqueIdentifier>{03f5631f-e45d-42e5-b0cd-229e0aa72f47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\InstancingMgr">
+      <UniqueIdentifier>{a45b1f83-aa97-4604-a08e-aa48628f6598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\Scene_Intro">
+      <UniqueIdentifier>{1d91a4e0-5885-4d02-8d54-bc4a0be6cd9d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Utility\pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Engine\01. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Engine\03. Element\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="PathMgr.cpp">
+      <Filter>Engine\02. Manager\PathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Engine\03. Element\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Engine\06. Component\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>Utility\func</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObj.cpp">
+      <Filter>Engine\04. Object\GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoBehavior.cpp">
+      <Filter>Engine\06. Component\MonoBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Engine\06. Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Engine\06. Component\MeshRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>Engine\02. Manager\SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine\05. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\06. Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeMgr.cpp">
+      <Filter>Engine\02. Manager\TimeMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>Engine\02. Manager\KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CompFactory.cpp">
+      <Filter>Engine\07. Factory\CompFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="CamMoveScript.cpp">
+      <Filter>Engine\06. Component\MonoBehavior\CamMoveScript</Filter>
+    </ClCompile>
+    <ClCompile Include="ResMgr.cpp">
+      <Filter>Engine\02. Manager\ResMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Engine\02. Manager\ResMgr\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Engine\03. Element\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeMapTex.cpp">
+      <Filter>Engine\03. Element\Textrue\CubeMapTex</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Engine\03. Element\Textrue\Texture2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Engine\03. Element\Textrue</Filter>
+    </ClCompile>
+    <ClCompile Include="MyStb.cpp">
+      <Filter>Utility\stb</Filter>
+    </ClCompile>
+    <ClCompile Include="MyOpenGL.hpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Engine\06. Component\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadMgr.cpp">
+      <Filter>Engine\02. Manager\ThreadMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>Engine\06. Component\InputHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Engine\08. Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CoRoutineHandler.cpp">
+      <Filter>Engine\06. Component\CoRoutineHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgr.cpp">
+      <Filter>Engine\02. Manager\EventMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiMgr.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\imgui-master\imgui.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\imgui-master\imgui_demo.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\imgui-master\imgui_draw.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\imgui-master\imgui_tables.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\imgui-master\imgui_widgets.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\imgui-master\backends\imgui_impl_glfw.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\imgui-master\backends\imgui_impl_opengl3.cpp">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMgr.cpp">
+      <Filter>Engine\02. Manager\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Engine\02. Manager\UIMgr\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PannelUI.cpp">
+      <Filter>Engine\02. Manager\UIMgr\UI\PannelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Engine\02. Manager\UIMgr\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Engine\02. Manager\EventMgr\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpMgr.cpp">
+      <Filter>Engine\02. Manager\AssimpMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Engine\06. Component\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Engine\03. Element\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Engine\06. Component\Component\Animator\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleMgr.cpp">
+      <Filter>Engine\02. Manager\ParticleMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Engine\02. Manager\ParticleMgr\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Engine\06. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandler.cpp">
+      <Filter>Engine\06. Component\Collider\CollisionHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMgr.cpp">
+      <Filter>Engine\02. Manager\CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCaster.cpp">
+      <Filter>Engine\02. Manager\RayCaster</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Engine\06. Component\Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundMgr.cpp">
+      <Filter>Engine\02. Manager\SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPolygon.cpp">
+      <Filter>ForHomeWork\MyPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Engine\06. Component\Component\Light\SpotLight</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Engine\06. Component\Component\Light\PointLight</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Engine\06. Component\Component\Light\DirectionalLight</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Engine\04. Object\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingMgr.cpp">
+      <Filter>Engine\02. Manager\InstancingMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene_Intro.cpp">
+      <Filter>Engine\05. Scene\Scene_Intro</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Utility\pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Engine\01. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Engine\03. Element\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="PathMgr.h">
+      <Filter>Engine\02. Manager\PathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.hpp">
+      <Filter>Engine\03. Element</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Engine\03. Element\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Engine\06. Component\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>Utility\func</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoBehavior.h">
+      <Filter>Engine\06. Component\MonoBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Engine\06. Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Engine\06. Component\MeshRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>Engine\02. Manager\SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine\05. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\06. Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeMgr.h">
+      <Filter>Engine\02. Manager\TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>Engine\02. Manager\KeyMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomMath.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CompFactory.h">
+      <Filter>Engine\07. Factory\CompFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="CamMoveScript.h">
+      <Filter>Engine\06. Component\MonoBehavior\CamMoveScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Engine\03. Element\Textrue</Filter>
+    </ClInclude>
+    <ClInclude Include="ResMgr.h">
+      <Filter>Engine\02. Manager\ResMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Engine\02. Manager\ResMgr\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Engine\03. Element\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeMapTex.h">
+      <Filter>Engine\03. Element\Textrue\CubeMapTex</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Engine\03. Element\Textrue\Texture2D</Filter>
+    </ClInclude>
+    <ClInclude Include="MyStb.h">
+      <Filter>Utility\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Engine\06. Component\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadMgr.h">
+      <Filter>Engine\02. Manager\ThreadMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="SpinLock.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Engine\06. Component\InputHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Engine\08. Command</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Engine\08. Command\MoveCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="CoRoutineHandler.h">
+      <Filter>Engine\06. Component\CoRoutineHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgr.h">
+      <Filter>Engine\02. Manager\EventMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiMgr.h">
+      <Filter>Engine\02. Manager\ImGuiMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\imconfig.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\imgui.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\imgui_internal.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\imstb_rectpack.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\imstb_textedit.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\imstb_truetype.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\backends\imgui_impl_glfw.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\imgui-master\backends\imgui_impl_opengl3.h">
+      <Filter>Engine\02. Manager\ImGuiMgr\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMgr.h">
+      <Filter>Engine\02. Manager\UIMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Engine\02. Manager\UIMgr\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PannelUI.h">
+      <Filter>Engine\02. Manager\UIMgr\UI\PannelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Engine\02. Manager\UIMgr\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Engine\02. Manager\EventMgr\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Delegate.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="CoRoutine.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpMgr.h">
+      <Filter>Engine\02. Manager\AssimpMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleQueue.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObj.h">
+      <Filter>Engine\04. Object\GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Engine\06. Component\Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneInfo.h">
+      <Filter>Engine\03. Element\BoneInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Engine\03. Element\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Engine\06. Component\Component\Animator\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleMgr.h">
+      <Filter>Engine\02. Manager\ParticleMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Engine\02. Manager\ParticleMgr\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="OBBBox.hpp">
+      <Filter>Engine\06. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Engine\06. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionHandler.h">
+      <Filter>Engine\06. Component\Collider\CollisionHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMgr.h">
+      <Filter>Engine\02. Manager\CollisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCaster.h">
+      <Filter>Engine\02. Manager\RayCaster</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleLockQueue.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Engine\06. Component\Component\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundMgr.h">
+      <Filter>Engine\02. Manager\SoundMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPolygon.h">
+      <Filter>ForHomeWork\MyPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcurrentHash.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="AtomicMemoryPool.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>Engine\06. Component\Component\Light\SpotLight</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Engine\06. Component\Component\Light\PointLight</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Engine\06. Component\Component\Light\DirectionalLight</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Engine\04. Object\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancingMgr.h">
+      <Filter>Engine\02. Manager\InstancingMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_Intro.h">
+      <Filter>Engine\05. Scene\Scene_Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="SRWLock.hpp">
+      <Filter>Utility\struct</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shader\CubeShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\SimpleShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\SimpleShaderHasColor.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\DefaultShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\CollisionBoxShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\SimpleShaderHasColorLight.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\ObserverShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\SkyBoxShaderSphere.glsl">
+      <Filter>Engine\04. Object\SkyBox</Filter>
+    </None>
+    <None Include="Resource\Shader\SkyBoxShaderCube.glsl">
+      <Filter>Engine\04. Object\SkyBox</Filter>
+    </None>
+    <None Include="Resource\Shader\EnvironmentShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\InstancingShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\EnvironmentShaderInstancing.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\DefaultFogShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\DefaultWarpShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\ShadowShader.glsl">
+      <Filter>Engine\03. Element\Shader\ShaderCodes</Filter>
+    </None>
+    <None Include="Resource\Shader\UIShader.glsl">
+      <Filter>Engine\02. Manager\UIMgr\UI</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resource\Shader\AnimShader.glsl">
+      <Filter>Engine\02. Manager\RayCaster</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
