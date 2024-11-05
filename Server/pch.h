@@ -9,5 +9,6 @@
 #include <unordered_set>
 #include <atomic>
 #include <mutex>
+#include <functional>
 
 #pragma comment(lib, "Ws2_32.lib")
