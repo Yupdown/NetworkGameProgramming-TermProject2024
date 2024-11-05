@@ -12,6 +12,7 @@ public:
 
 	std::shared_ptr<ServerObject> AddObject(unsigned int id);
 	void RemoveObject(unsigned int id);
+	std::shared_ptr<ServerObject> FindObject(unsigned int id) const;
 
 	void SetTargetScene(const std::shared_ptr<Scene>& scene);
 
