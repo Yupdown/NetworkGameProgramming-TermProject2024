@@ -162,6 +162,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerCam.cpp" />
     <ClCompile Include="PlayerShadow.cpp" />
+    <ClCompile Include="ServerObject.cpp" />
+    <ClCompile Include="ServerObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyOpenGL.vcxproj">
@@ -184,6 +186,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerCam.h" />
     <ClInclude Include="PlayerShadow.h" />
+    <ClInclude Include="ServerObject.h" />
+    <ClInclude Include="ServerObjectManager.h" />
     <ClInclude Include="Vector2D.hpp" />
     <ClInclude Include="Vector3D.hpp" />
   </ItemGroup>

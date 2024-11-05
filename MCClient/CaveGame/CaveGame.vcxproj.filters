@@ -43,6 +43,15 @@
     <Filter Include="CaveObject\EnderEye">
       <UniqueIdentifier>{d38dc739-69ac-4534-8360-185fb6b0128e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{f6b44639-873c-4fee-a35d-a6aef96a5a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CaveObject\ServerObject">
+      <UniqueIdentifier>{b68cbb05-57b5-4068-8949-65dfca258eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ServerObjectManager">
+      <UniqueIdentifier>{81ea30f3-30d2-491f-a451-548e3ee13630}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="EnderEye.cpp">
       <Filter>CaveObject\EnderEye</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerObject.cpp">
+      <Filter>CaveObject\ServerObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerObjectManager.cpp">
+      <Filter>소스 파일\ServerObjectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="EnderEye.h">
       <Filter>CaveObject\EnderEye</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerObject.h">
+      <Filter>CaveObject\ServerObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerObjectManager.h">
+      <Filter>소스 파일\ServerObjectManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

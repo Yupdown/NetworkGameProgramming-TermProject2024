@@ -27,6 +27,15 @@ void ServerObjectManager::RemoveObject(unsigned int id)
 		std::cout << "Object with id " << id << " not found" << std::endl;
 }
 
+std::shared_ptr<ServerObject> ServerObjectManager::FindObject(unsigned int id) const
+{
+	auto iter = m_serverObjects.find(id);
+	if (iter != m_serverObjects.end())
+		return iter->second;
+	else
+		return nullptr;
+}
+
 void ServerObjectManager::SetTargetScene(const std::shared_ptr<Scene>& scene)
 {
 	m_targetScene = scene;
