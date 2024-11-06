@@ -149,7 +149,7 @@ int main()
                     glfwSetInputMode(Mgr(Core)->GetWinInfo(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
                     player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
                 };//여기서 뉴게임 눌렀을 때 어떤 반응할 지 정하기 
-        }
+        } 
 
         pClouds = Mgr(AssimpMgr)->Load("CloudShader.glsl", "MyCube.fbx");
         pClouds->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 100.0f, 256.0f));
@@ -170,7 +170,9 @@ int main()
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
         });
 
-        Mgr(Core)->GameLoop(Update);
+        Mgr(Core)->GameLoop([]()noexcept{
+            // TODO: DoNetworkIO
+            });
         
 }
 
