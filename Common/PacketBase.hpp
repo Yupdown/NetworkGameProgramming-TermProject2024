@@ -1,8 +1,12 @@
 #pragma once
 #include <cstring>
 
-using  uint64 = unsigned long long;
-using  uint8 = unsigned char;
+using uint64 = unsigned long long;
+using uint8 = unsigned char;
+using uint16 = unsigned short;
+
+extern void AddProtocol(const uint16 pktID_, const bool (*fpPacketHandler_)(const uint64, const char* const))noexcept;
+
 
 #pragma pack (push, 1)
 
@@ -49,9 +53,9 @@ public:
         return ::memcpy(buffer, this, sizeof(T));
     }
 
-    static const bool HandlePacket(const uint64 id, char* const pBuff_, const int len_) {
-        if (sizeof(T) != len_) [[unlikely]]
-            return false;
+    static const bool HandlePacket(const uint64 id, const char* const pBuff_) {
+        // if (sizeof(T) != len_) [[unlikely]]
+        //     return false;
         return T::Handle(id, *reinterpret_cast<const T* const>(pBuff_));
     }
 
