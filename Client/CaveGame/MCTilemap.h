@@ -58,8 +58,10 @@ public:
 
 class MCTilemap
 {
+public:
 	MCTilemap() = default;
 	~MCTilemap() = default;
+
 public:
 	static constexpr int MAP_WIDTH = 512;
 	static constexpr int MAP_HEIGHT = MCTileChunk::CHUNK_HEIGHT;

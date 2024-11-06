@@ -40,8 +40,6 @@ int main()
         }
         });
 
-    g_bTileFinish.wait(false);
-
     Mgr(SceneMgr)->RegisterEnterSceneCallBack(SCENE_TYPE::STAGE, []() {
         g_bCanResume = true;
 
@@ -171,6 +169,9 @@ int main()
         pEnderEye->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * 0.5f);
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
         });
+
+        Mgr(Core)->GameLoop(Update);
+        
 }
 
 void Update()

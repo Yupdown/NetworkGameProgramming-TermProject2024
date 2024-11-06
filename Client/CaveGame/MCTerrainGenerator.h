@@ -5,6 +5,6 @@ class MCTilemap;
 class MCTerrainGenerator
 {
 public:
-	void Generate(shared_ptr<MCTilemap> tilemap)const noexcept;
+	void Generate(const shared_ptr<MCTilemap>& tilemap)const noexcept;
 };
 

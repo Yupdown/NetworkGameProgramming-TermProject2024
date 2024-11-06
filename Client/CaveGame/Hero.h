@@ -10,7 +10,6 @@ class Hero :
 private:
     void InputMove()noexcept;
     void UpdateTileManipulation()noexcept;
-    void SendMyMoveData()noexcept;
     void MoveByView(const glm::vec3& vDelta);
 public:
     Hero(std::shared_ptr<MCTilemap> pTilemap)noexcept;

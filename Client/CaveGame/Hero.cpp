@@ -11,6 +11,7 @@
 #include "Material.h"
 #include "SoundMgr.h"
 #include "Monster.h"
+#include "UIMgr.h"
 
 extern std::atomic_bool g_bTileFinish;
 
@@ -96,62 +97,15 @@ void Hero::UpdateTileManipulation()noexcept
 	const RaycastResult result = m_refTilemap->RaycastTile(wv, this->GetPlayerLook(), 10.0f);
 	m_cursorBlockObj->GetTransform()->SetLocalPosition((glm::vec3(result.hitTilePosition) + glm::one<glm::vec3>() * 0.5f) - GetTransform()->GetLocalPosition());
 
-	if (KEY_TAP(GLFW_MOUSE_BUTTON_LEFT))
+	if (KEY_TAP(GLFW_MOUSE_BUTTON_LEFT) && result.hit)
 	{
-		bool monsterHit = false;
-		for (auto& monster_pair : Mgr(MCWorldMgr)->m_monsters)
-		{
-			auto& monster = monster_pair.second;
-			glm::vec3 monsterPos = monster->GetTransform()->GetWorldPosition();
-			float width = 0.5f;
-			float height = 3.0f;
-			float t;
-			if (RayAABBIntersection(wv, this->GetPlayerLook(), monsterPos - glm::vec3(width, 0, width), monsterPos + glm::vec3(width, height, width), t) && t < 5.0f)
-			{
-				monsterHit = true;
-				Protocol::c2s_MON_KILL pkt;
-				pkt.set_kill_mon_id(monster_pair.first);
-				NetHelper::Send(NetHelper::s2c_PacketHandler::MakeSendBuffer(pkt));
-				break;
-			}
-		}
-
-		if (!monsterHit && result.hit)
-			Mgr(MCWorldMgr)->SendClickedBlockDestroy(&result);
+		m_refTilemap->SetTile(result.hitTilePosition, 0, true);
 	}
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_RIGHT) && result.hit)
 	{
-		Mgr(MCWorldMgr)->SendClickedBlockCreate(&result);
+		const int tileID = Mgr(UIMgr)->GetSelectIndex() + 1;
+		m_refTilemap->SetTile(result.hitTilePosition + glm::ivec3(result.hitNormal), tileID, true);
 	}
-}
-
-void Hero::SendMyMoveData() noexcept
-{
-	Protocol::c2s_MOVE pkt;
-
-	Protocol::PlayerMoveData protoData;
-
-	constexpr static const auto fillVec3 = [](const glm::vec3& vec, Protocol::Vec3* protoVec) noexcept{
-		protoVec->set_x(vec.x);
-		protoVec->set_y(vec.y);
-		protoVec->set_z(vec.z);
-		};
-
-	fillVec3(m_vVelocity, protoData.mutable_vvelocity());
-	fillVec3(m_vAccelation, protoData.mutable_vaccelation());
-	fillVec3(m_pCacheMyTransform->GetWorldPositionAccRecursion(), protoData.mutable_vposition());
-	fillVec3(m_cameraAngleAxis, protoData.mutable_vcameraangleaxis());
-	fillVec3(m_cameraAngleAxisSmooth, protoData.mutable_vcameraangleaxissmooth());
-
-	protoData.set_fmovetime(m_fMoveTime);
-	protoData.set_rendererbodyangley(m_rendererBodyAngleY);
-	protoData.set_itimestamp(Interpolator<PlayerMoveData>::GetTimeStampMilliseconds());
-
-	pkt.mutable_heromovedata()->CopyFrom(protoData);
-	const auto& pSession = NetMgr(NetworkMgr)->GetSession();
-	// 내 아이디와 함께 전송
-	pkt.set_playerid(pSession->GetSessionID());
-	pSession << pkt;
 }
 
 void Hero::Update()
@@ -163,7 +117,6 @@ void Hero::Update()
 	m_fAccTime += DT;
 	if (0.01f <= m_fAccTime || m_bForceSendData)
 	{
-		SendMyMoveData();
 		m_fAccTime = 0.f;
 		m_bForceSendData = false;
 	}
