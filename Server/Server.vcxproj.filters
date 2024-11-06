@@ -11,18 +11,84 @@
     <Filter Include="pre_define\pch">
       <UniqueIdentifier>{a73a42b7-86ec-4fbf-ba37-9e19c446607a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pre_define\Singleton">
+      <UniqueIdentifier>{36d70e77-98ac-4dd9-aa8e-fc5852e8e960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IOExecutor">
+      <UniqueIdentifier>{50a4ef46-eabb-4ec2-a856-fde632224194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DS">
+      <UniqueIdentifier>{4840f42d-e672-4392-903a-ed417138e620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DS\LFQueue">
+      <UniqueIdentifier>{347f48ec-baef-40f9-96be-6293cde6f8c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{5abe6f9e-229d-46be-a62e-012cd2cbbfcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\RecvBuffer">
+      <UniqueIdentifier>{2c489026-482a-42bf-bd2a-b24e2891d47e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\SendBuffer">
+      <UniqueIdentifier>{a862d5be-22cd-491d-8740-765935fe7c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{42fee52a-1d29-4f24-8cf9-1e0b1f8136b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\PacketBase">
+      <UniqueIdentifier>{8e45d5fc-9faf-4cb9-abd2-4e32cb19f884}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>pre_define</Filter>
+      <Filter>pre_define\pch</Filter>
+    </ClCompile>
+    <ClCompile Include="IOExecutor.cpp">
+      <Filter>IOExecutor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\RecvBuffer.cpp">
+      <Filter>Common\RecvBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SendBuffer.cpp">
+      <Filter>Common\SendBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>Session</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>pre_define</Filter>
+      <Filter>pre_define\pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.hpp">
+      <Filter>pre_define\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="IOExecutor.h">
+      <Filter>IOExecutor</Filter>
+    </ClInclude>
+    <ClInclude Include="LFQueue.hpp">
+      <Filter>DS\LFQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\RecvBuffer.h">
+      <Filter>Common\RecvBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SendBuffer.h">
+      <Filter>Common\SendBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Constants.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Task.hpp">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\PacketBase.hpp">
+      <Filter>Common\PacketBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
