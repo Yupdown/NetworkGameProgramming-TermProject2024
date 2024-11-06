@@ -52,6 +52,9 @@
     <Filter Include="소스 파일\ServerObjectManager">
       <UniqueIdentifier>{81ea30f3-30d2-491f-a451-548e3ee13630}</UniqueIdentifier>
     </Filter>
+    <Filter Include="s2c_PacketHandler">
+      <UniqueIdentifier>{4af8fff7-6010-4fe1-99c7-1f8660b7f2f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,6 +104,15 @@
     </ClCompile>
     <ClCompile Include="ServerObjectManager.cpp">
       <Filter>소스 파일\ServerObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\RecvBuffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\SendBuffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="s2c_PacketHandler.cpp">
+      <Filter>s2c_PacketHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +172,21 @@
     </ClInclude>
     <ClInclude Include="ServerObjectManager.h">
       <Filter>소스 파일\ServerObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Constants.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\PacketBase.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\RecvBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\SendBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="s2c_PacketHandler.h">
+      <Filter>s2c_PacketHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

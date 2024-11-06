@@ -38,6 +38,9 @@
     <Filter Include="Common\PacketBase">
       <UniqueIdentifier>{8e45d5fc-9faf-4cb9-abd2-4e32cb19f884}</UniqueIdentifier>
     </Filter>
+    <Filter Include="c2s_PacketHandler">
+      <UniqueIdentifier>{dae6d8de-8de1-4118-9d27-6445387e7aac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,6 +60,9 @@
     </ClCompile>
     <ClCompile Include="Session.cpp">
       <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="c2s_PacketHandler.cpp">
+      <Filter>c2s_PacketHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="..\Common\PacketBase.hpp">
       <Filter>Common\PacketBase</Filter>
+    </ClInclude>
+    <ClInclude Include="c2s_PacketHandler.h">
+      <Filter>c2s_PacketHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

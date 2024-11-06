@@ -73,11 +73,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir);$(SolutionDir)inc\;$(SolutionDir)\CaveGame\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)inc\;$(SolutionDir)\CaveGame\;$(SolutionDir)..\Common\</IncludePath>
     <LibraryPath>$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir);$(SolutionDir)inc\;$(SolutionDir)\CaveGame\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)inc\;$(SolutionDir)\CaveGame\;$(SolutionDir)..\Common\</IncludePath>
     <LibraryPath>$(SolutionDir)lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\RecvBuffer.cpp" />
+    <ClCompile Include="..\..\Common\SendBuffer.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ChunkMesh.cpp" />
     <ClCompile Include="ChunkRendererObject.cpp" />
@@ -162,6 +164,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerCam.cpp" />
     <ClCompile Include="PlayerShadow.cpp" />
+    <ClCompile Include="s2c_PacketHandler.cpp" />
     <ClCompile Include="ServerObject.cpp" />
     <ClCompile Include="ServerObjectManager.cpp" />
   </ItemGroup>
@@ -171,6 +174,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\Constants.h" />
+    <ClInclude Include="..\..\Common\PacketBase.hpp" />
+    <ClInclude Include="..\..\Common\RecvBuffer.h" />
+    <ClInclude Include="..\..\Common\SendBuffer.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="ChunkMesh.h" />
     <ClInclude Include="ChunkRendererObject.h" />
@@ -186,6 +193,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerCam.h" />
     <ClInclude Include="PlayerShadow.h" />
+    <ClInclude Include="s2c_PacketHandler.h" />
     <ClInclude Include="ServerObject.h" />
     <ClInclude Include="ServerObjectManager.h" />
     <ClInclude Include="Vector2D.hpp" />
