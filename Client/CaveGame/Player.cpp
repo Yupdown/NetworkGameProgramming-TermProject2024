@@ -313,7 +313,7 @@ Player::Player(shared_ptr<MCTilemap> tilemap) : m_refTilemap(tilemap)
 	m_fpChangeCamMode[m_curCamMode]();
 
 	m_pCamera = m_cameraObj->AddComponent<Camera>();
-	m_pCamera->SetNear(1e-3f);
+	m_pCamera->SetNear(1 / 64.0f);
 	
 	m_cursorBlockObj = CreateCursorBlockObj();
 	m_cursorBlockObj->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * (m_bIsHero ? 1.05f : 0.0f));

@@ -70,17 +70,17 @@ layout (std140, binding = 0) uniform UBOData
 
 void main()
 {
-    float radius = 640.0;
-    vec3 worldPos = vec3(uModel * vec4(aPos, 1.0));
+    float radius = 640.0f;
+    vec3 worldPos = vec3(uModel * vec4(aPos, 1.0f));
     vec3 deltaPos = uViewPos - worldPos;
-    float dist = max(0.0, deltaPos.x * deltaPos.x + deltaPos.z * deltaPos.z - 100.0);
-    worldPos.y = worldPos.y - sqrt(max(0.0, radius * radius - dist)) + radius;
+    float dist = max(0.0f, deltaPos.x * deltaPos.x + deltaPos.z * deltaPos.z - 100.0f);
+    worldPos.y = worldPos.y - sqrt(max(0.0f, radius * radius - dist)) + radius;
     gl_Position = uProj * uView * vec4(worldPos, 1.0f);
 
-    FragPos = vec3(uModel * vec4(aPos, 1.0));
+    FragPos = worldPos;
     ShapeColor = 1.0f - aColor;
     TexCoords = aUV;
-    Normal = -normalize(vec3(transpose(inverse(uObserverView * uModel)) * vec4(aNormal, 0.0)));
+    Normal = -normalize(vec3(transpose(inverse(uObserverView * uModel)) * vec4(aNormal, 0.0f)));
 }
 
 
