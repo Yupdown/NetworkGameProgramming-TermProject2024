@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)..\Common\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\Common\;$(SolutionDir)inc\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)..\Common\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\Common\;$(SolutionDir)inc\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -150,12 +150,16 @@
     <ClCompile Include="c2s_PacketHandler.cpp" />
     <ClCompile Include="IOExecutor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MCTerrainGenerator.cpp" />
+    <ClCompile Include="MCTilemap.cpp" />
+    <ClCompile Include="MCWorld.cpp" />
     <ClCompile Include="PacketBase.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Constants.h" />
@@ -165,10 +169,15 @@
     <ClInclude Include="c2s_PacketHandler.h" />
     <ClInclude Include="IOExecutor.h" />
     <ClInclude Include="LFQueue.hpp" />
+    <ClInclude Include="MCTerrainGenerator.h" />
+    <ClInclude Include="MCTilemap.h" />
+    <ClInclude Include="MCWorld.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PerlinNoise.hpp" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="Task.hpp" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

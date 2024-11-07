@@ -44,6 +44,24 @@
     <Filter Include="Protocol\c2s_PacketHandler">
       <UniqueIdentifier>{dae6d8de-8de1-4118-9d27-6445387e7aac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCContents">
+      <UniqueIdentifier>{d0c00f56-9b11-4035-9135-31f8569c010b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCContents\MCTilemap">
+      <UniqueIdentifier>{6c262a81-3a9c-42e4-8f37-08ec1377d0e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCContents\MCTerrainGenerator">
+      <UniqueIdentifier>{f2ae387f-3dda-4b15-9fae-9c93e360ab7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCContents\MCWorld">
+      <UniqueIdentifier>{afe79ecd-c855-4615-a84f-02bbfb045414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCContents\Timer">
+      <UniqueIdentifier>{b06eab26-e1fd-4529-b224-07f79d5c4bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pre_define\CustomMath">
+      <UniqueIdentifier>{fb8b7365-9407-464e-8652-8bab21e493cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,6 +87,18 @@
     </ClCompile>
     <ClCompile Include="PacketBase.cpp">
       <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="MCWorld.cpp">
+      <Filter>MCContents\MCWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="MCTilemap.cpp">
+      <Filter>MCContents\MCTilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="MCTerrainGenerator.cpp">
+      <Filter>MCContents\MCTerrainGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>MCContents\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +134,21 @@
     </ClInclude>
     <ClInclude Include="c2s_PacketHandler.h">
       <Filter>Protocol\c2s_PacketHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="MCWorld.h">
+      <Filter>MCContents\MCWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTilemap.h">
+      <Filter>MCContents\MCTilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTerrainGenerator.h">
+      <Filter>MCContents\MCTerrainGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>MCContents\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.hpp">
+      <Filter>pre_define\CustomMath</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
