@@ -10,5 +10,21 @@
 #include <atomic>
 #include <mutex>
 #include <functional>
+#include <memory>
+#include <shared_mutex>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
+#include <glm/gtx/norm.hpp>
+#include <glm/gtx/string_cast.hpp> 
+#include <glm/gtc/type_ptr.hpp> 
+
 
 #pragma comment(lib, "Ws2_32.lib")
+
+using std::shared_ptr;
+
+template<typename T>
+using S_ptr = std::shared_ptr<T>;
+
+template <typename T>
+using W_ptr = std::weak_ptr<T>;
