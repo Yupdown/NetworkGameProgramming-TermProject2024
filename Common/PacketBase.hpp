@@ -5,7 +5,7 @@ using uint64 = unsigned long long;
 using uint8 = unsigned char;
 using uint16 = unsigned short;
 
-extern void AddProtocol(const uint16 pktID_, const bool (*fpPacketHandler_)(const uint64, const char* const))noexcept;
+extern void AddProtocol(const uint16 pktID_, void (*fpPacketHandler_)(const uint64, const char* const))noexcept;
 
 
 #pragma pack (push, 1)
@@ -38,8 +38,8 @@ private:
     static bool InitPacketBase()noexcept
     {
         // TODO: 패킷핸들러 만들기
-       // T temp;
-       // c2s_PacketHandler::AddProtocol(static_cast<unsigned short>(temp.pkt_id), &T::HandlePacket);
+        T temp;
+        AddProtocol(static_cast<unsigned short>(temp.pkt_id), &T::HandlePacket);
         return true;
     }
     static const inline bool g_bInitPacket = InitPacketBase();
@@ -53,7 +53,7 @@ public:
         return ::memcpy(buffer, this, sizeof(T));
     }
 
-    static const bool HandlePacket(const uint64 id, const char* const pBuff_) {
+    static void HandlePacket(const uint64 id, const char* const pBuff_) {
         // if (sizeof(T) != len_) [[unlikely]]
         //     return false;
         return T::Handle(id, *reinterpret_cast<const T* const>(pBuff_));
@@ -66,7 +66,7 @@ public:
 
 #define DECLARE_PACKET(pkt_name)                                         \
     pkt_name() : PacketBase{sizeof(pkt_name), etoi(PKT_ID::pkt_name)} {} \
-    static bool Handle(const uint64 id, const pkt_name& pkt_) noexcept
+    static void Handle(const uint64 id, const pkt_name& pkt_) noexcept
 
 
 // 패킷만들기
@@ -82,7 +82,7 @@ struct c2s_TEST
 {
     // 이거는 피할 수가 없음
     // 함수정의 및 생성자로 패킷아이디랑 사이즈
-    DECLARE_PACKET(c2s_TEST);
+    DECLARE_PACKET(c2s_TEST) { }
 
     int a;
 
