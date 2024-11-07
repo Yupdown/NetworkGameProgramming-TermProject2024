@@ -1,14 +1,18 @@
+#include "pch.h"
 #include "NetworkManager.h"
 
-bool NetworkManager::InitClient(const std::string& port) {
+bool NetworkManager::InitClient(const std::string& port)
+{
     WSADATA wsaData;
-    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+    {
         std::cerr << "WSAStartup failed" << std::endl;
         return false;
     }
 
     clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (clientSocket == INVALID_SOCKET) {
+    if (clientSocket == INVALID_SOCKET)
+    {
         std::cerr << "Socket creation failed: " << WSAGetLastError() << std::endl;
         WSACleanup();
         return false;
@@ -19,7 +23,8 @@ bool NetworkManager::InitClient(const std::string& port) {
     serverAddr.sin_port = htons(std::stoi(port));
     inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr); // 일단 로컬 서버 IP로 설정
 
-    if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
+    if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+    {
         std::cerr << "Connection failed: " << WSAGetLastError() << std::endl;
         closesocket(clientSocket);
         WSACleanup();
@@ -44,7 +49,8 @@ void NetworkManager::IORoutine() {
     }
 }
 
-void NetworkManager::OnRecv(char* buffer) {
+void NetworkManager::OnRecv(char* buffer)
+{
     std::cout << "Received data: " << buffer << std::endl;
     // 추가적인 처리 
 }

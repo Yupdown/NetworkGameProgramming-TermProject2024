@@ -1,12 +1,13 @@
 #pragma once
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <string>
-#include <iostream>
+#include "pch.h"
+#include "Singleton.hpp"
 
-#pragma comment(lib, "Ws2_32.lib")
-
-class NetworkManager {
+class NetworkManager
+    :public Singleton<NetworkManager>
+{
+    friend class Singleton;
+    NetworkManager() = default;
+    ~NetworkManager() = default;
 public:
     bool InitClient(const std::string& port);
     void IORoutine();
