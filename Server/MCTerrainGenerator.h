@@ -1,6 +1,6 @@
 #pragma once
 
-class MCTilemap;
+//class MCTilemap;
 
 // class MCTerrainGenerator
 // {
