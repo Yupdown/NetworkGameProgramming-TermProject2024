@@ -89,3 +89,30 @@ struct c2s_TEST
 };
 
 #pragma pack (pop)
+
+
+static inline int OnRecv(const uint64 id, char* const buffer, const int len, void (*const* packet_func)(const uint64_t, const char* const))noexcept
+{
+	int processLen = 0;
+
+	for (;;)
+	{
+		const int dataSize = len - processLen;
+	
+		if (dataSize < static_cast<int>(sizeof(PacketHeader)))
+			break;
+
+		const PacketHeader* const __restrict header = reinterpret_cast<const PacketHeader* const>(buffer + processLen);
+		const uint8 packetSize = header->pkt_size;
+		const uint8 packetId = header->pkt_id;
+		
+		if (dataSize < packetSize)
+			break;
+
+        packet_func[packetId](id, (char*)header);
+
+		processLen += packetSize;
+	}
+
+    return processLen;
+}
