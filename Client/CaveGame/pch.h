@@ -6,6 +6,7 @@
 #include <mswsock.h>
 #include <ws2tcpip.h>
 
+#pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "OpenGL32.Lib")
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "glfw3.lib")
@@ -141,3 +142,5 @@ using std::pair;
 #include "CircleQueue.hpp"
 #include "Animation.h"
 #include "BoneInfo.h"
+
+#define Mgr(type)	(type::GetInst())

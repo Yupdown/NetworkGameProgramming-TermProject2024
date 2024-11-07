@@ -10,7 +10,7 @@ private:
 	Singleton& operator=(Singleton&&)noexcept = delete;
 protected:
 	Singleton() = default;
-	virtual ~Singleton() = default;
+	~Singleton()noexcept = default;
 public:
 	static T* GetInst()
 	{

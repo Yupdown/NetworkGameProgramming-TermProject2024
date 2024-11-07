@@ -2,6 +2,8 @@
 #include "Singleton.hpp"
 #include "LFQueue.hpp"
 
+class Session;
+
 class IOExecutor
 	:public Singleton<IOExecutor>
 {
@@ -14,16 +16,25 @@ public:
 	bool InitServer(std::string_view port);
 	void IORoutine()noexcept;
 public:
-	void OnAccept(const int id)noexcept;
-	void OnDisconnect(const int id)noexcept;
-	void OnRecv(const int id)noexcept;
+	static const auto GetObjectIDAndIncrement()noexcept { return g_GlobalObjectID.fetch_add(1); }
+	const auto GetSession(const uint64_t id)const noexcept {
+		const auto iter = m_mapSession.find(id);
+		return m_mapSession.cend() != iter ? iter->second.get() : nullptr;
+	}
+public:
+	void OnAccept()noexcept;
+	void OnDisconnect(const SOCKET sock, const int idx)noexcept;
+	void OnRecv(const SOCKET sock)noexcept;
 private:
 	bool m_bIsRunning = false;
 	SOCKET m_serverSocket = INVALID_SOCKET;
 	WSAPOLLFD m_clientsFD[NUM_OF_CLIENTS + 1];
+	int m_curNumOfClient = 0;
 	// TODO: SendEventQueue
-	// TODO: Session Table
+	
+	std::unordered_map<uint64_t, std::shared_ptr<Session>> m_mapSession;
+	std::unordered_map<SOCKET, std::shared_ptr<Session>> m_mapSocket2Session;
 
-	static constinit inline uint64_t g_GlobalObjectID = 0;
+	static constinit inline std::atomic<uint64_t> g_GlobalObjectID = 0;
 };
 

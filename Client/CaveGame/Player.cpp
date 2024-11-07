@@ -250,15 +250,15 @@ void Player::UpdateCameraTransform(const shared_ptr<Transform>& pCameraTransfrom
 	pCameraTransfrom->SetLocalPosition(glm::vec3(glm::sin(tParam) * mParam, glm::sin(tParam * 2.0f) * mParam, pCameraTransfrom->GetLocalPosition().z));
 }
 
-void Player::DestroyBlock(const RaycastResult& result)noexcept
+void Player::DestroyBlock(const glm::ivec3& hitTilePosition)noexcept
 {
 	// 쓰고있는 텍스쳐의 이름 또는 인덱스, 아니면 텍스쳐포인터를 알면됌
 	// Can get the texture index through the tilemap
-	const int tileID = m_refTilemap->GetTile(result.hitTilePosition);
+	const int tileID = m_refTilemap->GetTile(hitTilePosition);
 	if (tileID == 0)
 		return;
 	const int textureID = Tile::TEXTURES[tileID][2];
-	m_refTilemap->SetTile(result.hitTilePosition, 0, true);
+	m_refTilemap->SetTile(hitTilePosition, 0, true);
 
 	const string tex_name = std::format("tile_{}.png", textureID);
 	auto iter = g_mapParticleUniqueObject.find(tex_name);
@@ -279,15 +279,15 @@ void Player::DestroyBlock(const RaycastResult& result)noexcept
 	{
 		Mgr(InstancingMgr)->SetAllObjMaterials(tex_name, mate);
 	}
-	Mgr(ParticleMgr)->SetParticles(iter->second, 0.1f, (glm::vec3(result.hitTilePosition) + glm::one<glm::vec3>() * 0.5f));
+	Mgr(ParticleMgr)->SetParticles(iter->second, 0.1f, (glm::vec3(hitTilePosition) + glm::one<glm::vec3>() * 0.5f));
 	DestroyObj(iter->second);
 	Mgr(SoundMgr)->PlayEffect(Tile::TILE_BREAK_SOUND[tileID], 0.5f);
 }
 
-void Player::CreateBlock(const RaycastResult& result,int tile_id)noexcept
+void Player::CreateBlock(const glm::ivec3& hitTilePosition,int tile_id)noexcept
 {
 	//const int tileID = Mgr(UIMgr)->GetSelectIndex() + 1;
-	m_refTilemap->SetTile(result.hitTilePosition + glm::ivec3(result.hitNormal), tile_id, true);
+	m_refTilemap->SetTile(hitTilePosition, tile_id, true);
 	Mgr(SoundMgr)->PlayEffect(Tile::TILE_PLACE_SOUND[tile_id], 0.5f);
 }
 

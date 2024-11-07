@@ -11,10 +11,15 @@
 
 #include "Hero.h"
 #include "EnderEye.h"
+#include "NetworkMgr.h"
+#include "PacketBase.hpp"
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
 shared_ptr<Camera>  observerCam;
+
+// TODO: 임시, 서버오브젝트 매니저로 옮겨야함
+shared_ptr<Hero> g_hero;
 
 array<array<shared_ptr<ChunkRendererObject>, MCTilemap::CHUNK_SIZE>, MCTilemap::CHUNK_SIZE> pChunkRenderers;
 
@@ -32,6 +37,12 @@ int main()
     Mgr(Core)->Init(1440, 720);
     Mgr(Core)->SetClearColor(RGBA_WHITE);
 
+    if (false == Mgr(NetworkMgr)->InitClient("127.0.0.1", "8888"))
+    {
+        std::cout << "서버와 연결 실패\n";
+        return 1;
+    }
+    
     Mgr(SceneMgr)->GetScene(SCENE_TYPE::INTRO)->AddUpdateFp(SCENE_ADDED_UPDATE::UPDATE,[]() {
         if (g_bCanResume && KEY_TAP(GLFW_KEY_ESCAPE))
         {
@@ -139,6 +150,7 @@ int main()
         {
 
             auto player = make_shared<Hero>(tilemap);
+            g_hero = player; // TODO: 임시
             player->SetObjName("player");
             player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
             curScene->AddObject(player, GROUP_TYPE::PLAYER);
@@ -170,9 +182,7 @@ int main()
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
         });
 
-        Mgr(Core)->GameLoop([]()noexcept{
-            // TODO: DoNetworkIO
-            });
+        Mgr(Core)->GameLoop([]()noexcept {Mgr(NetworkMgr)->IORoutine(); });
         
 }
 

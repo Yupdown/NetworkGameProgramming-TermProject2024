@@ -67,8 +67,8 @@ public:
 	void UpdateHeadRotation(float pitch, float yaw);
 
 	void InitCamDirection()noexcept;
-	void DestroyBlock(const struct RaycastResult& result)noexcept;
-	void CreateBlock(const struct RaycastResult& result, int tile_id)noexcept;
+	void DestroyBlock(const glm::ivec3& hitTilePosition)noexcept;
+	void CreateBlock(const glm::ivec3& hitTilePosition, int tile_id)noexcept;
 	bool IsHero()const noexcept { return m_bIsHero; }
 
 public:

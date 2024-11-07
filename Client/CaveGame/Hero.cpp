@@ -12,6 +12,8 @@
 #include "SoundMgr.h"
 #include "Monster.h"
 #include "UIMgr.h"
+#include "PacketBase.hpp"
+#include "NetworkMgr.h"
 
 extern std::atomic_bool g_bTileFinish;
 
@@ -99,12 +101,28 @@ void Hero::UpdateTileManipulation()noexcept
 
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_LEFT) && result.hit)
 	{
-		m_refTilemap->SetTile(result.hitTilePosition, 0, true);
+		// TODO: 수정한부분
+		// m_refTilemap->SetTile(result.hitTilePosition, 0, true);
+		c2s_DESTROY_BLOCK pkt;
+		pkt.x = result.hitTilePosition.x;
+		pkt.y = result.hitTilePosition.y;
+		pkt.z = result.hitTilePosition.z;
+		Mgr(NetworkMgr)->Send(pkt);
+
 	}
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_RIGHT) && result.hit)
 	{
+		// TODO: 수정한부분
 		const int tileID = Mgr(UIMgr)->GetSelectIndex() + 1;
-		m_refTilemap->SetTile(result.hitTilePosition + glm::ivec3(result.hitNormal), tileID, true);
+		// m_refTilemap->SetTile(result.hitTilePosition + glm::ivec3(result.hitNormal), tileID, true);
+		
+		const auto val = result.hitTilePosition + glm::ivec3(result.hitNormal);
+		c2s_CREATE_BLOCK pkt;
+		pkt.x = val.x;
+		pkt.y = val.y;
+		pkt.z = val.z;
+		pkt.tile_id = tileID;
+		Mgr(NetworkMgr)->Send(pkt);
 	}
 }
 

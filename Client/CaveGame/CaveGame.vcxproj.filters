@@ -52,7 +52,16 @@
     <Filter Include="소스 파일\ServerObjectManager">
       <UniqueIdentifier>{81ea30f3-30d2-491f-a451-548e3ee13630}</UniqueIdentifier>
     </Filter>
-    <Filter Include="s2c_PacketHandler">
+    <Filter Include="Network">
+      <UniqueIdentifier>{11e42607-4a6c-48b4-9b4c-707389a64f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\NetworkMgr">
+      <UniqueIdentifier>{9759ddbf-30fb-4c44-b8f9-ff277f11eabc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Protocol">
+      <UniqueIdentifier>{da24d11a-87ed-4148-822c-f46729f06fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Protocol\s2c_PacketHandler">
       <UniqueIdentifier>{4af8fff7-6010-4fe1-99c7-1f8660b7f2f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -112,7 +121,13 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="s2c_PacketHandler.cpp">
-      <Filter>s2c_PacketHandler</Filter>
+      <Filter>Network\Protocol\s2c_PacketHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkMgr.cpp">
+      <Filter>Network\NetworkMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketBase.cpp">
+      <Filter>Network\Protocol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +201,10 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="s2c_PacketHandler.h">
-      <Filter>s2c_PacketHandler</Filter>
+      <Filter>Network\Protocol\s2c_PacketHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkMgr.h">
+      <Filter>Network\NetworkMgr</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

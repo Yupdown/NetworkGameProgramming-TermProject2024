@@ -11,6 +11,7 @@ public:
 		: m_sessionID{ id }
 		, m_socket{ sock } 
 	{}
+	~Session() { ::closesocket(m_socket); }
 public:
 	const auto GetSocket()const noexcept { return m_socket; }
 	const auto GetSendBuffer()const noexcept { return m_cur_send_buff; }
@@ -30,7 +31,17 @@ public:
 		}
 	}
 public:
-
+	template <typename Packet>
+	void SendDirect(Packet&& pkt)
+	{
+		// TODO: 이 함수는 없어지고 Append 후 센드큐에서 일괄처리 할 수도 있음
+		char send_buff[128];
+		const int result = send(m_socket, pkt.SerializeToArray(send_buff), sizeof(std::decay_t<Packet>), 0);
+		if (SOCKET_ERROR == result)
+		{
+			std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
+		}
+	}
 private:
 	const uint64_t m_sessionID;
 	SOCKET m_socket = INVALID_SOCKET;

@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "IOExecutor.h"
+#include "Session.h"
+#include "PacketBase.hpp"
+#include "c2s_PacketHandler.h"
 
 bool IOExecutor::InitServer(std::string_view port)
 {
@@ -76,32 +79,86 @@ void IOExecutor::IORoutine() noexcept
             if (m_clientsFD[0].revents & POLLRDNORM)
             {
                 // TODO: accept + 월드 입장 + 브로드캐스트
+                OnAccept();
             }
 
-            for (int i = 1; i <= NUM_OF_CLIENTS; ++i)
+            for (int i = 1; i <= m_curNumOfClient+1;)
             {
                 if (m_clientsFD[i].revents & POLLRDNORM)
                 {
                     // TODO: Recv루틴
+                    OnRecv(m_clientsFD[i].fd);
                 }
                 else if (m_clientsFD[i].revents & POLLHUP)
                 {
-                    // TODO: Disconnect, 퇴장루틴
+                    // TODO: Disconnect
+                    // TODO: 클라이언트 퇴장 브로드캐스팅
+
+                    OnDisconnect(m_clientsFD[i].fd, i);
+                    continue;
                 }
+                ++i;
             }
         }
     }
         // TODO: SendQueue Flush
 }
 
-void IOExecutor::OnAccept(const int id) noexcept
+void IOExecutor::OnAccept() noexcept
 {
+    if (NUM_OF_CLIENTS <= m_curNumOfClient)return;
+
+    const int cur_idx = ++m_curNumOfClient;
+
+    SOCKADDR_STORAGE sockAddr;
+    int nAddrLen = sizeof(SOCKADDR_STORAGE);
+    m_clientsFD[cur_idx].fd = accept(m_serverSocket, (LPSOCKADDR)&sockAddr, &nAddrLen);
+    m_clientsFD[cur_idx].events = POLLRDNORM;
+
+    const auto cur_ID = GetObjectIDAndIncrement();
+    const auto session = std::make_shared<Session>(cur_ID, m_clientsFD[cur_idx].fd);
+    m_mapSession.try_emplace(cur_ID, session);
+    m_mapSocket2Session.try_emplace(m_clientsFD[cur_idx].fd, session);
+
+    std::cout << "Client In\n";
+    // TODO: 클라 입장 브로드 캐스팅
 }
 
-void IOExecutor::OnDisconnect(const int id) noexcept
+void IOExecutor::OnDisconnect(const SOCKET sock ,const int idx) noexcept
 {
+    const auto iter = m_mapSocket2Session.find(sock);
+    if (m_mapSocket2Session.cend() == iter)return;
+    const auto& session = iter->second;
+
+    const auto session_id = session->GetSessionID();
+
+    const auto last_idx = m_curNumOfClient--;
+    std::swap(m_clientsFD[idx], m_clientsFD[last_idx]);
+
+    m_clientsFD[last_idx].fd = INVALID_SOCKET;
+    m_clientsFD[last_idx].events = 0;
+    m_clientsFD[last_idx].revents = 0;
+
+    m_mapSocket2Session.erase(iter);
+    m_mapSession.erase(session_id);
+
+    std::cout << "Client Out\n";
 }
 
-void IOExecutor::OnRecv(const int id) noexcept
+void IOExecutor::OnRecv(const SOCKET sock) noexcept
 {
+    const auto iter = m_mapSocket2Session.find(sock);
+    if (m_mapSocket2Session.cend() == iter)return;
+    const auto& session = iter->second;
+
+    const auto recv_buff = session->GetRecvBuffer();
+
+    const int data_len = recv(sock, recv_buff->WritePos(), RecvBuffer::RECV_BUFFER_SIZE::BUFFER_SIZE, 0);
+    recv_buff->OnWrite(data_len);
+
+    const int process_len = ::OnRecv(session->GetSessionID(),recv_buff->ReadPos(), recv_buff->DataSize(), c2s_PacketHandler::GetPacketHandlerList());
+
+    recv_buff->OnRead(process_len);
+
+    recv_buff->Clear();
 }
