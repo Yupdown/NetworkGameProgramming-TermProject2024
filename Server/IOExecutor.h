@@ -4,6 +4,12 @@
 
 class Session;
 
+struct SendEvent
+{
+	const uint64_t id;
+	class SendBuffer* send_buff;
+};
+
 class IOExecutor
 	:public Singleton<IOExecutor>
 {
@@ -21,10 +27,12 @@ public:
 		const auto iter = m_mapSession.find(id);
 		return m_mapSession.cend() != iter ? iter->second.get() : nullptr;
 	}
-public:
+private:
 	void OnAccept()noexcept;
 	void OnDisconnect(const SOCKET sock, const int idx)noexcept;
 	void OnRecv(const SOCKET sock)noexcept;
+private:
+	void FlushSendQueue()noexcept;
 private:
 	bool m_bIsRunning = false;
 	SOCKET m_serverSocket = INVALID_SOCKET;
@@ -32,6 +40,9 @@ private:
 	int m_curNumOfClient = 0;
 	// TODO: SendEventQueue
 	
+	LFQueue<SendEvent> m_sendQueue;
+	LFQueue<SendBuffer> m_broadCastQueue;
+
 	std::unordered_map<uint64_t, std::shared_ptr<Session>> m_mapSession;
 	std::unordered_map<SOCKET, std::shared_ptr<Session>> m_mapSocket2Session;
 

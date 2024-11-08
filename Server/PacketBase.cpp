@@ -7,11 +7,6 @@
 
 #define DECLARE_PACKET_FUNC(pkt_name) void pkt_name::Handle(const uint64 id, const pkt_name& pkt_) noexcept
 
-DECLARE_PACKET_FUNC(s2c_LOGIN)
-{
-}
-
-
 DECLARE_PACKET_FUNC(c2s_LOGIN)
 {
 	std::cout << "패킷!";
@@ -19,10 +14,6 @@ DECLARE_PACKET_FUNC(c2s_LOGIN)
 }
 
 DECLARE_PACKET_FUNC(c2s_ENTER)
-{
-}
-
-DECLARE_PACKET_FUNC(s2c_ENTER)
 {
 }
 
@@ -36,10 +27,6 @@ DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)
 	// TODO: 모든 유저에게 브로드캐스팅
 }
 
-DECLARE_PACKET_FUNC(s2c_DESTROY_BLOCK)
-{
-}
-
 DECLARE_PACKET_FUNC(c2s_CREATE_BLOCK)
 {
 	s2c_CREATE_BLOCK pkt;
@@ -51,6 +38,3 @@ DECLARE_PACKET_FUNC(c2s_CREATE_BLOCK)
 	// TODO: 모든 유저에게 브로드캐스팅
 }
 
-DECLARE_PACKET_FUNC(s2c_CREATE_BLOCK)
-{
-}

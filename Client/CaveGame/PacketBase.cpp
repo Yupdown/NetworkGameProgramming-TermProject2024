@@ -10,24 +10,12 @@
 
 extern shared_ptr<Hero> g_hero;
 
-DECLARE_PACKET_FUNC(c2s_LOGIN)
-{
-}
-
 DECLARE_PACKET_FUNC(s2c_LOGIN)
 {
 
 }
 
-DECLARE_PACKET_FUNC(c2s_ENTER)
-{
-}
-
 DECLARE_PACKET_FUNC(s2c_ENTER)
-{
-}
-
-DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)
 {
 }
 
@@ -36,9 +24,6 @@ DECLARE_PACKET_FUNC(s2c_DESTROY_BLOCK)
 	g_hero->DestroyBlock({ pkt_.x,pkt_.y,pkt_.z });
 }
 
-DECLARE_PACKET_FUNC(c2s_CREATE_BLOCK)
-{
-}
 
 DECLARE_PACKET_FUNC(s2c_CREATE_BLOCK)
 {

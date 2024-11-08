@@ -191,6 +191,7 @@
     <ClInclude Include="MCTilemapMeshGenerator.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="NetworkMgr.h" />
+    <ClInclude Include="packet_define.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PerlinNoise.hpp" />
     <ClInclude Include="Player.h" />

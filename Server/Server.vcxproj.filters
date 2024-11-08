@@ -150,5 +150,8 @@
     <ClInclude Include="PerlinNoise.hpp">
       <Filter>pre_define\CustomMath</Filter>
     </ClInclude>
+    <ClInclude Include="packet_define.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

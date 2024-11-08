@@ -102,6 +102,7 @@ void IOExecutor::IORoutine() noexcept
         }
     }
         // TODO: SendQueue Flush
+    FlushSendQueue();
 }
 
 void IOExecutor::OnAccept() noexcept
@@ -128,7 +129,7 @@ void IOExecutor::OnDisconnect(const SOCKET sock ,const int idx) noexcept
 {
     const auto iter = m_mapSocket2Session.find(sock);
     if (m_mapSocket2Session.cend() == iter)return;
-    const auto& session = iter->second;
+    const auto session = iter->second;
 
     const auto session_id = session->GetSessionID();
 
@@ -149,7 +150,7 @@ void IOExecutor::OnRecv(const SOCKET sock) noexcept
 {
     const auto iter = m_mapSocket2Session.find(sock);
     if (m_mapSocket2Session.cend() == iter)return;
-    const auto& session = iter->second;
+    const auto session = iter->second;
 
     const auto recv_buff = session->GetRecvBuffer();
 
@@ -161,4 +162,39 @@ void IOExecutor::OnRecv(const SOCKET sock) noexcept
     recv_buff->OnRead(process_len);
 
     recv_buff->Clear();
+}
+
+void IOExecutor::FlushSendQueue() noexcept
+{
+    static std::vector<SendBuffer*> flush_buffer;
+    while (const auto broad_event = m_broadCastQueue.Pop())flush_buffer.emplace_back(broad_event);
+
+    const auto sentinel = m_mapSession.cend();
+    while (const auto send_event = m_sendQueue.Pop())
+    {
+        const auto iter = m_mapSession.find(send_event->id);
+        if (iter != sentinel)
+        {
+            const auto session = iter->second;
+            const auto send_buff = session->GetSendBuffer();
+            const auto sock = session->GetSocket();
+
+            ::send(sock, send_buff->GetBuff(), send_buff->GetLen(), 0);
+
+            for (const auto broad_cast_buff : flush_buffer)
+            {
+                ::send(sock, broad_cast_buff->GetBuff(), broad_cast_buff->GetLen(), 0);
+            }
+
+            session->ReturnSendBuffer(send_buff);
+        }
+        delete send_event;
+    }
+
+    for (const auto broad_cast_buff : flush_buffer)
+    {
+        // TODO: 월드에게 반납한다.
+    }
+
+    flush_buffer.clear();
 }

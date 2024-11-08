@@ -49,9 +49,6 @@
     <Filter Include="CaveObject\ServerObject">
       <UniqueIdentifier>{b68cbb05-57b5-4068-8949-65dfca258eb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\ServerObjectManager">
-      <UniqueIdentifier>{81ea30f3-30d2-491f-a451-548e3ee13630}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{11e42607-4a6c-48b4-9b4c-707389a64f58}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,9 @@
     </Filter>
     <Filter Include="Network\Protocol\s2c_PacketHandler">
       <UniqueIdentifier>{4af8fff7-6010-4fe1-99c7-1f8660b7f2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\ServerObjectManager">
+      <UniqueIdentifier>{81ea30f3-30d2-491f-a451-548e3ee13630}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +112,7 @@
       <Filter>CaveObject\ServerObject</Filter>
     </ClCompile>
     <ClCompile Include="ServerObjectManager.cpp">
-      <Filter>소스 파일\ServerObjectManager</Filter>
+      <Filter>Network\ServerObjectManager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\RecvBuffer.cpp">
       <Filter>Common</Filter>
@@ -186,7 +186,7 @@
       <Filter>CaveObject\ServerObject</Filter>
     </ClInclude>
     <ClInclude Include="ServerObjectManager.h">
-      <Filter>소스 파일\ServerObjectManager</Filter>
+      <Filter>Network\ServerObjectManager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\Constants.h">
       <Filter>Common</Filter>
@@ -205,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="NetworkMgr.h">
       <Filter>Network\NetworkMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="packet_define.h">
+      <Filter>Network\Protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
