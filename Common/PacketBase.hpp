@@ -31,6 +31,9 @@ enum class PKT_ID : uint8
     c2s_CREATE_BLOCK = 6,
     s2c_CREATE_BLOCK = 7,
 
+    c2s_MOVE_OBJECT = 8,
+    s2c_MOVE_OBJECT = 9,
+
     END,
 };
 
@@ -203,4 +206,30 @@ struct s2c_CREATE_BLOCK
     int tile_id;
     DECLARE_PACKET(s2c_CREATE_BLOCK);
 };
+
+/// <summary>
+/// 오브젝트 이동
+/// </summary>
+
+struct c2s_MOVE_OBJECT
+	:public PacketBase<c2s_MOVE_OBJECT>
+{
+    float position_x, position_y, position_z;
+    float velocity_x, velocity_y, velocity_z;
+    float acceleration_x, acceleration_y, acceleration_z;
+    float rotation_y;
+	DECLARE_PACKET(c2s_MOVE_OBJECT);
+};
+
+struct s2c_MOVE_OBJECT
+	:public PacketBase<s2c_MOVE_OBJECT>
+{
+    int object_id;
+    float position_x, position_y, position_z;
+    float velocity_x, velocity_y, velocity_z;
+    float acceleration_x, acceleration_y, acceleration_z;
+    float rotation_y;
+	DECLARE_PACKET(s2c_MOVE_OBJECT);
+};
+
 #pragma pack (pop)
