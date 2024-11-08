@@ -11,10 +11,15 @@ public:
 	{
 		m_arrElements[(m_pushIndex++) & (MAX_TASK - 1)].store(ptr);
 	}
+	template <typename... Args>
+	void Push(Args&&... args)noexcept
+	{
+		Push(new T{ std::forward<Args>(args)... });
+	}
 	T* Pop()noexcept
 	{
 		const auto cur_idx = (m_popIndex) & (MAX_TASK - 1);
-		const auto ptr = m_arrElements[cur_idx];
+		const auto ptr = m_arrElements[cur_idx].load();
 		if (ptr)
 		{
 			m_arrElements[cur_idx].store(nullptr,std::memory_order_relaxed);

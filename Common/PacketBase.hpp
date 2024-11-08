@@ -45,7 +45,6 @@ struct PacketBase
 private:
     static bool InitPacketBase()noexcept
     {
-        // TODO: 패킷핸들러 만들기
         T temp;
         AddProtocol(static_cast<unsigned short>(temp.pkt_id), &T::HandlePacket);
         return true;
@@ -99,7 +98,7 @@ public:
 #pragma pack (pop)
 
 
-static inline int OnRecv(const uint64 id, char* const buffer, const int len, void (*const* packet_func)(const uint64_t, const char* const))noexcept
+static inline int OnRecv(const uint64 id, char* const buffer, const int len, void (*const* const packet_func)(const uint64_t, const char* const))noexcept
 {
 	int processLen = 0;
 
