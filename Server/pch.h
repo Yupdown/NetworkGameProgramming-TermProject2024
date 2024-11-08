@@ -28,3 +28,21 @@ using S_ptr = std::shared_ptr<T>;
 
 template <typename T>
 using W_ptr = std::weak_ptr<T>;
+
+#define USE_NAGOX_ASSERT
+
+#ifdef USE_NAGOX_ASSERT
+
+#define NAGOX_ASSERT(condition)                                 \
+    do {                                                        \
+        if (!(condition)) [[unlikely]] {                        \
+            std::cerr << "Activate NagOx Assertion !" << '\n';  \
+            *(int*)nullptr = 0;                                 \
+        }                                                       \
+    } while (0)
+
+#else
+
+#define NAGOX_ASSERT(condition)
+
+#endif

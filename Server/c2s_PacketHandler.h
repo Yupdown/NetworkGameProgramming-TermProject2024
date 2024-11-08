@@ -24,7 +24,7 @@ public:
 
 	static void AddProtocol(const uint16_t pktID_, const PacketHandlerFunc fpPacketHandler_)noexcept
 	{
-		//NAGOX_ASSERT(nullptr == g_fpPacketHandler[pktID_] || Handle_Invalid == g_fpPacketHandler[pktID_]);
+		NAGOX_ASSERT(nullptr == g_fpPacketHandler[pktID_] || Handle_Invalid == g_fpPacketHandler[pktID_]);
 		g_fpPacketHandler[pktID_] = fpPacketHandler_;
 	}
 
