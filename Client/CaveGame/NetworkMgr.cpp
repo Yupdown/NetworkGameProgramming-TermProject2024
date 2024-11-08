@@ -34,7 +34,7 @@ bool NetworkMgr::InitClient(const std::string_view ip, const std::string_view po
     sockaddr_in serverAddr = {};
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(std::stoi(port.data()));
-    inet_pton(AF_INET, ip.data(), &serverAddr.sin_addr); // 일단 로컬 서버 IP로 설정
+    inet_pton(AF_INET, ip.data(), &serverAddr.sin_addr);
 
     if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
     {
