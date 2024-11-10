@@ -1,10 +1,10 @@
 #pragma once
 
-//class MCTilemap;
+class MCTilemap;
 
-// class MCTerrainGenerator
-// {
-// public:
-// 	void Generate(shared_ptr<MCTilemap> tilemap)const noexcept;
-// };
+ class MCTerrainGenerator
+ {
+ public:
+ 	void Generate(shared_ptr<MCTilemap> tilemap)const noexcept;
+ };
 
