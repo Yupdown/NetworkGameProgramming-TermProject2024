@@ -150,6 +150,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="c2s_PacketHandler.cpp" />
+    <ClCompile Include="func.cpp" />
     <ClCompile Include="IOExecutor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MCTerrainGenerator.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="..\Common\RecvBuffer.h" />
     <ClInclude Include="..\Common\SendBuffer.h" />
     <ClInclude Include="c2s_PacketHandler.h" />
+    <ClInclude Include="func.h" />
     <ClInclude Include="IOExecutor.h" />
     <ClInclude Include="LFQueue.hpp" />
     <ClInclude Include="MCTerrainGenerator.h" />

@@ -62,6 +62,9 @@
     <Filter Include="pre_define\CustomMath">
       <UniqueIdentifier>{fb8b7365-9407-464e-8652-8bab21e493cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pre_define\func">
+      <UniqueIdentifier>{fa65aa54-5e7f-4c30-8892-a0085374fc40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>MCContents\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>pre_define\func</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="packet_define.h">
       <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>pre_define\func</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
