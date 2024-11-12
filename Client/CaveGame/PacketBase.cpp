@@ -30,7 +30,17 @@ DECLARE_PACKET_FUNC(s2c_CREATE_BLOCK)
 	g_hero->CreateBlock({ pkt_.x,pkt_.y,pkt_.z }, pkt_.tile_id);
 }
 
+DECLARE_PACKET_FUNC(s2c_ADD_OBJECT)
+{
+
+}
+
 DECLARE_PACKET_FUNC(s2c_MOVE_OBJECT)
+{
+
+}
+
+DECLARE_PACKET_FUNC(s2c_ADD_PROJECTILE)
 {
 
 }
