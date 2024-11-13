@@ -32,9 +32,14 @@ enum class PKT_ID : uint8
     c2s_CREATE_BLOCK = 6,
     s2c_CREATE_BLOCK = 7,
 
-    c2s_MOVE_OBJECT = 8,
-    s2c_MOVE_OBJECT = 9,
+    c2s_ADD_OBJECT = 8,
+    s2c_ADD_OBJECT = 9,
 
+    c2s_MOVE_OBJECT = 10,
+    s2c_MOVE_OBJECT = 11,
+
+    c2s_ADD_PROJECTILE = 12,
+    s2c_ADD_PROJECTILE = 13,
 
     END,
 };
@@ -173,9 +178,30 @@ struct s2c_CREATE_BLOCK
     DECLARE_PACKET(s2c_CREATE_BLOCK);
 };
 
-//
-//
+/// <summary>
+/// 오브젝트 생성
+/// </summary>
+struct c2s_ADD_OBJECT
+    :public PacketHeader
+{
+	int object_id;
+	float position_x, position_y, position_z;
+	float rotation_y;
+	DECLARE_PACKET(c2s_ADD_OBJECT);
+};
 
+struct s2c_ADD_OBJECT
+    :public PacketHeader
+{
+	int object_id;
+	float position_x, position_y, position_z;
+	float rotation_y;
+	DECLARE_PACKET(s2c_ADD_OBJECT);
+};
+
+/// <summary>
+/// 오브젝트 이동
+/// </summary>
 struct c2s_MOVE_OBJECT
     :public PacketHeader
 {
@@ -197,6 +223,24 @@ struct s2c_MOVE_OBJECT
     DECLARE_PACKET(s2c_MOVE_OBJECT);
 };
 
+/// <summary>
+/// 투사체 생성
+/// </summary>
+struct c2s_ADD_PROJECTILE
+    :public PacketHeader
+{
+	float position_x, position_y, position_z;
+	float velocity_x, velocity_y, velocity_z;
+	DECLARE_PACKET(c2s_ADD_PROJECTILE);
+};
 
+struct s2c_ADD_PROJECTILE
+    :public PacketHeader
+{
+    int projectile_id;
+    float position_x, position_y, position_z;
+    float velocity_x, velocity_y, velocity_z;
+    DECLARE_PACKET(s2c_ADD_PROJECTILE);
+};
 
 #pragma pack (pop)
