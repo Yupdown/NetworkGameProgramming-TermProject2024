@@ -254,7 +254,7 @@ void Player::DestroyBlock(const glm::ivec3& hitTilePosition)noexcept
 {
 	// 쓰고있는 텍스쳐의 이름 또는 인덱스, 아니면 텍스쳐포인터를 알면됌
 	// Can get the texture index through the tilemap
-	const int tileID = m_refTilemap->GetTile(hitTilePosition);
+	const uint8_t tileID = m_refTilemap->GetTile(hitTilePosition);
 	if (tileID == 0)
 		return;
 	const int textureID = Tile::TEXTURES[tileID][2];
@@ -284,7 +284,7 @@ void Player::DestroyBlock(const glm::ivec3& hitTilePosition)noexcept
 	Mgr(SoundMgr)->PlayEffect(Tile::TILE_BREAK_SOUND[tileID], 0.5f);
 }
 
-void Player::CreateBlock(const glm::ivec3& hitTilePosition,int tile_id)noexcept
+void Player::CreateBlock(const glm::ivec3& hitTilePosition, uint8_t tile_id)noexcept
 {
 	//const int tileID = Mgr(UIMgr)->GetSelectIndex() + 1;
 	m_refTilemap->SetTile(hitTilePosition, tile_id, true);

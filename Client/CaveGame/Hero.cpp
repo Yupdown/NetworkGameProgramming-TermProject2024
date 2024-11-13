@@ -102,7 +102,7 @@ void Hero::UpdateTileManipulation()noexcept
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_LEFT) && result.hit)
 	{
 		// TODO: 수정한부분
-		// m_refTilemap->SetTile(result.hitTilePosition, 0, true);
+
 		c2s_DESTROY_BLOCK pkt;
 		pkt.x = result.hitTilePosition.x;
 		pkt.y = result.hitTilePosition.y;
@@ -112,17 +112,24 @@ void Hero::UpdateTileManipulation()noexcept
 	}
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_RIGHT) && result.hit)
 	{
-		// TODO: 수정한부분
-		const int tileID = Mgr(UIMgr)->GetSelectIndex() + 1;
-		// m_refTilemap->SetTile(result.hitTilePosition + glm::ivec3(result.hitNormal), tileID, true);
-		
-		const auto val = result.hitTilePosition + glm::ivec3(result.hitNormal);
-		c2s_CREATE_BLOCK pkt;
-		pkt.x = val.x;
-		pkt.y = val.y;
-		pkt.z = val.z;
-		pkt.tile_id = tileID;
-		Mgr(NetworkMgr)->Send(pkt);
+		glm::ivec3 placePos = result.hitTilePosition + glm::ivec3(result.hitNormal);
+
+		// 블럭을 설치하려는 위치에 플레이어가 서 있으면 블럭을 설치하지 않는다.
+		glm::ivec3 playerPos = glm::ivec3(m_pCacheMyTransform->GetWorldPosition());
+		glm::ivec3 deltaPos = placePos - playerPos;
+		if (deltaPos != glm::ivec3(0, 0, 0) && deltaPos != glm::ivec3(0, 1, 0))
+		{
+			// TODO: 수정한부분
+			const uint8_t tileID = static_cast<uint8_t>(Mgr(UIMgr)->GetSelectIndex() + 1);
+
+			const auto val = result.hitTilePosition + glm::ivec3(result.hitNormal);
+			c2s_CREATE_BLOCK pkt;
+			pkt.x = val.x;
+			pkt.y = val.y;
+			pkt.z = val.z;
+			pkt.tile_id = tileID;
+			Mgr(NetworkMgr)->Send(pkt);
+		}
 	}
 }
 

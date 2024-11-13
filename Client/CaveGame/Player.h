@@ -68,7 +68,7 @@ public:
 
 	void InitCamDirection()noexcept;
 	void DestroyBlock(const glm::ivec3& hitTilePosition)noexcept;
-	void CreateBlock(const glm::ivec3& hitTilePosition, int tile_id)noexcept;
+	void CreateBlock(const glm::ivec3& hitTilePosition, uint8_t tile_id)noexcept;
 	bool IsHero()const noexcept { return m_bIsHero; }
 
 public:

@@ -22,7 +22,7 @@ void MCTerrainGenerator::Generate(const shared_ptr<MCTilemap>& tilemap)const noe
 			for (int y = 1; y < MCTilemap::MAP_HEIGHT; ++y)
 			{
 				float perlinValue = Perlin::Noise((x0 + x) * 0.1f, (y0 + y) * 0.1f, (z0 + z) * 0.1f);
-				int tile = perlinValue * 6.0f + yLevel - y > 0.0f;
+				uint8_t tile = perlinValue * 6.0f + yLevel - y > 0.0f;
 				tilemap->SetTile(x, y, z, tile);
 			}
 		}
@@ -94,7 +94,7 @@ void MCTerrainGenerator::Generate(const shared_ptr<MCTilemap>& tilemap)const noe
 					if (zp < 0 || zp >= MCTilemap::MAP_WIDTH)
 						continue;
 
-					int tile = tree_prefab[dy][dx][dz] - '0';
+					uint8_t tile = tree_prefab[dy][dx][dz] - '0';
 					if (tile == 0)
 						continue;
 

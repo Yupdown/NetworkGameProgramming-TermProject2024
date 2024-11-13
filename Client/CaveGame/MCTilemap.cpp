@@ -21,22 +21,22 @@ constexpr int Tile::TILE_OPAQUE[] = {
 	0, 1, 1, 1, 1, 1, 1, 1, 0, 0
 };
 
-MCTileChunk::MCTileChunk()
+MCTileChunk::MCTileChunk() : tileData()
 {
 
 }
 
-void MCTileChunk::SetTile(int x, int y, int z, int tile)
+void MCTileChunk::SetTile(int x, int y, int z, uint8_t tile)
 {
 	tileData[x][y][z] = tile;
 }
 
-int MCTileChunk::GetTile(int x, int y, int z) const
+uint8_t MCTileChunk::GetTile(int x, int y, int z) const
 {
 	return tileData[x][y][z];
 }
 
-void MCTilemap::SetTile(int x, int y, int z, int tile, bool notify) noexcept
+void MCTilemap::SetTile(int x, int y, int z, uint8_t tile, bool notify) noexcept
 {
 	constexpr int modulo = MCTileChunk::CHUNK_WIDTH;
 	const int chunkX = x / modulo;
@@ -63,12 +63,12 @@ void MCTilemap::SetTile(int x, int y, int z, int tile, bool notify) noexcept
 	}
 }
 
-void MCTilemap::SetTile(const glm::ivec3& v, int tile, bool notify) noexcept
+void MCTilemap::SetTile(const glm::ivec3& v, uint8_t tile, bool notify) noexcept
 {
 	SetTile(v.x, v.y, v.z, tile, notify);
 }
 
-int MCTilemap::GetTile(int x, int y, int z) const noexcept
+uint8_t MCTilemap::GetTile(int x, int y, int z) const noexcept
 {
 	if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT || z < 0 || z >= MAP_WIDTH)
 		return 0;
@@ -76,12 +76,12 @@ int MCTilemap::GetTile(int x, int y, int z) const noexcept
 	return tileChunk[x / modulo][z / modulo].GetTile(x % modulo, y, z % modulo);
 }
 
-int MCTilemap::GetTile(const glm::ivec3& v) const noexcept
+uint8_t MCTilemap::GetTile(const glm::ivec3& v) const noexcept
 {
 	return GetTile(v.x, v.y, v.z);
 }
 
-MCTileChunk*const MCTilemap::GetChunk(int x, int z)noexcept
+MCTileChunk* const MCTilemap::GetChunk(int x, int z)noexcept
 {
 	return &(tileChunk[x][z]);
 }

@@ -166,7 +166,7 @@ struct c2s_CREATE_BLOCK
     :public PacketHeader
 {
     int x, y, z;
-    int tile_id;
+    uint8_t tile_id;
     DECLARE_PACKET(c2s_CREATE_BLOCK);
 };
 
@@ -174,7 +174,7 @@ struct s2c_CREATE_BLOCK
     :public PacketHeader
 {
     int x, y, z;
-    int tile_id;
+    uint8_t tile_id;
     DECLARE_PACKET(s2c_CREATE_BLOCK);
 };
 
