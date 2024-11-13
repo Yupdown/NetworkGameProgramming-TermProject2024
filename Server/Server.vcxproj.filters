@@ -65,6 +65,9 @@
     <Filter Include="pre_define\func">
       <UniqueIdentifier>{fa65aa54-5e7f-4c30-8892-a0085374fc40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\GlobalTimer">
+      <UniqueIdentifier>{a95fa3cb-40df-49b2-8d07-85659cf0644b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -105,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>pre_define\func</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalTimer.cpp">
+      <Filter>Common\GlobalTimer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="func.h">
       <Filter>pre_define\func</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalTimer.h">
+      <Filter>Common\GlobalTimer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
