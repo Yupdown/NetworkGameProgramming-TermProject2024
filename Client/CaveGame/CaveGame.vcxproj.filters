@@ -64,6 +64,9 @@
     <Filter Include="Network\ServerObjectManager">
       <UniqueIdentifier>{81ea30f3-30d2-491f-a451-548e3ee13630}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\GlobalTimer">
+      <UniqueIdentifier>{e78b4073-bdea-4a69-bf97-6840df372b95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="PacketBase.cpp">
       <Filter>Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\GlobalTimer.cpp">
+      <Filter>Common\GlobalTimer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="packet_define.h">
       <Filter>Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\GlobalTimer.h">
+      <Filter>Common\GlobalTimer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

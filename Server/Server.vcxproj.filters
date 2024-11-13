@@ -109,7 +109,7 @@
     <ClCompile Include="func.cpp">
       <Filter>pre_define\func</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalTimer.cpp">
+    <ClCompile Include="..\Common\GlobalTimer.cpp">
       <Filter>Common\GlobalTimer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,7 +168,7 @@
     <ClInclude Include="func.h">
       <Filter>pre_define\func</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalTimer.h">
+    <ClInclude Include="..\Common\GlobalTimer.h">
       <Filter>Common\GlobalTimer</Filter>
     </ClInclude>
   </ItemGroup>

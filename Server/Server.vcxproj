@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\GlobalTimer.cpp" />
     <ClCompile Include="..\Common\RecvBuffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -151,7 +152,6 @@
     </ClCompile>
     <ClCompile Include="c2s_PacketHandler.cpp" />
     <ClCompile Include="func.cpp" />
-    <ClCompile Include="GlobalTimer.cpp" />
     <ClCompile Include="IOExecutor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MCTerrainGenerator.cpp" />
@@ -167,12 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Constants.h" />
+    <ClInclude Include="..\Common\GlobalTimer.h" />
     <ClInclude Include="..\Common\PacketBase.hpp" />
     <ClInclude Include="..\Common\RecvBuffer.h" />
     <ClInclude Include="..\Common\SendBuffer.h" />
     <ClInclude Include="c2s_PacketHandler.h" />
     <ClInclude Include="func.h" />
-    <ClInclude Include="GlobalTimer.h" />
     <ClInclude Include="IOExecutor.h" />
     <ClInclude Include="LFQueue.hpp" />
     <ClInclude Include="MCTerrainGenerator.h" />
