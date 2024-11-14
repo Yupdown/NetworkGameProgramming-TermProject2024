@@ -4,9 +4,11 @@
 #include "MCTilemap.h"
 #include "PerlinNoise.hpp"
 
+extern int G_MC_SEED;
+
 void MCTerrainGenerator::Generate(const shared_ptr<MCTilemap>& tilemap)const noexcept
 {
-	std::default_random_engine dre{ (unsigned int)time(NULL) };
+	std::default_random_engine dre( G_MC_SEED );
 	std::uniform_int_distribution uid{ 0, MCTilemap::MAP_WIDTH };
 
 	const int x0 = uid(dre) % 1000;

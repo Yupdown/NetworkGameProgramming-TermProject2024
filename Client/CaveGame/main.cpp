@@ -45,7 +45,7 @@ int main()
         return 1;
     }
     
-    Mgr(NetworkMgr)->Send(c2s_LOGIN{});
+   Send(c2s_LOGIN{});
 
     // SEED ¹Þ±â
     while(-1 == G_MC_SEED){ Mgr(NetworkMgr)->IORoutine(); }

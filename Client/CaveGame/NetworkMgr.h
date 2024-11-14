@@ -36,3 +36,9 @@ private:
     SOCKET clientSocket = INVALID_SOCKET;
     const std::unique_ptr<RecvBuffer> m_recvBuffer;
 };
+
+template<typename T>
+static inline void Send(T&& pkt_)noexcept
+{
+    NetworkMgr::GetInst()->Send(std::forward<T>(pkt_));
+}

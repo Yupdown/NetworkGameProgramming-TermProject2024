@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "PacketBase.hpp"
 #include "Hero.h"
-// s2c를 정의 하는 CPP
 // Server -> Client , 서버로 부터의 패킷을 받아서 처리하는 함수들의 모임
 // c2s는 없으면 링크에러나서 더미로 만들었음 좋은 의견있으면 건의 부탁
 

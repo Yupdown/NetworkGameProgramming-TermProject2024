@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.hpp"
 #include "LFQueue.hpp"
+#include "SendBuffer.h"
 
 class Session;
 
@@ -27,6 +28,8 @@ public:
 		const auto iter = m_mapSession.find(id);
 		return m_mapSession.cend() != iter ? iter->second.get() : nullptr;
 	}
+	template<typename T>
+	void AppendToSendBuffer(T&& pkt_)noexcept { m_sendBuff.Append<T>(std::forward<T>(pkt_)); }
 private:
 	void OnAccept()noexcept;
 	void OnDisconnect(const SOCKET sock, const int idx)noexcept;
@@ -40,11 +43,14 @@ private:
 	int m_curNumOfClient = 0;
 	// TODO: SendEventQueue
 	
+	std::vector<SendBuffer*> m_flush_buffer;
 	LFQueue<SendEvent> m_sendQueue;
 	LFQueue<SendBuffer> m_broadCastQueue;
 
 	std::unordered_map<uint64_t, std::shared_ptr<Session>> m_mapSession;
 	std::unordered_map<SOCKET, std::shared_ptr<Session>> m_mapSocket2Session;
+
+	SendBuffer m_sendBuff;
 
 	static constinit inline std::atomic<uint64_t> g_GlobalObjectID = 0;
 };

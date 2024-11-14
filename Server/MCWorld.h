@@ -25,6 +25,8 @@
  	const auto& GetTileMap()const noexcept { return m_tileMap; }
  	void Init()noexcept;
  	
+    auto& GetTileMap()noexcept { return m_tileMap; }
+
  	void Update();
  	const auto& AddObject(S_ptr<Object> obj, MC_OBJECT_TYPE eType) {
         return m_worldObjects[static_cast<int>(eType)].emplace_back(std::move(obj));

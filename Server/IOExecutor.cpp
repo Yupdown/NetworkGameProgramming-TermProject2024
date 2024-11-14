@@ -100,9 +100,8 @@ void IOExecutor::IORoutine() noexcept
                 ++i;
             }
         }
+        FlushSendQueue();
     }
-        // TODO: SendQueue Flush
-    FlushSendQueue();
 }
 
 void IOExecutor::OnAccept() noexcept
@@ -166,10 +165,10 @@ void IOExecutor::OnRecv(const SOCKET sock) noexcept
 
 void IOExecutor::FlushSendQueue() noexcept
 {
-    static std::vector<SendBuffer*> flush_buffer;
-    while (const auto broad_event = m_broadCastQueue.Pop())flush_buffer.emplace_back(broad_event);
+    while (const auto broad_event = m_broadCastQueue.Pop())m_flush_buffer.emplace_back(broad_event);
 
     const auto sentinel = m_mapSession.cend();
+
     while (const auto send_event = m_sendQueue.Pop())
     {
         const auto iter = m_mapSession.find(send_event->id);
@@ -181,7 +180,7 @@ void IOExecutor::FlushSendQueue() noexcept
 
             ::send(sock, send_buff->GetBuff(), send_buff->GetLen(), 0);
 
-            for (const auto broad_cast_buff : flush_buffer)
+            for (const auto broad_cast_buff : m_flush_buffer)
             {
                 ::send(sock, broad_cast_buff->GetBuff(), broad_cast_buff->GetLen(), 0);
             }
@@ -191,10 +190,22 @@ void IOExecutor::FlushSendQueue() noexcept
         delete send_event;
     }
 
-    for (const auto broad_cast_buff : flush_buffer)
+    for (const auto broad_cast_buff : m_flush_buffer)
     {
         // TODO: 월드에게 반납한다.
     }
 
-    flush_buffer.clear();
+    m_flush_buffer.clear();
+
+    if (const auto buff_len = m_sendBuff.GetLen())
+    {
+        const auto pBuff = m_sendBuff.GetBuff();
+
+        for (int i = 1; i <= m_curNumOfClient; ++i)
+        {
+            ::send(m_clientsFD[i].fd, pBuff, buff_len, 0);
+        }
+
+        m_sendBuff.Clear();
+    }
 }
