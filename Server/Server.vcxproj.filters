@@ -171,5 +171,14 @@
     <ClInclude Include="..\Common\GlobalTimer.h">
       <Filter>Common\GlobalTimer</Filter>
     </ClInclude>
+    <ClInclude Include="CustomMath.hpp">
+      <Filter>pre_define\CustomMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.hpp">
+      <Filter>pre_define\CustomMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.hpp">
+      <Filter>pre_define\CustomMath</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

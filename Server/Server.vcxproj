@@ -172,6 +172,7 @@
     <ClInclude Include="..\Common\RecvBuffer.h" />
     <ClInclude Include="..\Common\SendBuffer.h" />
     <ClInclude Include="c2s_PacketHandler.h" />
+    <ClInclude Include="CustomMath.hpp" />
     <ClInclude Include="func.h" />
     <ClInclude Include="IOExecutor.h" />
     <ClInclude Include="LFQueue.hpp" />
@@ -185,6 +186,8 @@
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="Task.hpp" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Vector2D.hpp" />
+    <ClInclude Include="Vector3D.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
