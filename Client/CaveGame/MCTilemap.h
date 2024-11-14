@@ -45,7 +45,7 @@ class MCTileChunk
 public:
 	static constexpr int CHUNK_WIDTH = 32;
 	static constexpr int CHUNK_HEIGHT = 32;
-
+	static constexpr int NUM_OF_TILES = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_HEIGHT;
 private:
 	uint8_t tileData[CHUNK_WIDTH][CHUNK_HEIGHT][CHUNK_WIDTH];
 
@@ -63,10 +63,9 @@ public:
 	~MCTilemap() = default;
 
 public:
-	static constexpr int MAP_WIDTH = 512;
+	static constexpr int MAP_WIDTH = 128; // TODO: 원래 512였음
 	static constexpr int MAP_HEIGHT = MCTileChunk::CHUNK_HEIGHT;
 	static constexpr int CHUNK_SIZE = (MAP_WIDTH + (MCTileChunk::CHUNK_WIDTH - 1)) / MCTileChunk::CHUNK_WIDTH;
-
 private:
 	MCTileChunk tileChunk[CHUNK_SIZE][CHUNK_SIZE];
 	std::vector<std::function<void(MCTileChunk*, int, int)>> notifyCallback;

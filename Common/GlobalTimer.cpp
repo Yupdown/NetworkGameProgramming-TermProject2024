@@ -1,3 +1,3 @@
-#include "pch.h"
+//#include "pch.h"
 #include "GlobalTimer.h"
 #include <Windows.h>
