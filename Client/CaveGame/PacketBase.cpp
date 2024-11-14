@@ -9,10 +9,12 @@
 
 
 extern shared_ptr<Hero> g_hero;
+extern int G_MC_SEED;
 
 DECLARE_PACKET_FUNC(s2c_LOGIN)
 {
-
+	G_MC_SEED = pkt_.mc_seed;
+	std::cout << "Recv MC SEED !: " << G_MC_SEED << '\n';
 }
 
 DECLARE_PACKET_FUNC(s2c_ENTER)

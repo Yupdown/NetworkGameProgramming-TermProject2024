@@ -32,6 +32,8 @@ std::atomic_bool g_bTileFinish = false;
 void Update();
 std::function<void(void)> g_fpNewGameFunc;
 
+int G_MC_SEED = -1;
+
 int main()
 {
     Mgr(Core)->Init(1440, 720);
@@ -43,6 +45,12 @@ int main()
         return 1;
     }
     
+    Mgr(NetworkMgr)->Send(c2s_LOGIN{});
+
+    // SEED ¹Þ±â
+    while(-1 == G_MC_SEED){ Mgr(NetworkMgr)->IORoutine(); }
+
+
     Mgr(SceneMgr)->GetScene(SCENE_TYPE::INTRO)->AddUpdateFp(SCENE_ADDED_UPDATE::UPDATE,[]() {
         if (g_bCanResume && KEY_TAP(GLFW_KEY_ESCAPE))
         {

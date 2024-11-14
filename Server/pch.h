@@ -19,6 +19,7 @@
 #include <glm/gtc/type_ptr.hpp> 
 #include <format>
 #include "func.h"
+#include "Constants.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 

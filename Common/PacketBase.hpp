@@ -120,6 +120,7 @@ struct c2s_LOGIN
 struct s2c_LOGIN
     :public PacketHeader
 {
+    int mc_seed;
     DECLARE_PACKET(s2c_LOGIN);
 };
 //

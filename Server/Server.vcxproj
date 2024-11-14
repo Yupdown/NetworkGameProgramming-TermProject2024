@@ -157,6 +157,7 @@
     <ClCompile Include="MCTerrainGenerator.cpp" />
     <ClCompile Include="MCTilemap.cpp" />
     <ClCompile Include="MCWorld.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="PacketBase.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -172,6 +173,7 @@
     <ClInclude Include="..\Common\RecvBuffer.h" />
     <ClInclude Include="..\Common\SendBuffer.h" />
     <ClInclude Include="c2s_PacketHandler.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="CustomMath.hpp" />
     <ClInclude Include="func.h" />
     <ClInclude Include="IOExecutor.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="MCTerrainGenerator.h" />
     <ClInclude Include="MCTilemap.h" />
     <ClInclude Include="MCWorld.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="packet_define.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PerlinNoise.hpp" />

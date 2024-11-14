@@ -2,6 +2,7 @@
 #include "PacketBase.hpp"
 #include "IOExecutor.h"
 #include "Session.h"
+#include "MCWorld.h"
 
 // c2s를 정의하는 CPP
 
@@ -9,8 +10,9 @@
 
 DECLARE_PACKET_FUNC(c2s_LOGIN)
 {
-	std::cout << "패킷!";
-	Mgr(IOExecutor)->GetSession(id)->SendDirect(s2c_LOGIN{});
+	s2c_LOGIN pkt;
+	pkt.mc_seed = MCWorld::G_MC_SEED;
+	Mgr(IOExecutor)->GetSession(id)->SendDirect(pkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_ENTER)
