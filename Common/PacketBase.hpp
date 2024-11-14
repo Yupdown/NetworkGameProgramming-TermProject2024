@@ -114,6 +114,7 @@ static inline int OnRecv(const uint64 id, char* const buffer, const int len, voi
 struct c2s_LOGIN
     :public PacketHeader
 {
+    int my_id;
     DECLARE_PACKET(c2s_LOGIN);
 };
 
@@ -121,6 +122,7 @@ struct s2c_LOGIN
     :public PacketHeader
 {
     int mc_seed;
+    int id;
     DECLARE_PACKET(s2c_LOGIN);
 };
 //
@@ -138,6 +140,7 @@ struct c2s_ENTER
 struct s2c_ENTER
     :public PacketHeader
 {
+    int other_player_id;
     DECLARE_PACKET(s2c_ENTER);
 };
 //

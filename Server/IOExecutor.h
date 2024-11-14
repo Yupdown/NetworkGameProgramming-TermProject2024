@@ -52,6 +52,6 @@ private:
 
 	SendBuffer m_sendBuff;
 
-	static constinit inline std::atomic<uint64_t> g_GlobalObjectID = 0;
+	static constinit inline std::atomic<uint64_t> g_GlobalObjectID = 1;
 };
 

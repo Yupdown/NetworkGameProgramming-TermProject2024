@@ -1,17 +1,22 @@
 #include "ServerObjectManager.h"
 #include "ServerObject.h"
+#include "EventMgr.h"
+#include "Player.h"
+#include "Hero.h"
 
 ServerObjectManager::ServerObjectManager()
 {
 }
 
-std::shared_ptr<ServerObject> ServerObjectManager::AddObject(unsigned int id)
+void ServerObjectManager::AddObject(std::shared_ptr<ServerObject> obj,GROUP_TYPE eType)
 {
 	assert(m_targetScene != nullptr);
-	auto obj = std::make_shared<ServerObject>(id);
+	const auto id = obj->GetID();
+	NAGOX_ASSERT(0 != id, "Invalid ID");
+	if (m_serverObjects.contains(id))
+		return;
 	m_serverObjects[id] = obj;
-	m_targetScene->AddObject(obj, GROUP_TYPE::DEFAULT);
-	return obj;
+	m_targetScene->AddObject(obj, eType);
 }
 
 void ServerObjectManager::RemoveObject(unsigned int id)
@@ -20,6 +25,7 @@ void ServerObjectManager::RemoveObject(unsigned int id)
 	auto iter = m_serverObjects.find(id);
 	if (iter != m_serverObjects.end())
 	{
+		DestroyObj(iter->second);
 		m_serverObjects.erase(iter);
 		// TODO: Remove object from scene
 	}
@@ -42,4 +48,21 @@ void ServerObjectManager::SetTargetScene(const std::shared_ptr<Scene>& scene)
 
 	// Clean up the container
 	m_serverObjects.clear();
+}
+
+void ServerObjectManager::SetHero(shared_ptr<Hero> hero)
+{
+	NAGOX_ASSERT(!m_hero, "Double Init Hero");
+	m_hero = std::move(hero);
+	m_hero->SetID(m_my_id_from_server);
+}
+
+std::shared_ptr<Player> ServerObjectManager::CreatePlayer(const int id_)
+{
+	// TODO: 유저마다 아바타가 다르거나 식별자가 있어야 함
+	auto player = make_shared<Player>(m_tileMap);
+	player->SetObjName("player");
+	player->GetTransform()->SetLocalPosition(glm::vec3(25.6f + 0.2f, 3.2f, 25.6f));
+	player->SetID(id_);
+	return player;
 }

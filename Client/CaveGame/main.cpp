@@ -13,13 +13,11 @@
 #include "EnderEye.h"
 #include "NetworkMgr.h"
 #include "PacketBase.hpp"
+#include "ServerObjectManager.h"
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
 shared_ptr<Camera>  observerCam;
-
-// TODO: 임시, 서버오브젝트 매니저로 옮겨야함
-shared_ptr<Hero> g_hero;
 
 array<array<shared_ptr<ChunkRendererObject>, MCTilemap::CHUNK_SIZE>, MCTilemap::CHUNK_SIZE> pChunkRenderers;
 
@@ -50,7 +48,10 @@ int main()
     // SEED 받기
     while(-1 == G_MC_SEED){ Mgr(NetworkMgr)->IORoutine(); }
 
+    Send(c2s_ENTER{});
 
+    Mgr(ServerObjectManager)->SetTileMap(make_shared<MCTilemap>());
+   
     Mgr(SceneMgr)->GetScene(SCENE_TYPE::INTRO)->AddUpdateFp(SCENE_ADDED_UPDATE::UPDATE,[]() {
         if (g_bCanResume && KEY_TAP(GLFW_KEY_ESCAPE))
         {
@@ -62,11 +63,11 @@ int main()
     Mgr(SceneMgr)->RegisterEnterSceneCallBack(SCENE_TYPE::STAGE, []() {
         g_bCanResume = true;
 
-        shared_ptr<MCTilemap> tilemap = make_shared<MCTilemap>();
+        shared_ptr<MCTilemap> tilemap = Mgr(ServerObjectManager)->GetTileMap();
         shared_ptr<MCTerrainGenerator> terrainGenerator = make_shared<MCTerrainGenerator>();
         shared_ptr<MCTilemapMeshGenerator> meshGenerator = make_shared<MCTilemapMeshGenerator>();
         terrainGenerator->Generate(tilemap);
-
+        
         glfwSetInputMode(Mgr(Core)->GetWinInfo(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         const auto curScene = Mgr(SceneMgr)->GetCurScene();
@@ -158,7 +159,9 @@ int main()
         {
 
             auto player = make_shared<Hero>(tilemap);
-            g_hero = player; // TODO: 임시
+          
+            Mgr(ServerObjectManager)->SetHero(player);
+
             player->SetObjName("player");
             player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
             curScene->AddObject(player, GROUP_TYPE::PLAYER);

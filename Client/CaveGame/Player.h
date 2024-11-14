@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObj.h"
+#include "ServerObject.h"
 
 class MCTilemap;
 
 class Player
-	:public GameObj
+	:public ServerObject
 {
 	std::unordered_map<string, shared_ptr<GameObj>> g_mapParticleUniqueObject;
 protected:

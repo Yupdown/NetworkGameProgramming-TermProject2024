@@ -1,12 +1,13 @@
 #include "pch.h"
- #include <random>
- #include "MCTerrainGenerator.h"
- #include "MCTilemap.h"
- #include "PerlinNoise.hpp"
- 
+#include <random>
+#include "MCTerrainGenerator.h"
+#include "MCTilemap.h"
+#include "PerlinNoise.hpp"
+#include "MCWorld.h"
+
  void MCTerrainGenerator::Generate(shared_ptr<MCTilemap> tilemap)const noexcept
  {
- 	std::default_random_engine dre{ 1 };
+ 	std::default_random_engine dre( MCWorld::G_MC_SEED );
  	std::uniform_int_distribution uid{ 0, MCTilemap::MAP_WIDTH };
  
  	const int x0 = uid(dre) % 1000;

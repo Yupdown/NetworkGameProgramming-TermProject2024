@@ -6,16 +6,16 @@
 #include <PacketBase.hpp>
 #include <Transform.h>
 
-class ServerObject : public GameObj
+class ServerObject 
+	: public GameObj
 {
 public:
-	ServerObject(unsigned int id);
 	~ServerObject() noexcept;
 
 	void SyncMovement(const s2c_MOVE_OBJECT& pkt);
 
 public:
-unsigned int GetID() const { return m_id; }
+	unsigned int GetID() const { return m_id; }
 
 	glm::vec3 GetPosition() const { return GetTransform()->GetLocalPositionAcc(); }
 	glm::quat GetRotation() const { return GetTransform()->GetLocalRotationAcc(); }
@@ -27,6 +27,7 @@ unsigned int GetID() const { return m_id; }
 	void SetVelocity(const glm::vec3& velocity) { m_velocity = velocity; }
 	void SetAcceleration(const glm::vec3& acceleration) { m_acceleration = acceleration; }
 
+	void SetID(const int id_) { m_id = id_; }
 private:
 	unsigned int m_id = 0;
 
