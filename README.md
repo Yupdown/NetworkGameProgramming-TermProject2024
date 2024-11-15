@@ -14,7 +14,9 @@
 
 ## High-Level Design
 ### 프로그램 흐름
+![image](program_flow.png)
 ### 클래스 개요
+![image](class_relations.png)
 
 ## 일정
 ### 1주차
