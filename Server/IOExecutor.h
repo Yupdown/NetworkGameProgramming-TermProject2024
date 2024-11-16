@@ -30,6 +30,7 @@ public:
 	}
 	template<typename T>
 	void AppendToSendBuffer(T&& pkt_)noexcept { m_sendBuff.Append<T>(std::forward<T>(pkt_)); }
+	const auto& GetAllSessions()const noexcept { return m_mapSession; }
 private:
 	void OnAccept()noexcept;
 	void OnDisconnect(const SOCKET sock, const int idx)noexcept;
@@ -52,6 +53,6 @@ private:
 
 	SendBuffer m_sendBuff;
 
-	static constinit inline std::atomic<uint64_t> g_GlobalObjectID = 1;
+	static constinit inline std::atomic<uint32_t> g_GlobalObjectID = 1;
 };
 

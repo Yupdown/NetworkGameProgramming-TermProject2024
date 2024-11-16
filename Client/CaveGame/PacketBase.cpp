@@ -19,7 +19,7 @@ DECLARE_PACKET_FUNC(s2c_LOGIN)
 
 DECLARE_PACKET_FUNC(s2c_ENTER)
 {
-	if (pkt_.other_player_id == Mgr(ServerObjectManager)->GetMyID())
+	if (Mgr(ServerObjectManager)->IsMyID(pkt_.other_player_id))
 		return;
 
 	auto other_player = Mgr(ServerObjectManager)->CreatePlayer(pkt_.other_player_id);
@@ -45,7 +45,13 @@ DECLARE_PACKET_FUNC(s2c_ADD_OBJECT)
 
 DECLARE_PACKET_FUNC(s2c_MOVE_OBJECT)
 {
+	if (Mgr(ServerObjectManager)->IsMyID(pkt_.object_id))
+		return;
 
+	if (const auto obj = Mgr(ServerObjectManager)->FindObject(pkt_.object_id))
+	{
+		obj->SyncMovement(pkt_);
+	}
 }
 
 DECLARE_PACKET_FUNC(s2c_ADD_PROJECTILE)

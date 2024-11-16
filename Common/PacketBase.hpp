@@ -5,6 +5,7 @@
 using uint64 = unsigned long long;
 using uint8 = unsigned char;
 using uint16 = unsigned short;
+using uint32 = unsigned int;
 
 extern void AddProtocol(const uint16 pktID_, void (*fpPacketHandler_)(const uint64, const char* const))noexcept;
 
@@ -114,7 +115,6 @@ static inline int OnRecv(const uint64 id, char* const buffer, const int len, voi
 struct c2s_LOGIN
     :public PacketHeader
 {
-    int my_id;
     DECLARE_PACKET(c2s_LOGIN);
 };
 
@@ -122,7 +122,7 @@ struct s2c_LOGIN
     :public PacketHeader
 {
     int mc_seed;
-    int id;
+    uint32 id;
     DECLARE_PACKET(s2c_LOGIN);
 };
 //
@@ -140,7 +140,7 @@ struct c2s_ENTER
 struct s2c_ENTER
     :public PacketHeader
 {
-    int other_player_id;
+    uint32 other_player_id;
     DECLARE_PACKET(s2c_ENTER);
 };
 //
@@ -151,14 +151,14 @@ struct s2c_ENTER
 struct c2s_DESTROY_BLOCK
     :public PacketHeader
 {
-    int x, y, z;
+    uint8 x, y, z;
     DECLARE_PACKET(c2s_DESTROY_BLOCK);
 };
 
 struct s2c_DESTROY_BLOCK
     :public PacketHeader
 {
-    int x, y, z;
+    uint8 x, y, z;
     DECLARE_PACKET(s2c_DESTROY_BLOCK);
 };
 //
@@ -169,7 +169,7 @@ struct s2c_DESTROY_BLOCK
 struct c2s_CREATE_BLOCK
     :public PacketHeader
 {
-    int x, y, z;
+    uint8 x, y, z;
     uint8_t tile_id;
     DECLARE_PACKET(c2s_CREATE_BLOCK);
 };
@@ -177,7 +177,7 @@ struct c2s_CREATE_BLOCK
 struct s2c_CREATE_BLOCK
     :public PacketHeader
 {
-    int x, y, z;
+    uint8 x, y, z;
     uint8_t tile_id;
     DECLARE_PACKET(s2c_CREATE_BLOCK);
 };
@@ -188,7 +188,7 @@ struct s2c_CREATE_BLOCK
 struct c2s_ADD_OBJECT
     :public PacketHeader
 {
-	int object_id;
+    uint32 object_id;
 	float position_x, position_y, position_z;
 	float rotation_y;
 	DECLARE_PACKET(c2s_ADD_OBJECT);
@@ -197,7 +197,7 @@ struct c2s_ADD_OBJECT
 struct s2c_ADD_OBJECT
     :public PacketHeader
 {
-	int object_id;
+    uint32 object_id;
 	float position_x, position_y, position_z;
 	float rotation_y;
 	DECLARE_PACKET(s2c_ADD_OBJECT);
@@ -213,17 +213,19 @@ struct c2s_MOVE_OBJECT
     float velocity_x, velocity_y, velocity_z;
     float acceleration_x, acceleration_y, acceleration_z;
     float rotation_y;
+    float yaw, pitch;
     DECLARE_PACKET(c2s_MOVE_OBJECT);
 };
 
 struct s2c_MOVE_OBJECT
     :public PacketHeader
 {
-    int object_id;
+    uint32 object_id;
     float position_x, position_y, position_z;
     float velocity_x, velocity_y, velocity_z;
     float acceleration_x, acceleration_y, acceleration_z;
     float rotation_y;
+    float yaw, pitch;
     DECLARE_PACKET(s2c_MOVE_OBJECT);
 };
 
@@ -241,7 +243,7 @@ struct c2s_ADD_PROJECTILE
 struct s2c_ADD_PROJECTILE
     :public PacketHeader
 {
-    int projectile_id;
+    uint32 projectile_id;
     float position_x, position_y, position_z;
     float velocity_x, velocity_y, velocity_z;
     DECLARE_PACKET(s2c_ADD_PROJECTILE);

@@ -10,19 +10,19 @@ ServerObjectManager::ServerObjectManager()
 
 void ServerObjectManager::AddObject(std::shared_ptr<ServerObject> obj,GROUP_TYPE eType)
 {
-	assert(m_targetScene != nullptr);
+	//assert(m_targetScene != nullptr);
 	const auto id = obj->GetID();
 	NAGOX_ASSERT(0 != id, "Invalid ID");
 	if (m_serverObjects.contains(id))
 		return;
 	m_serverObjects[id] = obj;
-	m_targetScene->AddObject(obj, eType);
+	CreateObj(std::move(obj), eType);
 }
 
 void ServerObjectManager::RemoveObject(unsigned int id)
 {
 	assert(m_targetScene != nullptr);
-	auto iter = m_serverObjects.find(id);
+	const auto iter = m_serverObjects.find(id);
 	if (iter != m_serverObjects.end())
 	{
 		DestroyObj(iter->second);
@@ -62,7 +62,7 @@ std::shared_ptr<Player> ServerObjectManager::CreatePlayer(const int id_)
 	// TODO: 유저마다 아바타가 다르거나 식별자가 있어야 함
 	auto player = make_shared<Player>(m_tileMap);
 	player->SetObjName("player");
-	player->GetTransform()->SetLocalPosition(glm::vec3(25.6f + 0.2f, 3.2f, 25.6f));
+	player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
 	player->SetID(id_);
 	return player;
 }

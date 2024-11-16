@@ -13,11 +13,23 @@ DECLARE_PACKET_FUNC(c2s_LOGIN)
 {
 	s2c_LOGIN pkt;
 	pkt.mc_seed = MCWorld::G_MC_SEED;
-	Mgr(IOExecutor)->GetSession(id)->SendDirect(pkt);
+	pkt.id = (uint32)id;
+	Mgr(IOExecutor)->GetSession(id)->ReserveSend(pkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_ENTER)
 {
+	s2c_ENTER pkt;
+	pkt.other_player_id = (uint32)id;
+	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+
+	const auto s = Mgr(IOExecutor)->GetSession(id);
+	for (const auto& [id_, session] : Mgr(IOExecutor)->GetAllSessions())
+	{
+		if (id_ == id)continue;
+		pkt.other_player_id = (uint32)id_;
+		s->ReserveSend(pkt);
+	}
 }
 
 DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)
@@ -49,10 +61,30 @@ DECLARE_PACKET_FUNC(c2s_CREATE_BLOCK)
 
 DECLARE_PACKET_FUNC(c2s_ADD_OBJECT)
 {
+	
 }
 
 DECLARE_PACKET_FUNC(c2s_MOVE_OBJECT)
 {
+	s2c_MOVE_OBJECT pkt;
+	pkt.object_id = (uint32)id;
+	pkt.position_x = pkt_.position_x;
+	pkt.position_y = pkt_.position_y;
+	pkt.position_z = pkt_.position_z;
+
+	pkt.acceleration_x = pkt_.acceleration_x;
+	pkt.acceleration_y = pkt_.acceleration_y;
+	pkt.acceleration_z = pkt_.acceleration_z;
+
+	pkt.velocity_x = pkt_.velocity_x;
+	pkt.velocity_y = pkt_.velocity_y;
+	pkt.velocity_z = pkt_.velocity_z;
+
+	pkt.pitch = pkt_.pitch;
+	pkt.rotation_y = pkt_.rotation_y;
+	pkt.yaw = pkt_.yaw;
+
+	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)

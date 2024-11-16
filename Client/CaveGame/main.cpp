@@ -48,8 +48,6 @@ int main()
     // SEED ¹Þ±â
     while(-1 == G_MC_SEED){ Mgr(NetworkMgr)->IORoutine(); }
 
-    Send(c2s_ENTER{});
-
     Mgr(ServerObjectManager)->SetTileMap(make_shared<MCTilemap>());
    
     Mgr(SceneMgr)->GetScene(SCENE_TYPE::INTRO)->AddUpdateFp(SCENE_ADDED_UPDATE::UPDATE,[]() {
@@ -191,6 +189,10 @@ int main()
         pEnderEye->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 12.0f, 256.0f));
         pEnderEye->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * 0.5f);
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
+
+        Mgr(ServerObjectManager)->SetTargetScene(Mgr(SceneMgr)->GetScene(SCENE_TYPE::STAGE));
+
+        Send(c2s_ENTER{});
         });
 
         Mgr(Core)->GameLoop([]()noexcept {Mgr(NetworkMgr)->IORoutine(); });

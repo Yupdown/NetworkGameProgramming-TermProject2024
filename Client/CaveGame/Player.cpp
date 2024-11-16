@@ -357,9 +357,12 @@ void Player::Update()
 	if (!m_bIsHero)
 	{
 		m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
+		m_rendererBodyAngleY = m_bodyAngle; // TODO : 이거 이대로 해도 ㄱㅊ?
+		m_playerLookYaw = m_LookYaw;
+		m_playerLookPitch = m_Pitch;
 	}
 	HandleCollision();
-	UpdatePlayerCamFpsMode();
+	//UpdatePlayerCamFpsMode();
 	UpdateCameraTransform(m_pCacheMyTransformCamera);
 	GameObj::Update();
 

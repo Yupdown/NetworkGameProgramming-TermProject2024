@@ -174,15 +174,14 @@ void IOExecutor::FlushSendQueue() noexcept
         const auto iter = m_mapSession.find(send_event->id);
         if (iter != sentinel)
         {
-            const auto session = iter->second;
+            const auto& session = iter->second;
             const auto send_buff = session->GetSendBuffer();
-            const auto sock = session->GetSocket();
-
-            ::send(sock, send_buff->GetBuff(), send_buff->GetLen(), 0);
-
+          
+            session->ReserveSend(send_buff->GetBuff(), send_buff->GetLen());
+           
             for (const auto broad_cast_buff : m_flush_buffer)
             {
-                ::send(sock, broad_cast_buff->GetBuff(), broad_cast_buff->GetLen(), 0);
+                session->ReserveSend(broad_cast_buff->GetBuff(), broad_cast_buff->GetLen());
             }
 
             session->ReturnSendBuffer(send_buff);
@@ -197,15 +196,28 @@ void IOExecutor::FlushSendQueue() noexcept
 
     m_flush_buffer.clear();
 
-    if (const auto buff_len = m_sendBuff.GetLen())
+    const auto io_buff = m_sendBuff.GetBuff();
+    const auto io_len = m_sendBuff.GetLen();
+    const bool flag = 0 != io_len;
+    m_sendBuff.Clear();
+
+    for (int i = 1; i <= m_curNumOfClient; ++i)
     {
-        const auto pBuff = m_sendBuff.GetBuff();
-
-        for (int i = 1; i <= m_curNumOfClient; ++i)
-        {
-            ::send(m_clientsFD[i].fd, pBuff, buff_len, 0);
-        }
-
-        m_sendBuff.Clear();
+        const auto& session = m_mapSocket2Session[m_clientsFD[i].fd];
+        if (flag)
+            session->ReserveSend(io_buff, io_len);
+        session->ExecuteSend();
     }
+
+    //if (const auto buff_len = m_sendBuff.GetLen())
+    //{
+    //    const auto pBuff = m_sendBuff.GetBuff();
+    //
+    //    for (int i = 1; i <= m_curNumOfClient; ++i)
+    //    {
+    //        ::send(m_clientsFD[i].fd, pBuff, buff_len, 0);
+    //    }
+    //
+    //    m_sendBuff.Clear();
+    //}
 }

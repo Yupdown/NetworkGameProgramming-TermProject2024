@@ -28,6 +28,12 @@ public:
 	void SetAcceleration(const glm::vec3& acceleration) { m_acceleration = acceleration; }
 
 	void SetID(const int id_) { m_id = id_; }
+
+protected:
+	// TODO: 이거 어떻게 할 지 고민
+	float m_bodyAngle = 0.f;
+	float m_Pitch = 0.0f;
+	float m_LookYaw = 0.0f;
 private:
 	unsigned int m_id = 0;
 

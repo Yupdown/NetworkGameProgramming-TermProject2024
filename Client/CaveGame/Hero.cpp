@@ -137,11 +137,13 @@ void Hero::Update()
 {
 	m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
 	InputMove();
+	UpdatePlayerCamFpsMode();
 	UpdateTileManipulation();
 	Player::Update();
 	m_fAccTime += DT;
-	if (0.01f <= m_fAccTime || m_bForceSendData)
+	if (G_SEND_INTERVAL <= m_fAccTime || m_bForceSendData)
 	{
+		SendMyMoveData();
 		m_fAccTime = 0.f;
 		m_bForceSendData = false;
 	}
@@ -155,6 +157,29 @@ void Hero::OnDamaged()
 	float theta = (m_playerLookYaw + 90.0f) * F_DEG2RAD;
 	float magnitude = 10.0f;
 	m_vVelocity += glm::vec3(glm::cos(theta), 1.0f, glm::sin(theta)) * magnitude;
+}
+
+void Hero::SendMyMoveData() const noexcept
+{
+	c2s_MOVE_OBJECT pkt;
+	const auto pos = m_pCacheMyTransform->GetWorldPosition();
+	pkt.position_x = pos.x;
+	pkt.position_y = pos.y;
+	pkt.position_z = pos.z;
+
+	pkt.pitch = m_Pitch;
+	pkt.rotation_y = m_rendererBodyAngleY;
+	pkt.yaw = m_LookYaw;
+
+	pkt.velocity_x = m_vVelocity.x;
+	pkt.velocity_y = m_vVelocity.y;
+	pkt.velocity_z = m_vVelocity.z;
+
+	pkt.acceleration_x = m_vAccelation.x;
+	pkt.acceleration_y = m_vAccelation.y;
+	pkt.acceleration_z = m_vAccelation.z;
+
+	Send(pkt);
 }
 
 void Hero::MoveByView(const glm::vec3& vDelta)

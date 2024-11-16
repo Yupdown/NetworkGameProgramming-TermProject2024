@@ -3,7 +3,7 @@
 
 class SendBuffer
 {
-	static constexpr int SEND_BUFF_SIZE = 1024 * 8;
+	static constexpr int SEND_BUFF_SIZE = 1024 * 16;
 public:
 	void Append(const char* const source, const int pkt_size)noexcept;
 
