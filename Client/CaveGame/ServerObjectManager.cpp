@@ -63,6 +63,7 @@ std::shared_ptr<Player> ServerObjectManager::CreatePlayer(const int id_)
 	auto player = make_shared<Player>(m_tileMap);
 	player->SetObjName("player");
 	player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
+	player->SetRendererTexture(id_);
 	player->SetID(id_);
 	return player;
 }

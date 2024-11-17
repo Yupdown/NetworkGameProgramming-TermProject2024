@@ -65,6 +65,28 @@ void Player::InitCamDirection() noexcept
 	GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
 }
 
+void Player::SetRendererTexture(int id)
+{
+	m_rendererTextureId = id;
+
+	ValidateRendererTexture();
+}
+
+void Player::ValidateRendererTexture()
+{
+	std::string tex_name = std::format("char_{:02}.png", m_rendererTextureId % 9 + 1);
+
+	// replace all materials with the same material
+	for (auto& child : *m_rendererObj)
+	{
+		auto meshRenderer = child->GetComp<MeshRenderer>();
+		if (meshRenderer == nullptr)
+			continue;
+		for (auto& m : meshRenderer->GetMaterial())
+			m->AddTexture2D(tex_name);
+	}
+}
+
 void Player::InitializeRenderer()
 {
 	m_rendererObj = Mgr(AssimpMgr)->LoadAllPartsAsGameObj("DefaultWarpShader.glsl", "Player.fbx");
@@ -81,15 +103,7 @@ void Player::InitializeRenderer()
 	m_transformRLeg = m_rendererObj->FindChildObj("RLeg")->GetTransform();
 	m_transformRLegOut = m_rendererObj->FindChildObj("RLegOut")->GetTransform();
 
-	// replace all materials with the same material
-	for (auto& child : *m_rendererObj)
-	{
-		auto meshRenderer = child->GetComp<MeshRenderer>();
-		if (meshRenderer == nullptr)
-			continue;
-		for (auto& m : meshRenderer->GetMaterial())
-			m->AddTexture2D("char_02.png");
-	}
+	ValidateRendererTexture();
 }
 
 void Player::UpdateRenderer()

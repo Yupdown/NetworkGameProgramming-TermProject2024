@@ -162,6 +162,7 @@ int main()
             Mgr(ServerObjectManager)->SetHero(player);
 
             player->SetObjName("player");
+            player->SetRendererTexture(0);
             player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
             curScene->AddObject(player, GROUP_TYPE::PLAYER);
             /*player->AddChild(make_shared<PlayerCam>());*/

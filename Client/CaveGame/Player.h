@@ -49,6 +49,7 @@ protected:
 	shared_ptr<Camera> m_pCamera;
 
 	ushort m_curCamMode = 0;
+	int m_rendererTextureId = 0;
 protected:
 	shared_ptr<Transform> m_pCacheMyTransform;
 	shared_ptr<Transform> m_pCacheMyTransformCamera;
@@ -67,6 +68,8 @@ public:
 	void UpdateHeadRotation(float pitch, float yaw);
 
 	void InitCamDirection()noexcept;
+	void SetRendererTexture(int id);
+	void ValidateRendererTexture();
 	void DestroyBlock(const glm::ivec3& hitTilePosition)noexcept;
 	void CreateBlock(const glm::ivec3& hitTilePosition, uint8_t tile_id)noexcept;
 	bool IsHero()const noexcept { return m_bIsHero; }
