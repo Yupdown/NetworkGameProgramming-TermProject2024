@@ -131,6 +131,10 @@ void Hero::UpdateTileManipulation()noexcept
 			Mgr(NetworkMgr)->Send(pkt);
 		}
 	}
+	if (KEY_TAP(GLFW_MOUSE_BUTTON_MIDDLE))
+	{
+		Fire();
+	}
 }
 
 void Hero::Update()
@@ -167,9 +171,9 @@ void Hero::SendMyMoveData() const noexcept
 	pkt.position_y = pos.y;
 	pkt.position_z = pos.z;
 
-	pkt.pitch = m_Pitch;
+	pkt.pitch = m_lookPitch;
 	pkt.rotation_y = m_rendererBodyAngleY;
-	pkt.yaw = m_LookYaw;
+	pkt.yaw = m_lookYaw;
 
 	pkt.velocity_x = m_vVelocity.x;
 	pkt.velocity_y = m_vVelocity.y;

@@ -31,9 +31,9 @@ public:
 
 protected:
 	// TODO: 이거 어떻게 할 지 고민
-	float m_bodyAngle = 0.f;
-	float m_Pitch = 0.0f;
-	float m_LookYaw = 0.0f;
+	float m_lookYaw = 0.0f;
+	float m_lookPitch = 0.0f;
+
 private:
 	unsigned int m_id = 0;
 

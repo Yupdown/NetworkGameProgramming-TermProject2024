@@ -14,6 +14,7 @@
 #include "NetworkMgr.h"
 #include "PacketBase.hpp"
 #include "ServerObjectManager.h"
+#include "ProjectileArrow.h"
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
@@ -191,7 +192,6 @@ int main()
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
 
         Mgr(ServerObjectManager)->SetTargetScene(Mgr(SceneMgr)->GetScene(SCENE_TYPE::STAGE));
-
         Send(c2s_ENTER{});
         });
 

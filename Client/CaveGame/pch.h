@@ -8,7 +8,6 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "OpenGL32.Lib")
-#pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "glfw3.lib")
 #pragma warning(disable: 4711 4710 4100)	
 //#pragma comment(lib, "freeglut.lib")
@@ -16,8 +15,10 @@
 
 #ifdef _DEBUG
 #pragma comment(lib,"assimp-vc143-mtd.lib")
+#pragma comment(lib, "glew32d.lib")
 #else
 #pragma comment(lib,"assimp-vc143-mt.lib")
+#pragma comment(lib, "glew32.lib")
 #endif 
 
 #include <glm/glm.hpp>

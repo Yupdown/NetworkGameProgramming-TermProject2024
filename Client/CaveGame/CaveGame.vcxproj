@@ -167,6 +167,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerCam.cpp" />
     <ClCompile Include="PlayerShadow.cpp" />
+    <ClCompile Include="ProjectileArrow.cpp" />
     <ClCompile Include="s2c_PacketHandler.cpp" />
     <ClCompile Include="ServerObject.cpp" />
     <ClCompile Include="ServerObjectManager.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerCam.h" />
     <ClInclude Include="PlayerShadow.h" />
+    <ClInclude Include="ProjectileArrow.h" />
     <ClInclude Include="s2c_PacketHandler.h" />
     <ClInclude Include="ServerObject.h" />
     <ClInclude Include="ServerObjectManager.h" />

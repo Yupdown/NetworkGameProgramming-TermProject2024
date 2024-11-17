@@ -8,7 +8,7 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "AssimpMgr.h"
-#include "Bullet.h"
+#include "ProjectileArrow.h"
 #include "EventMgr.h"
 #include "RayCaster.h"
 #include "MeshRenderer.h"
@@ -80,6 +80,16 @@ void Player::InitializeRenderer()
 	m_transformLLegOut = m_rendererObj->FindChildObj("LLegOut")->GetTransform();
 	m_transformRLeg = m_rendererObj->FindChildObj("RLeg")->GetTransform();
 	m_transformRLegOut = m_rendererObj->FindChildObj("RLegOut")->GetTransform();
+
+	// replace all materials with the same material
+	for (auto& child : *m_rendererObj)
+	{
+		auto meshRenderer = child->GetComp<MeshRenderer>();
+		if (meshRenderer == nullptr)
+			continue;
+		for (auto& m : meshRenderer->GetMaterial())
+			m->AddTexture2D("char_02.png");
+	}
 }
 
 void Player::UpdateRenderer()
@@ -107,10 +117,10 @@ void Player::UpdateRenderer()
 	m_transformRLeg->SetLocalPosition(glm::vec3(dx, dy - 240.0f, m_transformRLeg->GetLocalPosition().z));
 	m_transformRLegOut->SetLocalPosition(glm::vec3(dx, dy - 240.0f, m_transformRLegOut->GetLocalPosition().z));
 
-	m_transformLArm->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), glm::pi<float>(), rotationFactor)));
-	m_transformLArmOut->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), glm::pi<float>(), rotationFactor)));
-	m_transformRArm->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), 0.0f, -rotationFactor)));
-	m_transformRArmOut->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), 0.0f, -rotationFactor)));
+	m_transformLArm->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), 0.0f, rotationFactor)));
+	m_transformLArmOut->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), 0.0f, rotationFactor)));
+	m_transformRArm->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), glm::pi<float>(), -rotationFactor)));
+	m_transformRArmOut->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), glm::pi<float>(), -rotationFactor)));
 	m_transformLLeg->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), 0.0f, -rotationFactor)));
 	m_transformLLegOut->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), 0.0f, -rotationFactor)));
 	m_transformRLeg->SetLocalRotation(glm::quat(glm::vec3(glm::radians(90.0f), 0.0f, rotationFactor)));
@@ -357,9 +367,9 @@ void Player::Update()
 	if (!m_bIsHero)
 	{
 		m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
-		m_rendererBodyAngleY = m_bodyAngle; // TODO : 이거 이대로 해도 ㄱㅊ?
-		m_playerLookYaw = m_LookYaw;
-		m_playerLookPitch = m_Pitch;
+		m_rendererBodyAngleY = m_lookYaw; // TODO : 이거 이대로 해도 ㄱㅊ?
+		m_playerLookYaw = m_lookYaw;
+		m_playerLookPitch = m_lookPitch;
 	}
 	HandleCollision();
 	//UpdatePlayerCamFpsMode();
@@ -377,6 +387,11 @@ glm::vec3 Player::GetPlayerLook() const noexcept
 
 void Player::Fire() noexcept
 {
-	auto bullet = make_shared<Bullet>(GetTransform()->GetWorldPosition(), GetPlayerLook());
-	CreateObj(std::move(bullet), GROUP_TYPE::PROJ_PLAYER);
+	auto projectile = make_shared<ProjectileArrow>(m_refTilemap);
+	glm::vec3 p = m_pCacheMyTransform->GetLocalPosition();
+	p += glm::vec3(0.0f, 1.7f, 0.0f);
+	projectile->SetPosition(p);
+	projectile->SetVelocity(GetPlayerLook() * 32.0f);
+
+	CreateObj(std::move(projectile), GROUP_TYPE::PROJ_PLAYER);
 }

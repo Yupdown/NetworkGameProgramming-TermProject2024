@@ -67,6 +67,9 @@
     <Filter Include="Common\GlobalTimer">
       <UniqueIdentifier>{e78b4073-bdea-4a69-bf97-6840df372b95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CaveObject\Projectile">
+      <UniqueIdentifier>{5cd7640d-d475-493b-b61a-1b228960fc46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -134,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\GlobalTimer.cpp">
       <Filter>Common\GlobalTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileArrow.cpp">
+      <Filter>CaveObject\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Common\GlobalTimer.h">
       <Filter>Common\GlobalTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileArrow.h">
+      <Filter>CaveObject\Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
