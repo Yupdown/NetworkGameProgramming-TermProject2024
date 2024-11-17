@@ -21,6 +21,7 @@
  	~MCWorld();
  public:
      static constexpr const int G_MC_SEED = 1;
+     static constexpr const float UPDATE_INTERVAL = 0.1f;
  public:
  	const auto& GetTileMap()const noexcept { return m_tileMap; }
  	void Init()noexcept;
@@ -40,6 +41,7 @@
  	const S_ptr<MCTerrainGenerator> m_terrainGenerator;
     std::vector<S_ptr<Object>> m_worldObjects[static_cast<int>(MC_OBJECT_TYPE::END)];
 
+    float m_accTimeForUpdateInterval = 0.f;
  	Timer m_timer;
 
     LFQueue<std::function<void(void)>> m_worldEventQueue;
