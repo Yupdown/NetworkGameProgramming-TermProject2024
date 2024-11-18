@@ -47,3 +47,4 @@
     LFQueue<std::function<void(void)>> m_worldEventQueue;
  };
 
+ static inline const auto& GetTileMap()noexcept { return MCWorld::GetInst()->GetTileMap(); }
