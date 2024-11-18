@@ -151,6 +151,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="c2s_PacketHandler.cpp" />
+    <ClCompile Include="EntityMovement.cpp" />
+    <ClCompile Include="FSM.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="IOExecutor.cpp" />
     <ClCompile Include="main.cpp" />
@@ -175,6 +177,8 @@
     <ClInclude Include="c2s_PacketHandler.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CustomMath.hpp" />
+    <ClInclude Include="EntityMovement.h" />
+    <ClInclude Include="FSM.h" />
     <ClInclude Include="func.h" />
     <ClInclude Include="IOExecutor.h" />
     <ClInclude Include="LFQueue.hpp" />

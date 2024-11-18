@@ -127,6 +127,12 @@
     <ClCompile Include="Object.cpp">
       <Filter>MCContents\Object</Filter>
     </ClCompile>
+    <ClCompile Include="EntityMovement.cpp">
+      <Filter>MCContents\Object\Component\EntityMovement</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>MCContents\Object\Component\FSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -200,6 +206,12 @@
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>MCContents\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityMovement.h">
+      <Filter>MCContents\Object\Component\EntityMovement</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>MCContents\Object\Component\FSM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
