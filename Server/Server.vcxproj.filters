@@ -74,6 +74,12 @@
     <Filter Include="MCContents\Object\Component">
       <UniqueIdentifier>{da8b152e-c199-4fd5-8220-9e0bc5dc79c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCContents\Object\Component\EntityMovement">
+      <UniqueIdentifier>{e2256792-6229-45e5-bc3a-14d502180b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCContents\Object\Component\FSM">
+      <UniqueIdentifier>{33e59595-fda8-492f-b672-929f0565151a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
