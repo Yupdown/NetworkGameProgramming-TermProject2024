@@ -213,5 +213,8 @@
     <ClInclude Include="FSM.h">
       <Filter>MCContents\Object\Component\FSM</Filter>
     </ClInclude>
+    <ClInclude Include="NagoxAtomic.h">
+      <Filter>pre_define</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
