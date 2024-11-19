@@ -105,4 +105,18 @@
  			}
  		}
  	}
+
+    // 플래그 유효성검사
+    for (int x = 0; x < MCTilemap::MAP_WIDTH; ++x)
+    {
+        for (int z = 0; z < MCTilemap::MAP_WIDTH; ++z)
+        {
+            for (int y = 0; y < MCTilemap::MAP_HEIGHT; ++y)
+            {
+                const bool b1 = 0 != tilemap->GetTile(x, y, z);
+                const bool b2 = tilemap->GetTileFlag(x, y, z);
+                if (b1 != b2)std::cout << "!!!";
+            }
+        }
+    }
  }

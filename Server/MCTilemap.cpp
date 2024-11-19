@@ -37,6 +37,7 @@ uint8_t MCTileChunk::GetTile(int x, int y, int z) const
 
 void MCTilemap::SetTile(int x, int y, int z, uint8_t tile, bool notify) noexcept
 {
+	SetTileFlag(x, y, z, tile);
 	constexpr int modulo = MCTileChunk::CHUNK_WIDTH;
 	const int chunkX = x / modulo;
 	const int chunkZ = z / modulo;

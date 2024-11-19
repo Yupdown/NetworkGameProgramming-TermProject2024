@@ -21,6 +21,7 @@
 #include "func.h"
 #include "Constants.h"
 #include <queue>
+#include <bitset>
 
 #pragma comment(lib, "Ws2_32.lib")
 

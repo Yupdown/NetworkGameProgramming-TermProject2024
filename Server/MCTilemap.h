@@ -68,9 +68,15 @@ public:
 	static constexpr int CHUNK_SIZE = (MAP_WIDTH + (MCTileChunk::CHUNK_WIDTH - 1)) / MCTileChunk::CHUNK_WIDTH;
 private:
 	MCTileChunk tileChunk[CHUNK_SIZE][CHUNK_SIZE];
-	std::vector<std::function<void(MCTileChunk*, int, int)>> notifyCallback;
+	std::bitset<MAP_WIDTH> m_tileFlag[MAP_WIDTH][MAP_HEIGHT];
 
+	std::vector<std::function<void(MCTileChunk*, int, int)>> notifyCallback;
+private:
+	void SetTileFlag(const uint8_t x, const uint8_t y, const uint8_t z,const bool flag)noexcept {
+		m_tileFlag[x][y][z] = flag;
+	}
 public:
+	const bool GetTileFlag(const uint8_t x, const uint8_t y, const uint8_t z)const noexcept { return m_tileFlag[x][y][z]; }
 	void SetTile(int x, int y, int z, uint8_t tile, bool notify = false) noexcept;
 	void SetTile(const glm::ivec3& v, uint8_t tile, bool notify = false) noexcept;
 	uint8_t GetTile(int x, int y, int z) const noexcept;
