@@ -133,6 +133,9 @@
     <ClCompile Include="FSM.cpp">
       <Filter>MCContents\Object\Component\FSM</Filter>
     </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>MCContents\Object\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -215,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="NagoxAtomic.h">
       <Filter>pre_define</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>MCContents\Object\Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

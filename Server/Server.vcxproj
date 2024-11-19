@@ -150,6 +150,7 @@
     <ClCompile Include="..\Common\SendBuffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="c2s_PacketHandler.cpp" />
     <ClCompile Include="EntityMovement.cpp" />
     <ClCompile Include="FSM.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="..\Common\PacketBase.hpp" />
     <ClInclude Include="..\Common\RecvBuffer.h" />
     <ClInclude Include="..\Common\SendBuffer.h" />
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="c2s_PacketHandler.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CustomMath.hpp" />

@@ -56,3 +56,4 @@ private:
 	static constinit inline std::atomic<uint32_t> g_GlobalObjectID = 1;
 };
 
+static inline const auto IssueGlobalObjectID()noexcept { return IOExecutor::GetInst()->GetObjectIDAndIncrement(); }

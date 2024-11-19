@@ -20,6 +20,7 @@
 #include <format>
 #include "func.h"
 #include "Constants.h"
+#include <queue>
 
 #pragma comment(lib, "Ws2_32.lib")
 
