@@ -10,8 +10,20 @@ int main()
         std::cout << "서버 초기화 실패" << std::endl;
         return 1;
     }
-    
+  
     Mgr(MCWorld)->Init();
 
-    Mgr(IOExecutor)->IORoutine(); 
+    std::thread io_thread{ []() {Mgr(IOExecutor)->IORoutine(); } };
+
+    std::string exit_word;
+    for (;;)
+    {
+        std::cin >> exit_word;
+        if ("EXIT" == exit_word)
+        {
+            Mgr(IOExecutor)->EndServer();
+            break;
+        }
+    }
+    io_thread.join();
 }

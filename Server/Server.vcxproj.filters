@@ -80,6 +80,9 @@
     <Filter Include="MCContents\Object\Component\FSM">
       <UniqueIdentifier>{33e59595-fda8-492f-b672-929f0565151a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DS\SendBufferPool">
+      <UniqueIdentifier>{e641f263-4d1b-41e4-8419-6ea6d629805e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -135,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="AStar.cpp">
       <Filter>MCContents\Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SendBufferPool.cpp">
+      <Filter>DS\SendBufferPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="AStar.h">
       <Filter>MCContents\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBufferPool.h">
+      <Filter>DS\SendBufferPool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

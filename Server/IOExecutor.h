@@ -22,6 +22,8 @@ class IOExecutor
 public:
 	bool InitServer(std::string_view port);
 	void IORoutine()noexcept;
+	void EndServer()noexcept { m_bIsRunning = false; }
+	const auto& GetIsRunning()const noexcept { return m_bIsRunning; }
 public:
 	static const auto GetObjectIDAndIncrement()noexcept { return g_GlobalObjectID.fetch_add(1); }
 	const auto GetSession(const uint64_t id)const noexcept {
@@ -31,6 +33,7 @@ public:
 	template<typename T>
 	void AppendToSendBuffer(T&& pkt_)noexcept { m_sendBuff.Append<T>(std::forward<T>(pkt_)); }
 	const auto& GetAllSessions()const noexcept { return m_mapSession; }
+	void PostWorldSendBuffer(SendBuffer* const pBuff)noexcept { m_broadCastQueue.Push(pBuff); }
 private:
 	void OnAccept()noexcept;
 	void OnDisconnect(const SOCKET sock, const int idx)noexcept;

@@ -1,6 +1,7 @@
 #pragma once
 
 class Object;
+class SendBuffer;
 
 class Component
 {

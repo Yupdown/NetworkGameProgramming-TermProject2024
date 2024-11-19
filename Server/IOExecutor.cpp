@@ -3,6 +3,7 @@
 #include "Session.h"
 #include "PacketBase.hpp"
 #include "c2s_PacketHandler.h"
+#include "MCWorld.h"
 
 bool IOExecutor::InitServer(std::string_view port)
 {
@@ -192,6 +193,7 @@ void IOExecutor::FlushSendQueue() noexcept
     for (const auto broad_cast_buff : m_flush_buffer)
     {
         // TODO: 월드에게 반납한다.
+        Mgr(MCWorld)->ReturnSendBufferToWorld(broad_cast_buff);
     }
 
     m_flush_buffer.clear();
