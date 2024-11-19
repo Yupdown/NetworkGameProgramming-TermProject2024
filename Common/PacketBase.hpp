@@ -42,6 +42,9 @@ enum class PKT_ID : uint8
     c2s_ADD_PROJECTILE = 12,
     s2c_ADD_PROJECTILE = 13,
 
+    c2s_USE_ITEM = 14,
+    s2c_USE_ITEM = 15,
+
     END,
 };
 
@@ -248,6 +251,24 @@ struct s2c_ADD_PROJECTILE
     float position_x, position_y, position_z;
     float velocity_x, velocity_y, velocity_z;
     DECLARE_PACKET(s2c_ADD_PROJECTILE);
+};
+
+/// <summary>
+/// 아이템 사용
+/// </summary>
+struct c2s_USE_ITEM
+    :public PacketHeader
+{
+	uint8 item_id;
+	DECLARE_PACKET(c2s_USE_ITEM);
+};
+
+struct s2c_USE_ITEM
+    :public PacketHeader
+{
+	uint8 item_id;
+    uint32 object_id;
+	DECLARE_PACKET(s2c_USE_ITEM);
 };
 
 #pragma pack (pop)
