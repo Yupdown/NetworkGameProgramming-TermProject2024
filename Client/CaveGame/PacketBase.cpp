@@ -2,6 +2,7 @@
 #include "PacketBase.hpp"
 #include "Hero.h"
 #include "ServerObjectManager.h"
+#include "ServerObjectFactory.h"
 
 // Server -> Client , 서버로 부터의 패킷을 받아서 처리하는 함수들의 모임
 // c2s는 없으면 링크에러나서 더미로 만들었음 좋은 의견있으면 건의 부탁
@@ -22,9 +23,12 @@ DECLARE_PACKET_FUNC(s2c_ENTER)
 	if (Mgr(ServerObjectManager)->IsMyID(pkt_.other_player_id))
 		return;
 
-	auto other_player = Mgr(ServerObjectManager)->CreatePlayer(pkt_.other_player_id);
+	ServerObjectBulider b;
 
-	Mgr(ServerObjectManager)->AddObject(std::move(other_player), GROUP_TYPE::PLAYER);
+	b.pos = G_INIT_POS;
+	b.obj_id = pkt_.other_player_id;
+
+	Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreatePlayer(b), GROUP_TYPE::PLAYER);
 }
 
 DECLARE_PACKET_FUNC(s2c_DESTROY_BLOCK)

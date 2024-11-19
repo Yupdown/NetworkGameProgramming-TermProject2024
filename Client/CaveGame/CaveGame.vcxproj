@@ -170,6 +170,7 @@
     <ClCompile Include="ProjectileArrow.cpp" />
     <ClCompile Include="s2c_PacketHandler.cpp" />
     <ClCompile Include="ServerObject.cpp" />
+    <ClCompile Include="ServerObjectFactory.cpp" />
     <ClCompile Include="ServerObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +204,7 @@
     <ClInclude Include="ProjectileArrow.h" />
     <ClInclude Include="s2c_PacketHandler.h" />
     <ClInclude Include="ServerObject.h" />
+    <ClInclude Include="ServerObjectFactory.h" />
     <ClInclude Include="ServerObjectManager.h" />
     <ClInclude Include="Vector2D.hpp" />
     <ClInclude Include="Vector3D.hpp" />

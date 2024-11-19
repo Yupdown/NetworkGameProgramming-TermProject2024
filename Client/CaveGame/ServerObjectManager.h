@@ -7,6 +7,8 @@ class ServerObject;
 class MCTilemap;
 class Hero;
 
+static constexpr glm::vec3 G_INIT_POS = glm::vec3(256.0f, 16.0f, 256.0f);
+
 class ServerObjectManager : public Singleton<ServerObjectManager>
 {
 public:
@@ -28,10 +30,7 @@ public:
 	void SetHero(shared_ptr<Hero> hero);
 	auto& GetHero()noexcept { return m_hero; }
 	bool IsMyID(const uint32_t id_)const noexcept { return id_ == m_my_id_from_server; }
-public:
-	// Like Factory
-	// TODO: 몬스터, 화살, 플레이어에 대한 만드는 법 정의
-	std::shared_ptr<Player> CreatePlayer(const int id_);
+
 private:
 	std::unordered_map<unsigned int, std::shared_ptr<ServerObject>> m_serverObjects;
 	std::shared_ptr<Scene> m_targetScene;
@@ -41,3 +40,5 @@ private:
 
 	int m_my_id_from_server = -1;
 };
+
+static inline const auto& GetTileMapGlobal()noexcept { return ServerObjectManager::GetInst()->GetTileMap(); }

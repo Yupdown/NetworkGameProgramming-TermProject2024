@@ -70,6 +70,9 @@
     <Filter Include="CaveObject\Projectile">
       <UniqueIdentifier>{5cd7640d-d475-493b-b61a-1b228960fc46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ServerObjectFactory">
+      <UniqueIdentifier>{90e1c9f6-bf63-41bf-bae7-5339240bd507}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -140,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="ProjectileArrow.cpp">
       <Filter>CaveObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerObjectFactory.cpp">
+      <Filter>ServerObjectFactory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="ProjectileArrow.h">
       <Filter>CaveObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerObjectFactory.h">
+      <Filter>ServerObjectFactory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

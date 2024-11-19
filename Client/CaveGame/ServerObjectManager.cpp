@@ -56,14 +56,3 @@ void ServerObjectManager::SetHero(shared_ptr<Hero> hero)
 	m_hero = std::move(hero);
 	m_hero->SetID(m_my_id_from_server);
 }
-
-std::shared_ptr<Player> ServerObjectManager::CreatePlayer(const int id_)
-{
-	// TODO: 유저마다 아바타가 다르거나 식별자가 있어야 함
-	auto player = make_shared<Player>(m_tileMap);
-	player->SetObjName("player");
-	player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
-	player->SetRendererTexture(id_);
-	player->SetID(id_);
-	return player;
-}

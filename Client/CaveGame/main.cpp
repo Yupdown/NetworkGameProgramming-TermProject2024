@@ -15,6 +15,7 @@
 #include "PacketBase.hpp"
 #include "ServerObjectManager.h"
 #include "ProjectileArrow.h"
+#include "ServerObjectFactory.h"
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
@@ -50,7 +51,8 @@ int main()
     while(-1 == G_MC_SEED){ Mgr(NetworkMgr)->IORoutine(); }
 
     Mgr(ServerObjectManager)->SetTileMap(make_shared<MCTilemap>());
-   
+    ServerObjectFactory::SetTileMap(GetTileMapGlobal());
+
     Mgr(SceneMgr)->GetScene(SCENE_TYPE::INTRO)->AddUpdateFp(SCENE_ADDED_UPDATE::UPDATE,[]() {
         if (g_bCanResume && KEY_TAP(GLFW_KEY_ESCAPE))
         {
