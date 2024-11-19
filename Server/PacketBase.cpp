@@ -19,6 +19,8 @@ DECLARE_PACKET_FUNC(c2s_LOGIN)
 
 DECLARE_PACKET_FUNC(c2s_ENTER)
 {
+	glm::vec3(256.0f, 16.0f, 256.0f);
+
 	s2c_ENTER pkt;
 	pkt.other_player_id = (uint32)id;
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
@@ -29,6 +31,18 @@ DECLARE_PACKET_FUNC(c2s_ENTER)
 		if (id_ == id)continue;
 		pkt.other_player_id = (uint32)id_;
 		s->ReserveSend(pkt);
+	}
+	{
+		s2c_ADD_OBJECT p;
+		p.object_id = Mgr(IOExecutor)->GetObjectIDAndIncrement();
+		p.position_x = 256.0f;
+		p.position_y = 16.0f;
+		p.position_z = 256.0f;
+		
+		p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
+
+		Mgr(IOExecutor)->AppendToSendBuffer(p);
+
 	}
 }
 

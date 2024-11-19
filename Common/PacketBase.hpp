@@ -200,6 +200,7 @@ struct s2c_ADD_OBJECT
     uint32 object_id;
 	float position_x, position_y, position_z;
 	float rotation_y;
+    uint8 obj_type;
 	DECLARE_PACKET(s2c_ADD_OBJECT);
 };
 

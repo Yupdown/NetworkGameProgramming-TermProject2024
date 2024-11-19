@@ -17,5 +17,10 @@ shared_ptr<ServerObject> ServerObjectFactory::CreatePlayer(ServerObjectBulider& 
 
 shared_ptr<ServerObject> ServerObjectFactory::CreateMonster(ServerObjectBulider& b_) noexcept
 {
-	return shared_ptr<ServerObject>();
+	auto mon = make_shared<Monster>(g_tileMapForCreateObject);
+	mon->SetObjName("monster");
+	mon->GetTransform()->SetLocalPosition(b_.pos);
+	mon->SetID(b_.obj_id);
+
+	return mon;
 }

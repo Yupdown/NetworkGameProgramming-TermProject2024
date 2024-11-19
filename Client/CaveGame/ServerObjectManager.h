@@ -33,6 +33,7 @@ public:
 
 private:
 	std::unordered_map<unsigned int, std::shared_ptr<ServerObject>> m_serverObjects;
+
 	std::shared_ptr<Scene> m_targetScene;
 
 	std::shared_ptr<MCTilemap> m_tileMap;

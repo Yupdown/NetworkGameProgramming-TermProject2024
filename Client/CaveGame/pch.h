@@ -143,5 +143,6 @@ using std::pair;
 #include "CircleQueue.hpp"
 #include "Animation.h"
 #include "BoneInfo.h"
+#include "Constants.h"
 
 #define Mgr(type)	(type::GetInst())

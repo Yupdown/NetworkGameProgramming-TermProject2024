@@ -8,5 +8,7 @@ enum class MC_OBJECT_TYPE :unsigned char
 
 	ARROW = 2,
 
+	ITEM = 3,
+
 	END
 };
