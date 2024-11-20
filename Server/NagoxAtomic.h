@@ -70,8 +70,10 @@ namespace NagoxAtomic
         }
 
         T exchange(const T newValue) noexcept {
-            auto temp = InterlockedExchange8(&value, CONVERT_VALUE_TYPE(CHAR, newValue));
-            return reinterpret_cast<T&>(temp);
+            union Converter {
+                CHAR o;
+                T t;
+            }; return Converter{ InterlockedExchange8(&value, CONVERT_VALUE_TYPE(CHAR, newValue)) }.t;
         }
 
         bool compare_exchange(const T expected, const T desired) noexcept {

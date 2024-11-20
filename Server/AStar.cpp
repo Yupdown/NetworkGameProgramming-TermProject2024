@@ -82,7 +82,7 @@ std::vector<glm::ivec3> AStar::GetAStarPath(const glm::ivec3& start, const glm::
             // 배열 경계 검사
             if (next_node.xyz.x < 0 || next_node.xyz.y < 0 || next_node.xyz.z < 0) continue;
             if (next_node.xyz.x >= MCTilemap::MAP_WIDTH || next_node.xyz.y >= MCTilemap::MAP_HEIGHT || next_node.xyz.z >= MCTilemap::MAP_WIDTH) continue;
-            if (mc_tile_map->GetTile(next_node.xyz) != 0) continue;
+            if (mc_tile_map->GetTileFlag(next_node.xyz.x, next_node.xyz.y, next_node.xyz.z) != 0) continue;
            // if (next_node.xyz.y > 0 && mc_tile_map->GetTile(next_node.xyz - glm::ivec3{ 0,1,0 }) == 0)continue;
            
             const int g = g_score[current] + (glm::abs(dir.x) + glm::abs(dir.y) + glm::abs(dir.z));

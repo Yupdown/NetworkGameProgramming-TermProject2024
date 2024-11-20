@@ -6,6 +6,8 @@
 #include "c2s_PacketHandler.h"
 #include "SendBuffer.h"
 #include "IOExecutor.h"
+#include "MCObjectFactory.h"
+#include "Session.h"
 
 MCWorld::MCWorld()
     : m_tileMap{ std::make_shared<MCTilemap>() }
@@ -23,6 +25,14 @@ MCWorld::MCWorld()
  {
  	m_terrainGenerator->Generate(m_tileMap);
  	m_timer.Update();
+    m_cur_send_buffer = m_send_buff_pool.GetSendBuffer();
+    MCObjectBuilder b;
+
+    for (int i = 0; i < G_NUM_OF_MONSTERS; ++i)
+    {
+        b.pos = { 100,10,100 };
+        AddObject(MCObjectFactory::CreateMonster(b), MC_OBJECT_TYPE::MONSTER);
+    }
 
     m_worldUpdateThread = std::thread{ [this]()noexcept {this->Update(); } };
  }
@@ -71,4 +81,28 @@ MCWorld::MCWorld()
  {
      m_mapWorldObjects.try_emplace(obj->GetObjectID(), obj);
      return m_worldObjects[static_cast<int>(eType)].emplace_back(std::move(obj));
+ }
+
+ void MCWorld::AddAllObjects(const uint32_t id_) noexcept
+ {
+     const auto iter = m_mapWorldObjects.find(id_);
+     if (m_mapWorldObjects.cend() == iter)return;
+     const auto& seesion = iter->second->GetSession();
+
+     
+     for (const auto& mon : m_worldObjects[etoi(MC_OBJECT_TYPE::MONSTER)])
+     {
+         const auto pos = mon->GetPos();
+
+         s2c_ADD_OBJECT p;
+         p.object_id = mon->GetObjectID();
+
+         p.position_x = pos.x;
+         p.position_y = pos.y;
+         p.position_z = pos.z;
+
+         p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
+
+         m_cur_send_buffer
+     }
  }
