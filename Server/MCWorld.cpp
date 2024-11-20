@@ -103,6 +103,6 @@ MCWorld::MCWorld()
 
          p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
 
-         m_cur_send_buffer
+         m_cur_send_buffer->Append(p);
      }
  }
