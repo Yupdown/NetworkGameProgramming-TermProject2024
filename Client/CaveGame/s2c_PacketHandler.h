@@ -9,7 +9,7 @@ void Handle_Invalid(const uint64_t id, const char* const pBuff_);
 class s2c_PacketHandler
 {
 	using PacketHandlerFunc = void (*)(const uint64_t, const char* const);
-	static inline PacketHandlerFunc g_fpPacketHandler[UINT16_MAX] = {};
+	constinit static inline PacketHandlerFunc g_fpPacketHandler[UINT16_MAX] = {};
 public:
 	static void Init() noexcept
 	{
