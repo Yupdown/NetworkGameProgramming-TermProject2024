@@ -87,3 +87,20 @@ DECLARE_PACKET_FUNC(c2s_USE_ITEM)
     //responsePkt.success = itemUsed;
 
 }
+
+DECLARE_PACKET_FUNC(c2s_KILL_MONSTER)
+{
+    const auto session = Mgr(IOExecutor)->GetSession(id);
+    if (!session) return;
+
+    s2c_KILL_MONSTER responsePkt;
+    responsePkt.killer_id = (uint32)id;          // 처치한 플레이어 ID 설정
+    responsePkt.monster_id = pkt_.monster_id;   // 처치 대상 몬스터 ID 설정
+
+    // 몬스터 사망 로직 처리
+    //bool monsterKilled = Mgr(MCWorld)->KillMonster(pkt_.monster_id);
+    //responsePkt.success = monsterKilled;        // 성공 여부 설정
+    //Mgr(IOExecutor)->AppendToSendBuffer(responsePkt);
+    //session->ReserveSend(responsePkt);
+  
+}

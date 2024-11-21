@@ -270,6 +270,7 @@ struct s2c_USE_ITEM
     :public PacketHeader
 {
     uint8 item_id;
+    uint8 user_id;
     uint32 object_id;
     DECLARE_PACKET(s2c_USE_ITEM);
 };
@@ -288,17 +289,33 @@ struct s2c_REMOVE_OBJECT
 /// <summary>
 /// 플레이어 처치
 /// </summary>
-struct c2s_KILL_PLAYER : public PacketHeader {
+struct c2s_KILL_PLAYER {
     uint32 target_id;  // 처치 대상의 플레이어 ID
     DECLARE_PACKET(c2s_KILL_PLAYER);
 };
 
-struct s2c_KILL_PLAYER : public PacketHeader {
+struct s2c_KILL_PLAYER {
     uint32 killer_id;  // 처치한 플레이어 ID
     uint32 target_id;  // 처치된 플레이어 ID
     bool success;      // 처치 성공 여부
     DECLARE_PACKET(s2c_KILL_PLAYER);
 };
 
+/// <summary>
+/// 몬스터 처치
+/// </summary>
+/// 
+/// 
+struct c2s_KILL_MONSTER {
+    uint32 monster_id; // 처치 대상 몬스터 ID
+    DECLARE_PACKET(c2s_KILL_MONSTER);
+};
+
+struct s2c_KILL_MONSTER {
+    uint32 killer_id;   // 몬스터를 처치한 플레이어 ID
+    uint32 monster_id;  // 처치된 몬스터 ID
+    bool success;       // 처치 성공 여부
+    DECLARE_PACKET(s2c_KILL_MONSTER);
+};
 
 #pragma pack (pop)
