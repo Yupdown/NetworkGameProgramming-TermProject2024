@@ -17,8 +17,15 @@ Object::Object()
 Object::Object(std::shared_ptr<Session> session)
 	: m_obj_id{ session->GetSessionID()}
 	, m_session{ std::move(session) }
-	, m_pEntityMovemet{ (EntityMovement*)AddComp(new EntityMovement).get() }
+	, m_pEntityMovemet{}
 {
+}
+
+void Object::Init() noexcept
+{
+	auto b = m_vecComp.data();
+	const auto e = b + m_vecComp.size();
+	while (e != b) { (*b++)->SetOwner(this); }
 }
 
 void Object::Update(const float DT) noexcept
@@ -26,7 +33,7 @@ void Object::Update(const float DT) noexcept
 	auto b = m_vecComp.data();
 	const auto e = b + m_vecComp.size();
 	while (e != b) { (*b++)->Update(DT); }
-	if (nullptr == m_session && true == m_bDirtyFlag)
+	if (nullptr == m_session && true )
 	{
 		s2c_MOVE_OBJECT pkt;
 		const auto pos = m_pEntityMovemet->current_position;
@@ -49,6 +56,10 @@ void Object::Update(const float DT) noexcept
 		pkt.rotation_y = body_angle;
 
 		Mgr(MCWorld)->AppendToWorldSendBuffer(pkt);
+	}
+	else if (m_session)
+	{
+		
 	}
 	m_bDirtyFlag = false;
 }

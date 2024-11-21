@@ -3,6 +3,7 @@
 #include "AStar.h"
 #include "MCWorld.h"
 #include "MCTilemap.h"
+#include "Object.h"
 
 void EntityMovement::Update(const float DT)
 {
@@ -78,9 +79,14 @@ void EntityMovement::Update(const float DT)
 	const auto& t = GetTileMap();
 	m_bGround = t->HandleCollision(origin_pos, positionPost, m_vVelocity);
 
+	if (current_position == positionPost)
+	{
+		return;
+	}
+
+	GetOwner()->SetDirtyFlag();
 	// 최종 위치 적용
 	current_position = positionPost;
-
 	
 	prev_path = std::move(path);
 	

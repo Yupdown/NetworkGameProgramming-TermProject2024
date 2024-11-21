@@ -5,6 +5,7 @@
 #include "SendBufferPool.h"
 
 class Session
+	:public std::enable_shared_from_this<Session>
 {
 public:
 	Session(const uint64_t id, const SOCKET sock) 
@@ -17,9 +18,14 @@ public:
 	const auto GetSendBuffer()const noexcept { return m_cur_send_buff; }
 	void ReturnSendBuffer(SendBuffer* const pBuff)noexcept { m_send_buff_pool.ReturnSendBuffer(pBuff); }
 	RecvBuffer* GetRecvBuffer() { return &m_recvBuff; }
-	const auto GetSessionID()const noexcept { return m_sessionID; }
+	const auto GetSessionID()const noexcept { return (uint32_t)m_sessionID; }
 public:
-	void RegisterSendBuffer() { m_cur_send_buff = m_send_buff_pool.GetSendBuffer(); }
+	void RegisterSendBuffer() 
+	{
+		if(nullptr == m_cur_send_buff)
+			m_cur_send_buff = m_send_buff_pool.GetSendBuffer();
+	}
+	void ResetSendBuffer() { m_cur_send_buff = nullptr; }
 public:
 	//template <typename Packet>
 	//void SendDirect(Packet&& pkt)

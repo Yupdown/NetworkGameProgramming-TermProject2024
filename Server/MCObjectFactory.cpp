@@ -8,6 +8,7 @@ S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 {
 	auto mon = std::make_shared<Object>();
 	mon->SetObjectType(MC_OBJECT_TYPE::MONSTER);
+	mon->SetPos(b_.pos);
 	mon->GetEntityMovement()->current_position = b_.pos;
 	return mon;
 }

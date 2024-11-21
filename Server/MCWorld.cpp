@@ -8,6 +8,7 @@
 #include "IOExecutor.h"
 #include "MCObjectFactory.h"
 #include "Session.h"
+#include "Component.h"
 
 MCWorld::MCWorld()
     : m_tileMap{ std::make_shared<MCTilemap>() }
@@ -27,11 +28,17 @@ MCWorld::MCWorld()
  	m_timer.Update();
     m_cur_send_buffer = m_send_buff_pool.GetSendBuffer();
     MCObjectBuilder b;
-
+    static constexpr glm::vec3 G_INIT_POS = glm::vec3(256.0f, 16.0f, 256.0f);
     for (int i = 0; i < G_NUM_OF_MONSTERS; ++i)
     {
-        b.pos = { 100,10,100 };
-        AddObject(MCObjectFactory::CreateMonster(b), MC_OBJECT_TYPE::MONSTER);
+        const float dx = static_cast<float>(rand() % 16 * 8 - 64);
+        const float dz = static_cast<float>(rand() % 16 * 8 - 64);
+        b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2 + dx, 32.0f, MCTilemap::MAP_WIDTH / 2 + dz);
+       
+        const auto& mon = AddObject(MCObjectFactory::CreateMonster(b), MC_OBJECT_TYPE::MONSTER);
+        b.obj_id = mon->GetObjectID();
+
+        mon->Init();
     }
 
     m_worldUpdateThread = std::thread{ [this]()noexcept {this->Update(); } };
@@ -46,7 +53,7 @@ MCWorld::MCWorld()
          m_timer.Update();
          const auto dt = m_timer.GetDT();
          m_accTimeForUpdateInterval -= dt;
-         if (0.f > m_accTimeForUpdateInterval)continue;
+         if (0.f < m_accTimeForUpdateInterval)continue;
          m_accTimeForUpdateInterval = UPDATE_INTERVAL;
          //TODO: 업데이트 및, 종료플래그 받기
 
@@ -54,8 +61,16 @@ MCWorld::MCWorld()
          {
              m_cur_send_buffer = m_send_buff_pool.GetSendBuffer();
          }
-
-         for (int i = 0; i < etoi(MC_OBJECT_TYPE::END); ++i)
+         for (const auto& player : m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)])
+         {
+             player->GetSession()->RegisterSendBuffer();
+         }
+         while (const auto world_event = m_worldEventQueue.Pop())
+         {
+             world_event->operator()();
+             delete world_event;
+         }
+         for (int i = 1; i < etoi(MC_OBJECT_TYPE::END); ++i)
          {
              const auto& obj = m_worldObjects[i];
              auto b = obj.data();
@@ -72,6 +87,15 @@ MCWorld::MCWorld()
              io_executor->PostWorldSendBuffer(m_cur_send_buffer);
              m_cur_send_buffer = nullptr;
          }
+
+         for (const auto& player : m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)])
+         {
+             const auto& session = player->GetSession();
+             const auto send_buff = session->GetSendBuffer();
+             if (0 == send_buff->GetLen())continue;
+             io_executor->PostSendQueue(session->GetSessionID(), send_buff);
+             session->ResetSendBuffer();
+         }
      }
 
 
@@ -83,12 +107,15 @@ MCWorld::MCWorld()
      return m_worldObjects[static_cast<int>(eType)].emplace_back(std::move(obj));
  }
 
- void MCWorld::AddAllObjects(const uint32_t id_) noexcept
+ void MCWorld::AddAllObjects(const S_ptr<Session>& session) noexcept
  {
-     const auto iter = m_mapWorldObjects.find(id_);
-     if (m_mapWorldObjects.cend() == iter)return;
-     const auto& seesion = iter->second->GetSession();
+     const auto iter = m_mapWorldObjects.try_emplace(session->GetSessionID(), std::make_shared<Object>(session));
 
+     if (!iter.second)return;
+    
+     m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)].emplace_back(std::move(iter.first->second));
+
+     session->RegisterSendBuffer();
      
      for (const auto& mon : m_worldObjects[etoi(MC_OBJECT_TYPE::MONSTER)])
      {
@@ -102,7 +129,7 @@ MCWorld::MCWorld()
          p.position_z = pos.z;
 
          p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
-
-         m_cur_send_buffer->Append(p);
+         
+         session->GetSendBuffer()->Append(p);
      }
  }

@@ -47,7 +47,7 @@ DECLARE_PACKET_FUNC(s2c_ADD_OBJECT)
 	ServerObjectBulider b;
 	b.obj_id = pkt_.object_id;
 	b.pos = { pkt_.position_x,pkt_.position_y,pkt_.position_z };
-
+	
 	if (pkt_.obj_type == (uint8)MC_OBJECT_TYPE::MONSTER)
 	{
 		Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateMonster(b), GROUP_TYPE::MONSTER);

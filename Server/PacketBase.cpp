@@ -32,18 +32,20 @@ DECLARE_PACKET_FUNC(c2s_ENTER)
 		pkt.other_player_id = (uint32)id_;
 		s->ReserveSend(pkt);
 	}
-	{
-		s2c_ADD_OBJECT p;
-		p.object_id = Mgr(IOExecutor)->GetObjectIDAndIncrement();
-		p.position_x = 256.0f;
-		p.position_y = 16.0f;
-		p.position_z = 256.0f;
-		
-		p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
 
-		Mgr(IOExecutor)->AppendToSendBuffer(p);
-
-	}
+	Mgr(MCWorld)->PostWorldEvent([session = Mgr(IOExecutor)->GetSession(id)]() {Mgr(MCWorld)->AddAllObjects(session); });
+	//{
+	//	s2c_ADD_OBJECT p;
+	//	p.object_id = Mgr(IOExecutor)->GetObjectIDAndIncrement();
+	//	p.position_x = 256.0f;
+	//	p.position_y = 16.0f;
+	//	p.position_z = 256.0f;
+	//	
+	//	p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
+	//
+	//	Mgr(IOExecutor)->AppendToSendBuffer(p);
+	//
+	//}
 }
 
 DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)

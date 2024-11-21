@@ -10,11 +10,12 @@
  class MCTerrainGenerator;
  class Object;
  class ClientSession;
- 
+ class Session;
+
  // TODO: 좌표와 클리어 범위
  static constexpr const glm::vec3 G_CLEAR_POINT = { 256 ,22 ,286 };
  static constexpr const float G_CLEAR_DIST = 4.f;
- static constexpr const int G_NUM_OF_MONSTERS = 10;
+ static constexpr const int G_NUM_OF_MONSTERS = 100;
 
  class MCWorld
  	: public Singleton<MCWorld>
@@ -44,6 +45,9 @@
     template<typename T>
     void AppendToWorldSendBuffer(T&& pkt_)noexcept { m_cur_send_buffer->Append<T>(std::forward<T>(pkt_)); }
     void ReturnSendBufferToWorld(SendBuffer* const pBuff) { m_send_buff_pool.ReturnSendBuffer(pBuff); }
+
+
+     void AddAllObjects(const S_ptr<Session>& session)noexcept;
  private:
  	const S_ptr<MCTilemap> m_tileMap;
  	const S_ptr<MCTerrainGenerator> m_terrainGenerator;

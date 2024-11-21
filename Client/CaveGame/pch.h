@@ -15,7 +15,7 @@
 
 #ifdef _DEBUG
 #pragma comment(lib,"assimp-vc143-mtd.lib")
-#pragma comment(lib, "glew32d.lib")
+#pragma comment(lib, "glew32.lib")
 #else
 #pragma comment(lib,"assimp-vc143-mt.lib")
 #pragma comment(lib, "glew32.lib")

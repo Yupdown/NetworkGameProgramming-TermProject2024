@@ -26,6 +26,7 @@ SendBuffer* SendBufferPool::GetSendBuffer() noexcept
 	{
 		const auto temp = m_send_buff_pool.back();
 		m_send_buff_pool.pop_back();
+		temp->Clear();
 		return temp;
 	}
 }

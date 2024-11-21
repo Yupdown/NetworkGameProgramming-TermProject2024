@@ -176,7 +176,7 @@ void IOExecutor::FlushSendQueue() noexcept
         if (iter != sentinel)
         {
             const auto& session = iter->second;
-            const auto send_buff = session->GetSendBuffer();
+            const auto send_buff = send_event->send_buff;
           
             session->ReserveSend(send_buff->GetBuff(), send_buff->GetLen());
            
@@ -210,16 +210,4 @@ void IOExecutor::FlushSendQueue() noexcept
             session->ReserveSend(io_buff, io_len);
         session->ExecuteSend();
     }
-
-    //if (const auto buff_len = m_sendBuff.GetLen())
-    //{
-    //    const auto pBuff = m_sendBuff.GetBuff();
-    //
-    //    for (int i = 1; i <= m_curNumOfClient; ++i)
-    //    {
-    //        ::send(m_clientsFD[i].fd, pBuff, buff_len, 0);
-    //    }
-    //
-    //    m_sendBuff.Clear();
-    //}
 }

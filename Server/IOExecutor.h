@@ -8,7 +8,7 @@ class Session;
 struct SendEvent
 {
 	const uint64_t id;
-	class SendBuffer* send_buff;
+	class SendBuffer* const send_buff;
 };
 
 class IOExecutor
@@ -26,14 +26,17 @@ public:
 	const auto& GetIsRunning()const noexcept { return m_bIsRunning; }
 public:
 	static const auto GetObjectIDAndIncrement()noexcept { return g_GlobalObjectID.fetch_add(1); }
-	const auto GetSession(const uint64_t id)const noexcept {
+	auto GetSession(const uint64_t id)const noexcept {
 		const auto iter = m_mapSession.find(id);
-		return m_mapSession.cend() != iter ? iter->second.get() : nullptr;
+		return m_mapSession.cend() != iter ? iter->second : nullptr;
 	}
 	template<typename T>
 	void AppendToSendBuffer(T&& pkt_)noexcept { m_sendBuff.Append<T>(std::forward<T>(pkt_)); }
 	const auto& GetAllSessions()const noexcept { return m_mapSession; }
 	void PostWorldSendBuffer(SendBuffer* const pBuff)noexcept { m_broadCastQueue.Push(pBuff); }
+	void PostSendQueue(const uint32_t id_, SendBuffer* const pBuff)noexcept {
+		m_sendQueue.Push(SendEvent{ id_,pBuff });
+	}
 private:
 	void OnAccept()noexcept;
 	void OnDisconnect(const SOCKET sock, const int idx)noexcept;

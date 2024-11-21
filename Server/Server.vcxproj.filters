@@ -83,6 +83,9 @@
     <Filter Include="DS\SendBufferPool">
       <UniqueIdentifier>{e641f263-4d1b-41e4-8419-6ea6d629805e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCContents\MCWorld\MCObjectFactory">
+      <UniqueIdentifier>{5f36c0d7-3211-4bf6-aeb4-a38cb23be079}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -141,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="SendBufferPool.cpp">
       <Filter>DS\SendBufferPool</Filter>
+    </ClCompile>
+    <ClCompile Include="MCObjectFactory.cpp">
+      <Filter>MCContents\MCWorld\MCObjectFactory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="SendBufferPool.h">
       <Filter>DS\SendBufferPool</Filter>
+    </ClInclude>
+    <ClInclude Include="MCObjectFactory.h">
+      <Filter>MCContents\MCWorld\MCObjectFactory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

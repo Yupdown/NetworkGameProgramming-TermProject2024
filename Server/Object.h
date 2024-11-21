@@ -13,12 +13,13 @@ public:
 	Object(std::shared_ptr<Session> session);
 public:
 	const auto& GetSession()const noexcept { return m_session; }
-	const auto GetObjectID()const noexcept { return m_obj_id; }
+	const auto GetObjectID()const noexcept { return (uint32_t)m_obj_id; }
 	const auto GetObjectType()const noexcept { return m_eObjType; }
 	const auto GetEntityMovement()const noexcept { return m_pEntityMovemet; }
 	void SetPos(const glm::vec3& pos)noexcept { m_pos = pos; }
 	const auto& GetPos()const noexcept { return m_pos; }
 public:
+	void Init()noexcept;
 	void Update(const float DT)noexcept;
 	void SetDirtyFlag()noexcept { m_bDirtyFlag = true; }
 	const auto& AddComp(Component* const pComp)noexcept { return m_vecComp.emplace_back(pComp); }
