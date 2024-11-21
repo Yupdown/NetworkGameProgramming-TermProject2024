@@ -54,6 +54,15 @@ bool NetworkMgr::InitClient(const std::string_view ip, const std::string_view po
         return false;
     }
 
+    BOOL flag = TRUE;
+    if (setsockopt(clientSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(flag)) != 0)
+    {
+        std::cerr << "Failed to disable Nagle's algorithm: " << WSAGetLastError() << std::endl;
+        closesocket(clientSocket);
+        WSACleanup();
+        return false;
+    }
+
     std::cout << "Successfully connected to server on port :" << port << std::endl;
     return true;
 }

@@ -15,7 +15,7 @@
  // TODO: 좌표와 클리어 범위
  static constexpr const glm::vec3 G_CLEAR_POINT = { 256 ,22 ,286 };
  static constexpr const float G_CLEAR_DIST = 4.f;
- static constexpr const int G_NUM_OF_MONSTERS = 100;
+ static constexpr const int G_NUM_OF_MONSTERS = 10;
 
  class MCWorld
  	: public Singleton<MCWorld>

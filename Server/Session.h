@@ -5,14 +5,10 @@
 #include "SendBufferPool.h"
 
 class Session
-	:public std::enable_shared_from_this<Session>
 {
 public:
-	Session(const uint64_t id, const SOCKET sock) 
-		: m_sessionID{ id }
-		, m_socket{ sock } 
-	{}
-	~Session() { ::closesocket(m_socket); }
+	Session(const uint64_t id, const SOCKET sock)noexcept;
+	~Session()noexcept;
 public:
 	const auto GetSocket()const noexcept { return m_socket; }
 	const auto GetSendBuffer()const noexcept { return m_cur_send_buff; }
@@ -26,6 +22,9 @@ public:
 			m_cur_send_buff = m_send_buff_pool.GetSendBuffer();
 	}
 	void ResetSendBuffer() { m_cur_send_buff = nullptr; }
+	void SetObjectInvalid()noexcept;
+	void SetMyGameObject(S_ptr<class Object> obj)noexcept { m_myGameObject = obj; }
+	const auto& GetMyGameObject()const noexcept { return m_myGameObject; }
 public:
 	//template <typename Packet>
 	//void SendDirect(Packet&& pkt)
@@ -56,6 +55,8 @@ public:
 private:
 	const uint64_t m_sessionID;
 	SOCKET m_socket = INVALID_SOCKET;
+	S_ptr<class Object> m_myGameObject;
+
 	RecvBuffer m_recvBuff;
 
 	SendBufferPool m_send_buff_pool;

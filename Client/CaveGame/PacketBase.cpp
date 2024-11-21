@@ -75,3 +75,8 @@ DECLARE_PACKET_FUNC(s2c_USE_ITEM)
 {
 
 }
+
+DECLARE_PACKET_FUNC(s2c_REMOVE_OBJECT)
+{
+	Mgr(ServerObjectManager)->RemoveObject(pkt_.object_id);
+}

@@ -45,6 +45,9 @@ enum class PKT_ID : uint8
     c2s_USE_ITEM = 14,
     s2c_USE_ITEM = 15,
 
+    s2c_REMOVE_OBJECT = 16,
+
+
     END,
 };
 
@@ -269,6 +272,17 @@ struct s2c_USE_ITEM
 	uint8 item_id;
     uint32 object_id;
 	DECLARE_PACKET(s2c_USE_ITEM);
+};
+
+/// <summary>
+/// 오브젝트 삭제
+/// </summary>
+
+struct s2c_REMOVE_OBJECT
+    :public PacketHeader
+{
+    uint32 object_id;
+    DECLARE_PACKET(s2c_REMOVE_OBJECT);
 };
 
 #pragma pack (pop)

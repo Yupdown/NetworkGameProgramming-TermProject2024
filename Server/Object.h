@@ -11,6 +11,7 @@ class Object
 public:
 	Object();
 	Object(std::shared_ptr<Session> session);
+	~Object()noexcept;
 public:
 	const auto& GetSession()const noexcept { return m_session; }
 	const auto GetObjectID()const noexcept { return (uint32_t)m_obj_id; }
@@ -18,6 +19,8 @@ public:
 	const auto GetEntityMovement()const noexcept { return m_pEntityMovemet; }
 	void SetPos(const glm::vec3& pos)noexcept { m_pos = pos; }
 	const auto& GetPos()const noexcept { return m_pos; }
+	void SetInvalid()noexcept { m_bIsValid = false; }
+	const bool IsValid()const noexcept { return m_bIsValid; }
 public:
 	void Init()noexcept;
 	void Update(const float DT)noexcept;
@@ -25,6 +28,7 @@ public:
 	const auto& AddComp(Component* const pComp)noexcept { return m_vecComp.emplace_back(pComp); }
 	void SetObjectType(const MC_OBJECT_TYPE eType) { m_eObjType = eType; }
 private:
+	bool m_bIsValid = true;
 	glm::vec3 m_pos{};
 	MC_OBJECT_TYPE m_eObjType;
 	const uint64_t m_obj_id;

@@ -21,6 +21,11 @@ Object::Object(std::shared_ptr<Session> session)
 {
 }
 
+Object::~Object() noexcept
+{
+	std::cout << "~Object\n";
+}
+
 void Object::Init() noexcept
 {
 	auto b = m_vecComp.data();
@@ -33,7 +38,7 @@ void Object::Update(const float DT) noexcept
 	auto b = m_vecComp.data();
 	const auto e = b + m_vecComp.size();
 	while (e != b) { (*b++)->Update(DT); }
-	if (nullptr == m_session && true )
+	if (nullptr == m_session && true == m_bDirtyFlag)
 	{
 		s2c_MOVE_OBJECT pkt;
 		const auto pos = m_pEntityMovemet->current_position;

@@ -55,39 +55,65 @@ MCWorld::MCWorld()
          m_accTimeForUpdateInterval -= dt;
          if (0.f < m_accTimeForUpdateInterval)continue;
          m_accTimeForUpdateInterval = UPDATE_INTERVAL;
-         //TODO: 업데이트 및, 종료플래그 받기
 
          if (nullptr == m_cur_send_buffer)
          {
              m_cur_send_buffer = m_send_buff_pool.GetSendBuffer();
          }
-         for (const auto& player : m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)])
+
          {
-             player->GetSession()->RegisterSendBuffer();
+             auto& players = m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)];
+             const auto b = players.data();
+             for (auto iter = b; iter != b + players.size();)
+             {
+                 auto& player = *iter;
+                 if (player->IsValid())
+                 {
+                     player->GetSession()->RegisterSendBuffer();
+                     ++iter;
+                 }
+                 else
+                 {
+                     m_mapWorldObjects.erase(player->GetObjectID());
+                     std::swap(player, *((b - 1) + players.size()));
+                     players.pop_back();
+                 }
+             }
          }
+
          while (const auto world_event = m_worldEventQueue.Pop())
          {
              world_event->operator()();
              delete world_event;
          }
+
          for (int i = 1; i < etoi(MC_OBJECT_TYPE::END); ++i)
          {
-             const auto& obj = m_worldObjects[i];
-             auto b = obj.data();
-             const auto e = b + obj.size();
-             while (e != b) { (*b++)->Update(dt); }
+             auto& objs = m_worldObjects[i];
+             const auto b = objs.data();
+             for (auto iter = b; iter != b + objs.size();)
+             {
+                 auto& obj = *iter;
+                 if (obj->IsValid())
+                 {
+                     obj->Update(dt);
+                     ++iter;
+                 }
+                 else
+                 {
+                     m_mapWorldObjects.erase(obj->GetObjectID());
+                     std::swap(obj, *((b - 1) + objs.size()));
+                     objs.pop_back();
+                 }
+             }
          }
 
-         if (0 == m_cur_send_buffer->GetLen())
-         {
-             // TODO: 아무것도 하지 않았다면 걍 냅둠
-         }
-         else
+         if (0 != m_cur_send_buffer->GetLen())
          {
              io_executor->PostWorldSendBuffer(m_cur_send_buffer);
              m_cur_send_buffer = nullptr;
          }
-
+         
          for (const auto& player : m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)])
          {
              const auto& session = player->GetSession();
@@ -97,8 +123,6 @@ MCWorld::MCWorld()
              session->ResetSendBuffer();
          }
      }
-
-
  }
 
  const S_ptr<Object>& MCWorld::AddObject(S_ptr<Object> obj, const MC_OBJECT_TYPE eType) noexcept
@@ -109,19 +133,21 @@ MCWorld::MCWorld()
 
  void MCWorld::AddAllObjects(const S_ptr<Session>& session) noexcept
  {
-     const auto iter = m_mapWorldObjects.try_emplace(session->GetSessionID(), std::make_shared<Object>(session));
+     const auto& obj = session->GetMyGameObject();
+     const auto iter = m_mapWorldObjects.try_emplace(session->GetSessionID(), obj);
 
      if (!iter.second)return;
     
-     m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)].emplace_back(std::move(iter.first->second));
+     m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)].emplace_back(obj);
 
      session->RegisterSendBuffer();
      
+     s2c_ADD_OBJECT p;
+
      for (const auto& mon : m_worldObjects[etoi(MC_OBJECT_TYPE::MONSTER)])
      {
          const auto pos = mon->GetPos();
 
-         s2c_ADD_OBJECT p;
          p.object_id = mon->GetObjectID();
 
          p.position_x = pos.x;

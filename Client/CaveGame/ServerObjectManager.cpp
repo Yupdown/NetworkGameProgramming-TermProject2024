@@ -27,7 +27,6 @@ void ServerObjectManager::RemoveObject(unsigned int id)
 	{
 		DestroyObj(iter->second);
 		m_serverObjects.erase(iter);
-		// TODO: Remove object from scene
 	}
 	else
 		std::cout << "Object with id " << id << " not found" << std::endl;

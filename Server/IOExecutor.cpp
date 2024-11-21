@@ -92,9 +92,6 @@ void IOExecutor::IORoutine() noexcept
                 }
                 else if (m_clientsFD[i].revents & POLLHUP)
                 {
-                    // TODO: Disconnect
-                    // TODO: 클라이언트 퇴장 브로드캐스팅
-
                     OnDisconnect(m_clientsFD[i].fd, i);
                     continue;
                 }
@@ -118,18 +115,25 @@ void IOExecutor::OnAccept() noexcept
 
     const auto cur_ID = GetObjectIDAndIncrement();
     const auto session = std::make_shared<Session>(cur_ID, m_clientsFD[cur_idx].fd);
+
+    BOOL flag = TRUE;
+    if (setsockopt(m_clientsFD[cur_idx].fd, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(flag)) != 0)
+    {
+        std::cerr << "Failed to disable Nagle's algorithm: " << WSAGetLastError() << std::endl;
+    }
+
     m_mapSession.try_emplace(cur_ID, session);
     m_mapSocket2Session.try_emplace(m_clientsFD[cur_idx].fd, session);
 
     std::cout << "Client In\n";
-    // TODO: 클라 입장 브로드 캐스팅
 }
 
 void IOExecutor::OnDisconnect(const SOCKET sock ,const int idx) noexcept
 {
     const auto iter = m_mapSocket2Session.find(sock);
     if (m_mapSocket2Session.cend() == iter)return;
-    const auto session = iter->second;
+    const auto& session = iter->second;
+    session->SetObjectInvalid();
 
     const auto session_id = session->GetSessionID();
 
@@ -142,6 +146,11 @@ void IOExecutor::OnDisconnect(const SOCKET sock ,const int idx) noexcept
 
     m_mapSocket2Session.erase(iter);
     m_mapSession.erase(session_id);
+
+    s2c_REMOVE_OBJECT pkt;
+    pkt.object_id = session_id;
+
+    AppendToSendBuffer(pkt);
 
     std::cout << "Client Out\n";
 }
@@ -201,6 +210,7 @@ void IOExecutor::FlushSendQueue() noexcept
     const auto io_buff = m_sendBuff.GetBuff();
     const auto io_len = m_sendBuff.GetLen();
     const bool flag = 0 != io_len;
+
     m_sendBuff.Clear();
 
     for (int i = 1; i <= m_curNumOfClient; ++i)
