@@ -154,6 +154,10 @@
     <ClCompile Include="EnderEye.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MCItem.cpp" />
+    <ClCompile Include="MCItemContainer.cpp" />
+    <ClCompile Include="MCItemManager.cpp" />
+    <ClCompile Include="MCItemStack.cpp" />
     <ClCompile Include="MCTerrainGenerator.cpp" />
     <ClCompile Include="MCTilemap.cpp" />
     <ClCompile Include="MCTilemapMeshGenerator.cpp" />
@@ -190,6 +194,10 @@
     <ClInclude Include="CustomMath.hpp" />
     <ClInclude Include="EnderEye.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="MCItem.h" />
+    <ClInclude Include="MCItemContainer.h" />
+    <ClInclude Include="MCItemManager.h" />
+    <ClInclude Include="MCItemStack.h" />
     <ClInclude Include="MCTerrainGenerator.h" />
     <ClInclude Include="MCTilemap.h" />
     <ClInclude Include="MCTilemapMeshGenerator.h" />
@@ -202,6 +210,7 @@
     <ClInclude Include="PlayerCam.h" />
     <ClInclude Include="PlayerShadow.h" />
     <ClInclude Include="ProjectileArrow.h" />
+    <ClInclude Include="Registry.hpp" />
     <ClInclude Include="s2c_PacketHandler.h" />
     <ClInclude Include="ServerObject.h" />
     <ClInclude Include="ServerObjectFactory.h" />
