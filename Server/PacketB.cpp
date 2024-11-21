@@ -100,7 +100,30 @@ DECLARE_PACKET_FUNC(c2s_KILL_MONSTER)
     // 몬스터 사망 로직 처리
     //bool monsterKilled = Mgr(MCWorld)->KillMonster(pkt_.monster_id);
     //responsePkt.success = monsterKilled;        // 성공 여부 설정
-    //Mgr(IOExecutor)->AppendToSendBuffer(responsePkt);
-    //session->ReserveSend(responsePkt);
+    Mgr(IOExecutor)->AppendToSendBuffer(responsePkt);
+    session->ReserveSend(responsePkt);
   
+}
+DECLARE_PACKET_FUNC(c2s_SPAWN_BOSS)
+{
+    const auto session = Mgr(IOExecutor)->GetSession(id);
+    if (!session) return;
+
+    s2c_SPAWN_BOSS responsePkt;
+    responsePkt.boss_id = pkt_.boss_id;          // 보스 ID 설정
+    responsePkt.position_x = pkt_.position_x;   // 소환 위치 X
+    responsePkt.position_y = pkt_.position_y;   // 소환 위치 Y
+    responsePkt.position_z = pkt_.position_z;   // 소환 위치 Z
+
+    // 보스 소환 로직 처리
+    //bool bossSpawned = Mgr(MCWorld)->SpawnBoss(pkt_.boss_id,
+    //    { pkt_.position_x, pkt_.position_y, pkt_.position_z });
+    //responsePkt.success = bossSpawned;          // 소환 성공 여부 설정
+  
+    // 모든 클라이언트에게 보스 소환 알림
+    Mgr(IOExecutor)->AppendToSendBuffer(responsePkt);
+    // 실패 시 요청 클라이언트에만 결과 전송
+    session->ReserveSend(responsePkt);
+
+ 
 }

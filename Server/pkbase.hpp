@@ -304,8 +304,7 @@ struct s2c_KILL_PLAYER {
 /// <summary>
 /// 몬스터 처치
 /// </summary>
-/// 
-/// 
+
 struct c2s_KILL_MONSTER {
     uint32 monster_id; // 처치 대상 몬스터 ID
     DECLARE_PACKET(c2s_KILL_MONSTER);
@@ -318,4 +317,22 @@ struct s2c_KILL_MONSTER {
     DECLARE_PACKET(s2c_KILL_MONSTER);
 };
 
+/// <summary>
+/// 몬스터 처치
+/// </summary>
+struct c2s_SPAWN_BOSS {
+    uint32 boss_id;       // 소환할 보스의 고유 ID
+    float position_x;     // 소환할 위치 X
+    float position_y;     // 소환할 위치 Y
+    float position_z;     // 소환할 위치 Z
+    DECLARE_PACKET(c2s_SPAWN_BOSS);
+};
+struct s2c_SPAWN_BOSS {
+    uint32 boss_id;       // 소환된 보스의 고유 ID
+    float position_x;     // 소환된 위치 X
+    float position_y;     // 소환된 위치 Y
+    float position_z;     // 소환된 위치 Z
+    bool success;         // 소환 성공 여부
+    DECLARE_PACKET(s2c_SPAWN_BOSS);
+};
 #pragma pack (pop)
