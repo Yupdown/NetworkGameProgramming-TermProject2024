@@ -175,6 +175,8 @@ void IOExecutor::OnRecv(const SOCKET sock) noexcept
 
 void IOExecutor::FlushSendQueue() noexcept
 {
+    const auto mc_world = Mgr(MCWorld);
+
     while (const auto broad_event = m_broadCastQueue.Pop())m_flush_buffer.emplace_back(broad_event);
 
     const auto sentinel = m_mapSession.cend();
@@ -202,7 +204,7 @@ void IOExecutor::FlushSendQueue() noexcept
     for (const auto broad_cast_buff : m_flush_buffer)
     {
         // TODO: 월드에게 반납한다.
-        Mgr(MCWorld)->ReturnSendBufferToWorld(broad_cast_buff);
+        mc_world->ReturnSendBufferToWorld(broad_cast_buff);
     }
 
     m_flush_buffer.clear();
