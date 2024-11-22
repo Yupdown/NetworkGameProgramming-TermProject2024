@@ -19,6 +19,6 @@ public:
 	void Initialize();
 
 	MCItem* GetItemByID(int id) const;
-	MCItem* GetItemByKey(const std::wstring& key) const;
+	MCItem* GetItemByKey(const std::string& key) const;
 };
 

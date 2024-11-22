@@ -17,4 +17,3 @@ public:
 	MCItemStack Apply(MCItemStack itemStack);
 	void Apply(int amount);
 };
-

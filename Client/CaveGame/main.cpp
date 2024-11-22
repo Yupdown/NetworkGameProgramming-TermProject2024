@@ -11,11 +11,13 @@
 
 #include "Hero.h"
 #include "EnderEye.h"
+#include "DropItem.h"
 #include "NetworkMgr.h"
 #include "PacketBase.hpp"
 #include "ServerObjectManager.h"
 #include "ProjectileArrow.h"
 #include "ServerObjectFactory.h"
+#include "MCItemManager.h"
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
@@ -38,6 +40,8 @@ int main()
 {
     Mgr(Core)->Init(1440, 720);
     Mgr(Core)->SetClearColor(RGBA_WHITE);
+
+    Mgr(MCItemManager)->LoadItems();
 
     if (false == Mgr(NetworkMgr)->InitClient("127.0.0.1", "8888"))
     {
@@ -194,6 +198,11 @@ int main()
         pEnderEye->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 12.0f, 256.0f));
         pEnderEye->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * 0.5f);
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
+
+        // 드랍 아이템 생성 예시 코드
+        auto pDropItem = make_shared<DropItem>(tilemap, Mgr(MCItemManager)->GetItemByID(10), 1);
+        pDropItem->GetTransform()->SetLocalPosition(glm::vec3(64.0f, 16.0f, 64.0f));
+        curScene->AddObject(pDropItem, GROUP_TYPE::DEFAULT);
 
         Mgr(ServerObjectManager)->SetTargetScene(Mgr(SceneMgr)->GetScene(SCENE_TYPE::STAGE));
         Send(c2s_ENTER{});

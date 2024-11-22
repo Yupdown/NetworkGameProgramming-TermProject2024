@@ -76,7 +76,7 @@ public:
 	uint8_t GetTile(int x, int y, int z) const noexcept;
 	uint8_t GetTile(const glm::ivec3& v) const noexcept;
 	MCTileChunk*const GetChunk(int x, int z)noexcept;
-	bool HandleCollision(const glm::vec3& pre_position, glm::vec3& position, glm::vec3& velocity)const noexcept;
+	bool HandleCollision(const glm::vec3& pre_position, glm::vec3& position, glm::vec3& velocity, float width = 0.75f, float height = 1.75f) const noexcept;
 	RaycastResult RaycastTile(const glm::vec3& start_position, const glm::vec3& direction, float distance) const noexcept;
 	void AddNotifyCallback(const std::function<void(MCTileChunk*, int, int)>& callback)noexcept;
 };

@@ -151,6 +151,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ChunkMesh.cpp" />
     <ClCompile Include="ChunkRendererObject.cpp" />
+    <ClCompile Include="DropItem.cpp" />
     <ClCompile Include="EnderEye.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="main.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="ChunkMesh.h" />
     <ClInclude Include="ChunkRendererObject.h" />
     <ClInclude Include="CustomMath.hpp" />
+    <ClInclude Include="DropItem.h" />
     <ClInclude Include="EnderEye.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="MCItem.h" />

@@ -86,13 +86,13 @@ MCTileChunk* const MCTilemap::GetChunk(int x, int z)noexcept
 	return &(tileChunk[x][z]);
 }
 
-bool MCTilemap::HandleCollision(const glm::vec3& pre_position, glm::vec3& position, glm::vec3& velocity)const noexcept
+bool MCTilemap::HandleCollision(const glm::vec3& pre_position, glm::vec3& position, glm::vec3& velocity, float width, float height) const noexcept
 {
 	const glm::vec3 world_pos = position;
 	const glm::vec3 world_vel = velocity;
 
-	const float w = 0.75f;
-	const float h = 1.75f;
+	const float w = width;
+	const float h = height;
 
 	glm::vec3 pre_pos = pre_position;
 	glm::vec3 post_pos = world_pos;

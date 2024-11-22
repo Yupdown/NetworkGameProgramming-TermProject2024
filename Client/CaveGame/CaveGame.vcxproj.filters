@@ -79,6 +79,9 @@
     <Filter Include="MCItem">
       <UniqueIdentifier>{56a460ed-e7b5-4d73-b7c9-aaba8b748733}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CaveObject\DropItem">
+      <UniqueIdentifier>{badfb0e7-dda0-4d2b-8c88-49fd6a117492}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -164,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="MCItemStack.cpp">
       <Filter>MCItem</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItem.cpp">
+      <Filter>CaveObject\DropItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="Registry.hpp">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItem.h">
+      <Filter>CaveObject\DropItem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
