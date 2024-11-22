@@ -9,7 +9,7 @@ class Registry
 {
 private:
 	std::vector<shared_ptr<T>> id_container;
-	std::map<std::wstring, shared_ptr<T>> key_container;
+	std::unordered_map<std::wstring, shared_ptr<T>> key_container;
 
 public:
 	Registry();
@@ -25,7 +25,6 @@ public:
 template<typename T>
 inline Registry<T>::Registry()
 {
-	id_container.reserve(100);
 }
 
 template<typename T>
@@ -37,9 +36,8 @@ inline Registry<T>::~Registry()
 template<typename T>
 inline size_t Registry<T>::Insert(const std::wstring& key, T* item)
 {
-	shared_ptr<T> wrapper{ item };
-	id_container.push_back(wrapper);
-	key_container.insert(make_pair(key, wrapper));
+	const auto& ptr = id_container.emplace_back(item);
+	key_container.emplace(key, ptr);
 
 	return id_container.size() - 1;
 }
@@ -47,8 +45,8 @@ inline size_t Registry<T>::Insert(const std::wstring& key, T* item)
 template<typename T>
 inline size_t Registry<T>::Insert(const std::wstring& key, std::shared_ptr<T> item)
 {
-	id_container.push_back(item);
-	key_container.insert(make_pair(key, item));
+	id_container.emplace_back(item);
+	key_container.emplace(key, std::move(item));
 
 	return id_container.size() - 1;
 }
@@ -56,11 +54,11 @@ inline size_t Registry<T>::Insert(const std::wstring& key, std::shared_ptr<T> it
 template<typename T>
 inline T* Registry<T>::operator[](int index) const
 {
-	return id_container.at(index).get();
+	return id_container[index].get();
 }
 
 template<typename T>
 inline T* Registry<T>::operator[](const std::wstring& key) const
 {
-	return key_container.at(key).get();
+	return key_container.find(key)->second.get();
 }
