@@ -52,9 +52,22 @@ DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)
     pkt.y = pkt_.y;
     pkt.z = pkt_.z;
 
-    Mgr(IOExecutor)->AppendToSendBuffer(pkt); // 모든 클라이언트에 브로드캐스팅
+    // 타일 좌표 유효성 검증
+    if (!Mgr(MCWorld)->GetTileMap()->IsValidPosition({ pkt_.x, pkt_.y, pkt_.z })) {
+        LOG_ERROR("Invalid block position: (%d, %d, %d)", pkt_.x, pkt_.y, pkt_.z);
+        return;
+    }
 
-    Mgr(MCWorld)->GetTileMap()->SetTile({ pkt_.x ,pkt_.y ,pkt_.z }, 0); // 블록 파괴
+    // 블록 파괴 이벤트 브로드캐스트
+    Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+
+    // 블록 파괴 처리
+    if (!Mgr(MCWorld)->GetTileMap()->SetTile({ pkt_.x, pkt_.y, pkt_.z }, 0)) {
+        LOG_ERROR("Failed to destroy block at (%d, %d, %d)", pkt_.x, pkt_.y, pkt_.z);
+        return;
+    }
+
+    LOG_INFO("Block destroyed at (%d, %d, %d) by player ID: %llu", pkt_.x, pkt_.y, pkt_.z, id);
 }
 
 
@@ -67,10 +80,19 @@ DECLARE_PACKET_FUNC(c2s_KILL_PLAYER)
     responsePkt.killer_id = (uint32)id;        // 플레이어 처치자 ID 설정
 	responsePkt.target_id = pkt_.target_id;
 
-	// 플레이어 사망 로직 처리
-	// bool playerKilled = Mgr(MCWorld)->KillPlayer(id, pkt_.target_id);
-	// responsePkt.success = playerKilled;
+    // 플레이어 사망 처리
+    if (Mgr(MCWorld)->KillPlayer(id, pkt_.target_id)) {
+        responsePkt.success = true;
+        LOG_INFO("Player ID %u was killed by player ID %u.", pkt_.target_id, id);
+    }
+    else {
+        responsePkt.success = false;
+        LOG_ERROR("Failed to kill player ID %u by player ID %u.", pkt_.target_id, id);
+    }
 
+    // 모든 클라이언트에 브로드캐스트
+    Mgr(IOExecutor)->AppendToSendBuffer(responsePkt);
+    session->ReserveSend(responsePkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_USE_ITEM)
@@ -115,14 +137,16 @@ DECLARE_PACKET_FUNC(c2s_SPAWN_BOSS)
     responsePkt.position_y = pkt_.position_y;   // 소환 위치 Y
     responsePkt.position_z = pkt_.position_z;   // 소환 위치 Z
 
-    // 보스 소환 로직 처리
-    //bool bossSpawned = Mgr(MCWorld)->SpawnBoss(pkt_.boss_id,
-    //    { pkt_.position_x, pkt_.position_y, pkt_.position_z });
-    //responsePkt.success = bossSpawned;          // 소환 성공 여부 설정
-  
-    // 모든 클라이언트에게 보스 소환 알림
+    if (Mgr(MCWorld)->SpawnBoss(pkt_.boss_id, { pkt_.position_x, pkt_.position_y, pkt_.position_z })) {
+        responsePkt.success = true;
+        LOG_INFO("Boss ID %u spawned at (%f, %f, %f)", pkt_.boss_id, pkt_.position_x, pkt_.position_y, pkt_.position_z);
+    }
+    else {
+        responsePkt.success = false;
+        LOG_ERROR("Failed to spawn boss ID %u.", pkt_.boss_id);
+    }
+
     Mgr(IOExecutor)->AppendToSendBuffer(responsePkt);
-    // 실패 시 요청 클라이언트에만 결과 전송
     session->ReserveSend(responsePkt);
 
  

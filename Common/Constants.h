@@ -10,5 +10,7 @@ enum class MC_OBJECT_TYPE :unsigned char
 
 	ITEM = 3,
 
+	//BOSS = 4,
+
 	END
 };
