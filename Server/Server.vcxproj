@@ -190,7 +190,6 @@
     <ClInclude Include="MCTerrainGenerator.h" />
     <ClInclude Include="MCTilemap.h" />
     <ClInclude Include="MCWorld.h" />
-    <ClInclude Include="NagoxAtomic.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="packet_define.h" />
     <ClInclude Include="pch.h" />
