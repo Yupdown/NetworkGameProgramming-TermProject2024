@@ -73,6 +73,12 @@
     <Filter Include="ServerObjectFactory">
       <UniqueIdentifier>{90e1c9f6-bf63-41bf-bae7-5339240bd507}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCTilemap">
+      <UniqueIdentifier>{1e17aebf-c5b7-4d9d-bbe4-d6b9ff366708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCItem">
+      <UniqueIdentifier>{56a460ed-e7b5-4d73-b7c9-aaba8b748733}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,15 +86,6 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Precompiled Headers</Filter>
-    </ClCompile>
-    <ClCompile Include="MCTilemap.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MCTilemapMeshGenerator.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MCTerrainGenerator.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>CaveObject\Player</Filter>
@@ -110,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>CaveObject\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="ChunkRendererObject.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="EnderEye.cpp">
       <Filter>CaveObject\EnderEye</Filter>
@@ -147,6 +141,30 @@
     <ClCompile Include="ServerObjectFactory.cpp">
       <Filter>ServerObjectFactory</Filter>
     </ClCompile>
+    <ClCompile Include="MCTerrainGenerator.cpp">
+      <Filter>MCTilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="MCTilemap.cpp">
+      <Filter>MCTilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="MCTilemapMeshGenerator.cpp">
+      <Filter>MCTilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkRendererObject.cpp">
+      <Filter>MCTilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="MCItem.cpp">
+      <Filter>MCItem</Filter>
+    </ClCompile>
+    <ClCompile Include="MCItemContainer.cpp">
+      <Filter>MCItem</Filter>
+    </ClCompile>
+    <ClCompile Include="MCItemManager.cpp">
+      <Filter>MCItem</Filter>
+    </ClCompile>
+    <ClCompile Include="MCItemStack.cpp">
+      <Filter>MCItem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3D.hpp">
@@ -163,15 +181,6 @@
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Precompiled Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="MCTilemap.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MCTilemapMeshGenerator.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MCTerrainGenerator.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>CaveObject\Player</Filter>
@@ -193,9 +202,6 @@
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>CaveObject\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="ChunkRendererObject.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="EnderEye.h">
       <Filter>CaveObject\EnderEye</Filter>
@@ -235,6 +241,33 @@
     </ClInclude>
     <ClInclude Include="ServerObjectFactory.h">
       <Filter>ServerObjectFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTerrainGenerator.h">
+      <Filter>MCTilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTilemap.h">
+      <Filter>MCTilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTilemapMeshGenerator.h">
+      <Filter>MCTilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkRendererObject.h">
+      <Filter>MCTilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="MCItem.h">
+      <Filter>MCItem</Filter>
+    </ClInclude>
+    <ClInclude Include="MCItemContainer.h">
+      <Filter>MCItem</Filter>
+    </ClInclude>
+    <ClInclude Include="MCItemManager.h">
+      <Filter>MCItem</Filter>
+    </ClInclude>
+    <ClInclude Include="MCItemStack.h">
+      <Filter>MCItem</Filter>
+    </ClInclude>
+    <ClInclude Include="Registry.hpp">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

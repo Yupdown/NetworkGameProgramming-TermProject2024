@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include <MyOpenGL.hpp>
 
 #include "MCTilemap.h"
@@ -41,13 +41,13 @@ int main()
 
     if (false == Mgr(NetworkMgr)->InitClient("127.0.0.1", "8888"))
     {
-        std::cout << "¼­¹ö¿Í ¿¬°á ½ÇÆÐ\n";
+        std::cout << "ì„œë²„ì™€ ì—°ê²° ì‹¤íŒ¨\n";
         return 1;
     }
     
    Send(c2s_LOGIN{});
 
-    // SEED ¹Þ±â
+    // SEED ë°›ê¸°
     while(-1 == G_MC_SEED){ Mgr(NetworkMgr)->IORoutine(); }
 
     Mgr(ServerObjectManager)->SetTileMap(make_shared<MCTilemap>());
@@ -77,7 +77,7 @@ int main()
         chunkMaterial->AddTexture2D("mctile.png");
         shared_ptr<Shader> chunkShader = Mgr(ResMgr)->GetRes<Shader>("DefaultWarpShader.glsl");
 
-        // Ã»Å© ·»´õ·¯ ¿ÀºêÁ§Æ® »ý¼º ¹× ÃÊ±âÈ­
+        // ì²­í¬ ë Œë”ëŸ¬ ì˜¤ë¸Œì íŠ¸ ìƒì„± ë° ì´ˆê¸°í™”
         for (auto& row : pChunkRenderers)
         {
             for (auto& pChunkRenderer : row)
@@ -87,13 +87,13 @@ int main()
                 curScene->AddObject(pChunkRenderer, GROUP_TYPE::DEFAULT);
             }
         }
-        // Ã»Å© ·»´õ·¯ ¿ÀºêÁ§Æ®¿¡ Å¸ÀÏ¸Ê º¯°æ¿¡ ´ëÇÑ ÄÝ¹é ÇÔ¼ö µî·Ï
+        // ì²­í¬ ë Œë”ëŸ¬ ì˜¤ë¸Œì íŠ¸ì— íƒ€ì¼ë§µ ë³€ê²½ì— ëŒ€í•œ ì½œë°± í•¨ìˆ˜ ë“±ë¡
         tilemap->AddNotifyCallback([tilemap, meshGenerator](MCTileChunk* pChunk, int chunkX, int chunkZ) {
             shared_ptr<Mesh> mesh = meshGenerator->CreateMeshFromChunk(tilemap, chunkX, chunkZ);
             pChunkRenderers[chunkX][chunkZ]->ChangeMeshData(mesh->GetVertices(), mesh->GetIndicies());
             });
 
-        // Å¸ÀÏ¸Ê ¸Þ½¬ Á¦³×·¹ÀÌÅÍ·ÎºÎÅÍ ¸ðµç Ã»Å©¿¡ ´ëÇÑ ¸Þ½¬ »ý¼º
+        // íƒ€ì¼ë§µ ë©”ì‰¬ ì œë„¤ë ˆì´í„°ë¡œë¶€í„° ëª¨ë“  ì²­í¬ì— ëŒ€í•œ ë©”ì‰¬ ìƒì„±
         meshGenerator->CreateMeshAll(tilemap, pChunkRenderers);
 
         curScene->AddUpdateFp(SCENE_ADDED_UPDATE::UPDATE, &Update);
@@ -165,7 +165,8 @@ int main()
 
             player->SetObjName("player");
             player->SetRendererTexture(0);
-            player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
+            // í”Œë ˆì´ì–´ ìŠ¤í° ìœ„ì¹˜ë¥¼ ë§µì˜ ì •ì¤‘ì•™, í•˜ëŠ˜ ìœ„ë¡œ ì„¤ì •
+            player->GetTransform()->SetLocalPosition(glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2));
             curScene->AddObject(player, GROUP_TYPE::PLAYER);
             /*player->AddChild(make_shared<PlayerCam>());*/
             curScene->RegisterPlayer(player);
@@ -173,7 +174,7 @@ int main()
                 {
                     glfwSetInputMode(Mgr(Core)->GetWinInfo(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
                     player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
-                };//¿©±â¼­ ´º°ÔÀÓ ´­·¶À» ¶§ ¾î¶² ¹ÝÀÀÇÒ Áö Á¤ÇÏ±â 
+                };//ì—¬ê¸°ì„œ ë‰´ê²Œìž„ ëˆŒë €ì„ ë•Œ ì–´ë–¤ ë°˜ì‘í•  ì§€ ì •í•˜ê¸° 
         } 
 
         pClouds = Mgr(AssimpMgr)->Load("CloudShader.glsl", "MyCube.fbx");
