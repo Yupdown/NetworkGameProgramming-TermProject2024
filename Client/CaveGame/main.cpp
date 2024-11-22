@@ -16,7 +16,6 @@
 #include "ServerObjectManager.h"
 #include "ProjectileArrow.h"
 #include "ServerObjectFactory.h"
-#include "Registry.hpp"
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
