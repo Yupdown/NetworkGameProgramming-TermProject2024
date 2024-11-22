@@ -86,6 +86,9 @@
     <Filter Include="MCContents\MCWorld\MCObjectFactory">
       <UniqueIdentifier>{5f36c0d7-3211-4bf6-aeb4-a38cb23be079}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCContents\Object\State">
+      <UniqueIdentifier>{3a6cc06e-7888-4208-88ed-cf554c175f1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -147,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="MCObjectFactory.cpp">
       <Filter>MCContents\MCWorld\MCObjectFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>MCContents\Object\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="MCObjectFactory.h">
       <Filter>MCContents\MCWorld\MCObjectFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>MCContents\Object\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

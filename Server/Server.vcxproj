@@ -169,6 +169,7 @@
     </ClCompile>
     <ClCompile Include="SendBufferPool.cpp" />
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +198,7 @@
     <ClInclude Include="SendBufferPool.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="Singleton.hpp" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Task.hpp" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2D.hpp" />

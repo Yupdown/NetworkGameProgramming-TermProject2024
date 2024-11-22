@@ -21,6 +21,17 @@ public:
 	const auto& GetPos()const noexcept { return m_pos; }
 	void SetInvalid()noexcept { m_bIsValid = false; }
 	const bool IsValid()const noexcept { return m_bIsValid; }
+	template<typename T>
+	T* GetComp()const noexcept {
+		auto b = m_vecComp.data();
+		const auto e = b + m_vecComp.size();
+		while (e != b) {
+			const auto comp = (*b++).get();
+			if (const auto target = dynamic_cast<T*>(comp))
+				return target;
+		}
+		return nullptr;
+	}
 public:
 	void Init()noexcept;
 	void Update(const float DT)noexcept;

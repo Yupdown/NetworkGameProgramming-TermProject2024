@@ -16,6 +16,6 @@ public:
 public:
 	std::unordered_map<uint8_t, std::shared_ptr<State>> m_mapState;
 	State* m_curState = nullptr;
-	//ServerCore::S_ptr<class ClientSession> target;
+	S_ptr<class Object> target;
 };
 
