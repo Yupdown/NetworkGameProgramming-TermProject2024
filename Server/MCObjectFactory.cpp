@@ -3,6 +3,7 @@
 #include "MCWorld.h"
 #include "Object.h"
 #include "EntityMovement.h"
+#include "FSM.h"
 
 S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 {
@@ -10,5 +11,7 @@ S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 	mon->SetObjectType(MC_OBJECT_TYPE::MONSTER);
 	mon->SetPos(b_.pos);
 	mon->GetEntityMovement()->current_position = b_.pos;
+	mon->AddComp(new FSM);
+
 	return mon;
 }
