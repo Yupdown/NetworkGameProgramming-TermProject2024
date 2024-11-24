@@ -4,7 +4,7 @@
 
 SendBufferPool::SendBufferPool()
 {
-	constexpr int NUM_OF_BUFF = 10;
+	constexpr int NUM_OF_BUFF = 4;
 	m_send_buff_pool.reserve(NUM_OF_BUFF);
 	for (int i = 0; i < NUM_OF_BUFF; ++i)
 		m_send_buff_pool.emplace_back(new SendBuffer);

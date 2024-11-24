@@ -79,7 +79,6 @@ void IOExecutor::IORoutine() noexcept
             // 연결 요청 수락 및 데이터 처리
             if (m_clientsFD[0].revents & POLLRDNORM)
             {
-                // TODO: accept + 월드 입장 + 브로드캐스트
                 OnAccept();
             }
 
@@ -184,40 +183,41 @@ void IOExecutor::FlushSendQueue() noexcept
     while (const auto send_event = m_sendQueue.Pop())
     {
         const auto iter = m_mapSession.find(send_event->id);
+        const auto send_buff = send_event->send_buff;
         if (iter != sentinel)
         {
             const auto& session = iter->second;
-            const auto send_buff = send_event->send_buff;
-          
-            session->ReserveSend(send_buff->GetBuff(), send_buff->GetLen());
-           
-            for (const auto broad_cast_buff : m_flush_buffer)
-            {
-                session->ReserveSend(broad_cast_buff->GetBuff(), broad_cast_buff->GetLen());
-            }
-
-            session->ReturnSendBuffer(send_buff);
+            session->ReserveWSASendForMyBuffer(send_buff);
+        }
+        else
+        {
+            delete send_buff;
         }
         delete send_event;
     }
 
-    const auto io_buff = m_sendBuff.GetBuff();
     const auto io_len = m_sendBuff.GetLen();
     const bool flag = 0 != io_len;
-
-    m_sendBuff.Clear();
 
     for (int i = 1; i <= m_curNumOfClient; ++i)
     {
         const auto& session = m_mapSocket2Session[m_clientsFD[i].fd];
         if (flag)
-            session->ReserveSend(io_buff, io_len);
+            session->ReserveWSASend(&m_sendBuff);
         for (const auto broad_cast_buff : m_flush_buffer)
         {
-            session->ReserveSend(broad_cast_buff->GetBuff(), broad_cast_buff->GetLen());
-            mc_world->ReturnSendBufferToWorld(broad_cast_buff);
+            session->ReserveWSASend(broad_cast_buff);
         }
         session->ExecuteSend();
     }
+
+    m_sendBuff.Clear();
+   
+
+    for (const auto broad_cast_buff : m_flush_buffer)
+    {
+        mc_world->ReturnSendBufferToWorld(broad_cast_buff);
+    }
+
     m_flush_buffer.clear();
 }
