@@ -44,6 +44,20 @@ MCWorld::MCWorld()
         mon->Init();
     }
 
+    for (int i = 0; i < 1000; ++i)
+    {
+        MCItemBuilder b;
+
+        const float dx = static_cast<float>(rand() % 16 * 8 - 64);
+        const float dz = static_cast<float>(rand() % 16 * 8 - 64);
+        b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2 + dx, 16.0f, MCTilemap::MAP_WIDTH / 2 + dz);
+
+        const auto& item = AddObject(MCObjectFactory::CreateItem(b), MC_OBJECT_TYPE::ITEM);
+        b.obj_id = item->GetObjectID();
+
+        item->Init();
+    }
+
     m_worldUpdateThread = std::thread{ [this]()noexcept {this->Update(); } };
  }
  
@@ -162,6 +176,23 @@ MCWorld::MCWorld()
 
          p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
          
+         session->GetSendBuffer()->Append(p);
+     }
+
+     for (const auto& item : m_worldObjects[etoi(MC_OBJECT_TYPE::ITEM)])
+     {
+         s2c_ITEM_DROP p;
+
+         const auto pos = item->GetPos();
+
+         p.obj_id = item->GetObjectID();
+
+         p.x = pos.x;
+         p.y = pos.y;
+         p.z = pos.z;
+
+        // TODO 아이템 종류
+
          session->GetSendBuffer()->Append(p);
      }
  }

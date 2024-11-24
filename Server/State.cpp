@@ -114,6 +114,7 @@ MON_STATE Chase::Update(EntityMovement* const move_system, const float DT)
 	{
 		if (!Mgr(MCWorld)->GetWorldObject(target->GetObjectID()))
 		{
+			target.reset();
 			return MON_STATE::PATROL;
 		}
 	}

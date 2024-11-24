@@ -82,6 +82,9 @@
     <Filter Include="CaveObject\DropItem">
       <UniqueIdentifier>{badfb0e7-dda0-4d2b-8c88-49fd6a117492}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\MCItemTable">
+      <UniqueIdentifier>{039525be-9954-4478-86f5-b219e58e6176}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="DropItem.cpp">
       <Filter>CaveObject\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\MCItemTable.cpp">
+      <Filter>Common\MCItemTable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="DropItem.h">
       <Filter>CaveObject\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\MCItemTable.h">
+      <Filter>Common\MCItemTable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

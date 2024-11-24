@@ -49,6 +49,9 @@ enum class PKT_ID : uint8
 
     s2c_MON_ATK = 17,
 
+    s2c_ITEM_DROP = 18,
+
+
     END,
 };
 
@@ -297,6 +300,19 @@ struct s2c_MON_ATK
 {
     uint32 hit_player_id;
     DECLARE_PACKET(s2c_MON_ATK);
+};
+
+/// <summary>
+/// 아이템 드랍
+/// </summary>
+/// 
+struct s2c_ITEM_DROP
+    :public PacketHeader
+{
+    float x, y, z;
+    uint32_t obj_id;
+    uint32_t item_type;
+    DECLARE_PACKET(s2c_ITEM_DROP);
 };
 
 #pragma pack (pop)

@@ -2,6 +2,7 @@
 #include "IOExecutor.h"
 #include "PacketBase.hpp"
 #include "MCWorld.h"
+#include "MCItemTable.h"
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
         std::cout << "서버 초기화 실패" << std::endl;
         return 1;
     }
-  
+    MCItemTable::Init();
     Mgr(MCWorld)->Init();
 
     std::thread io_thread{ []() {Mgr(IOExecutor)->IORoutine(); } };

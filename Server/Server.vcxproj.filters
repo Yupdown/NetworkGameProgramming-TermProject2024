@@ -89,6 +89,9 @@
     <Filter Include="MCContents\Object\State">
       <UniqueIdentifier>{3a6cc06e-7888-4208-88ed-cf554c175f1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\MCItemTable">
+      <UniqueIdentifier>{09937171-ef58-4696-bc81-54d76fc45fae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -153,6 +156,9 @@
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>MCContents\Object\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\MCItemTable.cpp">
+      <Filter>Common\MCItemTable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="State.h">
       <Filter>MCContents\Object\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\MCItemTable.h">
+      <Filter>Common\MCItemTable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,3 +24,15 @@ S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 	
 	return mon;
 }
+
+S_ptr<Object> MCObjectFactory::CreateItem(MCItemBuilder& b_)
+{
+	auto item = std::make_shared<Object>();
+	item->SetObjectType(MC_OBJECT_TYPE::ITEM);
+	//const auto m = item->AddComp<EntityMovement>(new EntityMovement);
+	//item->SetEntityMovement(m);
+	item->SetPos(b_.pos);
+	//item->GetEntityMovement()->current_position = b_.pos;
+	// TODO: 어떤아이템인가의 정보 추가하기
+	return item;
+}
