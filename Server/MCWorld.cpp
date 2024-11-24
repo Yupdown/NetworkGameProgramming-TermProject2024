@@ -19,7 +19,8 @@ MCWorld::MCWorld()
  
  MCWorld::~MCWorld()
  {
-     m_worldUpdateThread.join();
+     if (m_worldUpdateThread.joinable())
+         m_worldUpdateThread.join();
  }
  
  void MCWorld::Init() noexcept
