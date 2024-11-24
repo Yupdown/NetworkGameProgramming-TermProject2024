@@ -183,6 +183,10 @@ void Hero::SendMyMoveData() const noexcept
 	pkt.acceleration_y = m_vAccelation.y;
 	pkt.acceleration_z = m_vAccelation.z;
 
+	pkt.cam_x = m_cameraAngleAxisSmooth.x;
+	pkt.cam_y = m_cameraAngleAxisSmooth.y;
+	pkt.cam_z = m_cameraAngleAxisSmooth.z;
+
 	Send(pkt);
 }
 

@@ -4,6 +4,8 @@
 #include "Session.h"
 #include "MCWorld.h"
 #include "MCTilemap.h"
+#include "Object.h"
+#include "EntityMovement.h"
 
 // c2s를 정의하는 CPP
 
@@ -91,6 +93,25 @@ DECLARE_PACKET_FUNC(c2s_MOVE_OBJECT)
 	pkt.rotation_y = pkt_.rotation_y;
 	pkt.yaw = pkt_.yaw;
 
+
+	const auto& players = Mgr(MCWorld)->GetWorldObjects(MC_OBJECT_TYPE::PLAYER);
+	auto b = players.data();
+	const auto e = b + players.size();
+	while (e != b) 
+	{
+		const auto& obj = *b++;
+		if (obj->GetObjectID() == id)
+		{
+			const auto movement = obj->GetEntityMovement();
+			movement->current_position = { pkt_.position_x ,pkt_.position_y ,pkt_.position_z };
+			obj->SetPos(movement->current_position);
+			movement->m_vVelocity = { pkt_.velocity_x ,pkt_.velocity_y ,pkt_.velocity_z };
+			movement->m_vAccelation = { pkt_.acceleration_x ,pkt_.acceleration_y ,pkt_.acceleration_z };
+			movement->m_cameraAngleAxisSmooth = { pkt_.cam_x,pkt_.cam_y ,pkt_.cam_z };
+			break;
+		}
+	}
+	
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
 

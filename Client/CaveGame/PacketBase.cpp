@@ -59,9 +59,10 @@ DECLARE_PACKET_FUNC(s2c_MOVE_OBJECT)
 {
 	if (Mgr(ServerObjectManager)->IsMyID(pkt_.object_id))
 		return;
-
+	
 	if (const auto obj = Mgr(ServerObjectManager)->FindObject(pkt_.object_id))
 	{
+		// std::cout << pkt_.object_id << std::endl;
 		obj->SyncMovement(pkt_);
 	}
 }
@@ -79,4 +80,8 @@ DECLARE_PACKET_FUNC(s2c_USE_ITEM)
 DECLARE_PACKET_FUNC(s2c_REMOVE_OBJECT)
 {
 	Mgr(ServerObjectManager)->RemoveObject(pkt_.object_id);
+}
+
+DECLARE_PACKET_FUNC(s2c_MON_ATK)
+{
 }

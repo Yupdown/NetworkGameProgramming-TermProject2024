@@ -12,6 +12,8 @@ void Monster::Update()
 
 	GameObj::Update();
 	UpdateRenderer();
+
+
 }
 
 void Monster::InitializeRenderer()

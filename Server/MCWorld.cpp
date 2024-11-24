@@ -26,7 +26,9 @@ MCWorld::MCWorld()
  void MCWorld::Init() noexcept
  {
  	m_terrainGenerator->Generate(m_tileMap);
- 	m_timer.Update();
+    m_timerForUpdateLoopCheck.Update();
+    m_timerForUpdate.Update();
+
     m_cur_send_buffer = m_send_buff_pool.GetSendBuffer();
     MCObjectBuilder b;
     static constexpr glm::vec3 G_INIT_POS = glm::vec3(256.0f, 16.0f, 256.0f);
@@ -51,11 +53,13 @@ MCWorld::MCWorld()
      const bool& isRunning = io_executor->GetIsRunning();
      while(isRunning)
      {
-         m_timer.Update();
-         const auto dt = m_timer.GetDT();
+         m_timerForUpdateLoopCheck.Update();
+         const auto dt = m_timerForUpdateLoopCheck.GetDT();
          m_accTimeForUpdateInterval -= dt;
          if (0.f < m_accTimeForUpdateInterval)continue;
          m_accTimeForUpdateInterval = UPDATE_INTERVAL;
+         m_timerForUpdate.Update();
+         const auto world_dt = m_timerForUpdate.GetDT();
 
          if (nullptr == m_cur_send_buffer)
          {
@@ -70,6 +74,7 @@ MCWorld::MCWorld()
                  auto& player = *iter;
                  if (player->IsValid())
                  {
+                     player->flag = true;
                      player->GetSession()->RegisterSendBuffer();
                      ++iter;
                  }
@@ -97,7 +102,7 @@ MCWorld::MCWorld()
                  auto& obj = *iter;
                  if (obj->IsValid())
                  {
-                     obj->Update(dt);
+                     obj->Update(world_dt);
                      ++iter;
                  }
                  else

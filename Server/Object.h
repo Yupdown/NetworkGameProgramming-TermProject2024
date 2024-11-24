@@ -16,7 +16,7 @@ public:
 	const auto& GetSession()const noexcept { return m_session; }
 	const auto GetObjectID()const noexcept { return (uint32_t)m_obj_id; }
 	const auto GetObjectType()const noexcept { return m_eObjType; }
-	const auto GetEntityMovement()const noexcept { return m_pEntityMovemet; }
+	const auto GetEntityMovement()const noexcept { return m_pEntityMovement; }
 	void SetPos(const glm::vec3& pos)noexcept { m_pos = pos; }
 	const auto& GetPos()const noexcept { return m_pos; }
 	void SetInvalid()noexcept { m_bIsValid = false; }
@@ -32,12 +32,17 @@ public:
 		}
 		return nullptr;
 	}
+	void SetEntityMovement(EntityMovement* const m) { m_pEntityMovement = m; }
 public:
 	void Init()noexcept;
 	void Update(const float DT)noexcept;
 	void SetDirtyFlag()noexcept { m_bDirtyFlag = true; }
-	const auto& AddComp(Component* const pComp)noexcept { return m_vecComp.emplace_back(pComp); }
+	template<typename T = Component>
+	const auto AddComp(Component* const pComp)noexcept { return (T*)m_vecComp.emplace_back(pComp).get(); }
 	void SetObjectType(const MC_OBJECT_TYPE eType) { m_eObjType = eType; }
+public:
+	float m_accAtkTime = 0.f;
+	bool flag = true;
 private:
 	bool m_bIsValid = true;
 	glm::vec3 m_pos{};
@@ -45,7 +50,7 @@ private:
 	const uint64_t m_obj_id;
 	const std::shared_ptr<Session> m_session;
 	std::vector<std::unique_ptr<Component>> m_vecComp;
-	EntityMovement* const m_pEntityMovemet;
+	EntityMovement* m_pEntityMovement;
 	bool m_bDirtyFlag = false;
 };
 

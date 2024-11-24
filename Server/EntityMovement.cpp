@@ -9,7 +9,7 @@ void EntityMovement::Update(const float DT)
 {
 	// 가속도 (중력으로 초기화)
 	m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
-
+	
 	// 목적지로 삼을 월드 내의 플레이어 지정
 	//dest = FindTarget();
 
@@ -87,6 +87,7 @@ void EntityMovement::Update(const float DT)
 	GetOwner()->SetDirtyFlag();
 	// 최종 위치 적용
 	current_position = positionPost;
+	GetOwner()->SetPos(current_position);
 	
 	prev_path = std::move(path);
 	

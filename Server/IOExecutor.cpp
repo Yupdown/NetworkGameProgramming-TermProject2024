@@ -201,14 +201,6 @@ void IOExecutor::FlushSendQueue() noexcept
         delete send_event;
     }
 
-    for (const auto broad_cast_buff : m_flush_buffer)
-    {
-        // TODO: 월드에게 반납한다.
-        mc_world->ReturnSendBufferToWorld(broad_cast_buff);
-    }
-
-    m_flush_buffer.clear();
-
     const auto io_buff = m_sendBuff.GetBuff();
     const auto io_len = m_sendBuff.GetLen();
     const bool flag = 0 != io_len;
@@ -220,6 +212,12 @@ void IOExecutor::FlushSendQueue() noexcept
         const auto& session = m_mapSocket2Session[m_clientsFD[i].fd];
         if (flag)
             session->ReserveSend(io_buff, io_len);
+        for (const auto broad_cast_buff : m_flush_buffer)
+        {
+            session->ReserveSend(broad_cast_buff->GetBuff(), broad_cast_buff->GetLen());
+            mc_world->ReturnSendBufferToWorld(broad_cast_buff);
+        }
         session->ExecuteSend();
     }
+    m_flush_buffer.clear();
 }

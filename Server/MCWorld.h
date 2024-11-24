@@ -25,7 +25,7 @@
  	~MCWorld();
  public:
      static constexpr const int G_MC_SEED = 1;
-     static constexpr const float UPDATE_INTERVAL = 0.1f;
+     static constexpr const float UPDATE_INTERVAL = 0.01f;
  public:
 
 
@@ -48,6 +48,11 @@
 
 
      void AddAllObjects(const S_ptr<Session>& session)noexcept;
+     const auto& GetWorldObjects(const MC_OBJECT_TYPE eType)const noexcept { return m_worldObjects[static_cast<int>(eType)]; }
+     Object* GetWorldObject(const uint64_t id_)const noexcept {
+         const auto iter = m_mapWorldObjects.find(id_);
+         return m_mapWorldObjects.cend() != iter ? iter->second.get() : nullptr;
+     }
  private:
  	const S_ptr<MCTilemap> m_tileMap;
  	const S_ptr<MCTerrainGenerator> m_terrainGenerator;
@@ -56,7 +61,9 @@
     std::unordered_map<uint64_t, S_ptr<Object>> m_mapWorldObjects;
 
     float m_accTimeForUpdateInterval = 0.f;
- 	Timer m_timer;
+ 	Timer m_timerForUpdateLoopCheck;
+
+    Timer m_timerForUpdate;
 
     LFQueue<std::function<void(void)>> m_worldEventQueue;
     SendBuffer* m_cur_send_buffer = nullptr;

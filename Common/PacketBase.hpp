@@ -47,6 +47,7 @@ enum class PKT_ID : uint8
 
     s2c_REMOVE_OBJECT = 16,
 
+    s2c_MON_ATK = 17,
 
     END,
 };
@@ -221,6 +222,7 @@ struct c2s_MOVE_OBJECT
     float acceleration_x, acceleration_y, acceleration_z;
     float rotation_y;
     float yaw, pitch;
+    float cam_x, cam_y, cam_z;
     DECLARE_PACKET(c2s_MOVE_OBJECT);
 };
 
@@ -233,6 +235,7 @@ struct s2c_MOVE_OBJECT
     float acceleration_x, acceleration_y, acceleration_z;
     float rotation_y;
     float yaw, pitch;
+    float cam_x, cam_y, cam_z;
     DECLARE_PACKET(s2c_MOVE_OBJECT);
 };
 
@@ -283,6 +286,17 @@ struct s2c_REMOVE_OBJECT
 {
     uint32 object_id;
     DECLARE_PACKET(s2c_REMOVE_OBJECT);
+};
+
+/// <summary>
+/// 몬스터 공격
+/// </summary>
+/// 
+struct s2c_MON_ATK
+    :public PacketHeader
+{
+    uint32 hit_player_id;
+    DECLARE_PACKET(s2c_MON_ATK);
 };
 
 #pragma pack (pop)

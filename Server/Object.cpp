@@ -10,14 +10,13 @@
 Object::Object()
 	: m_obj_id{ IssueGlobalObjectID() }
 	, m_session{}
-	, m_pEntityMovemet{ (EntityMovement*)AddComp(new EntityMovement).get() }
 {
 }
 
 Object::Object(std::shared_ptr<Session> session)
 	: m_obj_id{ session->GetSessionID()}
 	, m_session{ std::move(session) }
-	, m_pEntityMovemet{}
+	, m_pEntityMovement{ (EntityMovement*)AddComp(new EntityMovement) }
 {
 }
 
@@ -41,10 +40,12 @@ void Object::Update(const float DT) noexcept
 	if (nullptr == m_session && true == m_bDirtyFlag)
 	{
 		s2c_MOVE_OBJECT pkt;
-		const auto pos = m_pEntityMovemet->current_position;
-		const auto vel = m_pEntityMovemet->m_vVelocity;
-		const auto accel = m_pEntityMovemet->m_vAccelation;
-		const auto body_angle = m_pEntityMovemet->m_rendererBodyAngleY;
+		pkt.object_id = (uint32_t)m_obj_id;
+
+		const auto pos = m_pos;
+		const auto vel = m_pEntityMovement->m_vVelocity;
+		const auto accel = m_pEntityMovement->m_vAccelation;
+		const auto body_angle = m_pEntityMovement->m_rendererBodyAngleY;
 
 		pkt.position_x = pos.x;
 		pkt.position_y = pos.y;

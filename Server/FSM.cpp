@@ -7,7 +7,7 @@ void FSM::Update(const float DT)
 	if (m_curState)
 	{
 		const MON_STATE cur_state = m_curState->m_state;
-		const MON_STATE next_state = m_curState->Update(DT);
+		const MON_STATE next_state = m_curState->Update(m_movement, DT);
 
 		if (cur_state != next_state)
 		{
@@ -19,8 +19,8 @@ void FSM::Update(const float DT)
 	}
 }
 
-void FSM::AddState(std::shared_ptr<State> state)
+void FSM::AddState(State* const state)
 {
 	state->m_fsm = this;
-	m_mapState.emplace(state->m_state, std::move(state));
+	m_mapState.emplace(state->m_state, (state));
 }
