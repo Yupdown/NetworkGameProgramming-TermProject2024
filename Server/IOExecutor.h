@@ -48,7 +48,6 @@ private:
 	SOCKET m_serverSocket = INVALID_SOCKET;
 	WSAPOLLFD m_clientsFD[NUM_OF_CLIENTS + 1];
 	int m_curNumOfClient = 0;
-	// TODO: SendEventQueue
 	
 	std::vector<SendBuffer*> m_flush_buffer;
 	LFQueue<SendEvent> m_sendQueue;

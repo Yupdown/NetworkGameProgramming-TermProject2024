@@ -47,9 +47,7 @@ DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)
 	pkt.x = pkt_.x;
 	pkt.y = pkt_.y;
 	pkt.z = pkt_.z;
-	//Mgr(IOExecutor)->GetSession(id)->SendDirect(pkt);
-	// TODO: 모든 유저에게 브로드캐스팅
-
+	
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 	Mgr(MCWorld)->GetTileMap()->SetTile({ pkt_.x ,pkt_.y ,pkt_.z }, 0);
 }
@@ -61,8 +59,7 @@ DECLARE_PACKET_FUNC(c2s_CREATE_BLOCK)
 	pkt.y = pkt_.y;
 	pkt.z = pkt_.z;
 	pkt.tile_id = pkt_.tile_id;
-	//Mgr(IOExecutor)->GetSession(id)->SendDirect(pkt);
-	// TODO: 모든 유저에게 브로드캐스팅
+	
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 
 	Mgr(MCWorld)->GetTileMap()->SetTile({ pkt_.x ,pkt_.y ,pkt_.z }, pkt_.tile_id);
