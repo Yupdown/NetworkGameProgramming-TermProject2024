@@ -14,8 +14,8 @@ extern void AddProtocol(const uint16 pktID_, void (*fpPacketHandler_)(const uint
 
 struct PacketHeader
 {
-	const uint8 pkt_size;
-	const uint8 pkt_id;
+    const uint8 pkt_size;
+    const uint8 pkt_id;
 };
 
 // 패킷 구조체 이름과 동일하게 만들어야 편하다
@@ -50,6 +50,9 @@ enum class PKT_ID : uint8
     s2c_MON_ATK = 17,
 
     s2c_ITEM_DROP = 18,
+
+    c2s_GAME_CLEAR = 19,
+    s2c_GAME_CLEAR = 20,
 
 
     END,
@@ -87,28 +90,28 @@ static constexpr inline unsigned char etoi(const T eType)noexcept { return stati
 // 4. 필요한 멤버변수들 추가하기
 // 5. Nice..
 
-static inline int OnRecv(const uint64 id, char* const buffer, const int len, void (*const* const packet_func)(const uint64_t, const char* const))noexcept
+static inline int OnRecv(const uint64 id, char* const buffer, const int len, void (* const* const packet_func)(const uint64_t, const char* const))noexcept
 {
-	int processLen = 0;
+    int processLen = 0;
 
-	for (;;)
-	{
-		const int dataSize = len - processLen;
-	
-		if (dataSize < static_cast<int>(sizeof(PacketHeader)))
-			break;
+    for (;;)
+    {
+        const int dataSize = len - processLen;
 
-		const PacketHeader* const __restrict header = reinterpret_cast<const PacketHeader* const>(buffer + processLen);
-		const uint8 packetSize = header->pkt_size;
-		const uint8 packetId = header->pkt_id;
-		
-		if (dataSize < packetSize)
-			break;
+        if (dataSize < static_cast<int>(sizeof(PacketHeader)))
+            break;
+
+        const PacketHeader* const __restrict header = reinterpret_cast<const PacketHeader* const>(buffer + processLen);
+        const uint8 packetSize = header->pkt_size;
+        const uint8 packetId = header->pkt_id;
+
+        if (dataSize < packetSize)
+            break;
 
         packet_func[packetId](id, (char*)header);
 
-		processLen += packetSize;
-	}
+        processLen += packetSize;
+    }
 
     return processLen;
 }
@@ -199,19 +202,19 @@ struct c2s_ADD_OBJECT
     :public PacketHeader
 {
     uint32 object_id;
-	float position_x, position_y, position_z;
-	float rotation_y;
-	DECLARE_PACKET(c2s_ADD_OBJECT);
+    float position_x, position_y, position_z;
+    float rotation_y;
+    DECLARE_PACKET(c2s_ADD_OBJECT);
 };
 
 struct s2c_ADD_OBJECT
     :public PacketHeader
 {
     uint32 object_id;
-	float position_x, position_y, position_z;
-	float rotation_y;
+    float position_x, position_y, position_z;
+    float rotation_y;
     uint8 obj_type;
-	DECLARE_PACKET(s2c_ADD_OBJECT);
+    DECLARE_PACKET(s2c_ADD_OBJECT);
 };
 
 /// <summary>
@@ -248,9 +251,9 @@ struct s2c_MOVE_OBJECT
 struct c2s_ADD_PROJECTILE
     :public PacketHeader
 {
-	float position_x, position_y, position_z;
-	float velocity_x, velocity_y, velocity_z;
-	DECLARE_PACKET(c2s_ADD_PROJECTILE);
+    float position_x, position_y, position_z;
+    float velocity_x, velocity_y, velocity_z;
+    DECLARE_PACKET(c2s_ADD_PROJECTILE);
 };
 
 struct s2c_ADD_PROJECTILE
@@ -268,16 +271,16 @@ struct s2c_ADD_PROJECTILE
 struct c2s_USE_ITEM
     :public PacketHeader
 {
-	uint8 item_id;
-	DECLARE_PACKET(c2s_USE_ITEM);
+    uint8 item_id;
+    DECLARE_PACKET(c2s_USE_ITEM);
 };
 
 struct s2c_USE_ITEM
     :public PacketHeader
 {
-	uint8 item_id;
+    uint8 item_id;
     uint32 object_id;
-	DECLARE_PACKET(s2c_USE_ITEM);
+    DECLARE_PACKET(s2c_USE_ITEM);
 };
 
 /// <summary>
@@ -314,5 +317,21 @@ struct s2c_ITEM_DROP
     uint32_t item_type;
     DECLARE_PACKET(s2c_ITEM_DROP);
 };
+/// <summary>
+/// 게임 클리어
+/// </summary>
+/// 
+struct c2s_GAME_CLEAR
+    : public PacketHeader
+{
+    DECLARE_PACKET(c2s_GAME_CLEAR);
+};
 
+struct s2c_GAME_CLEAR
+    : public PacketHeader
+{
+    uint32 winning_player_id; // 승리한 플레이어 ID
+    uint32 game_time;         // 게임 종료 시간 (초 단위)
+    DECLARE_PACKET(s2c_GAME_CLEAR);
+};
 #pragma pack (pop)

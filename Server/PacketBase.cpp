@@ -121,3 +121,13 @@ DECLARE_PACKET_FUNC(c2s_USE_ITEM)
 {
 
 }
+
+DECLARE_PACKET_FUNC(c2s_GAME_CLEAR)
+{
+	// 모든 플레이어에게 클리어 알림을 전송
+	s2c_GAME_CLEAR pkt;
+	pkt.winning_player_id = (uint32)id; 
+
+	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+
+}

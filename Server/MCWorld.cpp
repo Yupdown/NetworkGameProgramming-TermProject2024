@@ -16,16 +16,16 @@ MCWorld::MCWorld()
 {
 
 }
- 
- MCWorld::~MCWorld()
- {
-     if (m_worldUpdateThread.joinable())
-         m_worldUpdateThread.join();
- }
- 
- void MCWorld::Init() noexcept
- {
- 	m_terrainGenerator->Generate(m_tileMap);
+
+MCWorld::~MCWorld()
+{
+    if (m_worldUpdateThread.joinable())
+        m_worldUpdateThread.join();
+}
+
+void MCWorld::Init() noexcept
+{
+    m_terrainGenerator->Generate(m_tileMap);
     m_timerForUpdateLoopCheck.Update();
     m_timerForUpdate.Update();
 
@@ -37,7 +37,7 @@ MCWorld::MCWorld()
         const float dx = static_cast<float>(rand() % 16 * 8 - 64);
         const float dz = static_cast<float>(rand() % 16 * 8 - 64);
         b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2 + dx, 32.0f, MCTilemap::MAP_WIDTH / 2 + dz);
-       
+
         const auto& mon = AddObject(MCObjectFactory::CreateMonster(b), MC_OBJECT_TYPE::MONSTER);
         b.obj_id = mon->GetObjectID();
 
@@ -59,140 +59,140 @@ MCWorld::MCWorld()
     }
 
     m_worldUpdateThread = std::thread{ [this]()noexcept {this->Update(); } };
- }
- 
- void MCWorld::Update()
- {
-     const auto io_executor = Mgr(IOExecutor);
-     const bool& isRunning = io_executor->GetIsRunning();
-     while(isRunning)
-     {
-         m_timerForUpdateLoopCheck.Update();
-         const auto dt = m_timerForUpdateLoopCheck.GetDT();
-         m_accTimeForUpdateInterval -= dt;
-         if (0.f < m_accTimeForUpdateInterval)continue;
-         m_accTimeForUpdateInterval = UPDATE_INTERVAL;
-         m_timerForUpdate.Update();
-         const auto world_dt = m_timerForUpdate.GetDT();
+}
 
-         if (nullptr == m_cur_send_buffer)
-         {
-             m_cur_send_buffer = m_send_buff_pool.GetSendBuffer();
-         }
+void MCWorld::Update()
+{
+    const auto io_executor = Mgr(IOExecutor);
+    const bool& isRunning = io_executor->GetIsRunning();
+    while (isRunning)
+    {
+        m_timerForUpdateLoopCheck.Update();
+        const auto dt = m_timerForUpdateLoopCheck.GetDT();
+        m_accTimeForUpdateInterval -= dt;
+        if (0.f < m_accTimeForUpdateInterval)continue;
+        m_accTimeForUpdateInterval = UPDATE_INTERVAL;
+        m_timerForUpdate.Update();
+        const auto world_dt = m_timerForUpdate.GetDT();
 
-         {
-             auto& players = m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)];
-             const auto b = players.data();
-             for (auto iter = b; iter != b + players.size();)
-             {
-                 auto& player = *iter;
-                 if (player->IsValid())
-                 {
-                     player->flag = true;
-                     player->GetSession()->RegisterSendBuffer();
-                     ++iter;
-                 }
-                 else
-                 {
-                     m_mapWorldObjects.erase(player->GetObjectID());
-                     std::swap(player, *((b - 1) + players.size()));
-                     players.pop_back();
-                 }
-             }
-         }
+        if (nullptr == m_cur_send_buffer)
+        {
+            m_cur_send_buffer = m_send_buff_pool.GetSendBuffer();
+        }
 
-         while (const auto world_event = m_worldEventQueue.Pop())
-         {
-             world_event->operator()();
-             delete world_event;
-         }
+        {
+            auto& players = m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)];
+            const auto b = players.data();
+            for (auto iter = b; iter != b + players.size();)
+            {
+                auto& player = *iter;
+                if (player->IsValid())
+                {
+                    player->flag = true;
+                    player->GetSession()->RegisterSendBuffer();
+                    ++iter;
+                }
+                else
+                {
+                    m_mapWorldObjects.erase(player->GetObjectID());
+                    std::swap(player, *((b - 1) + players.size()));
+                    players.pop_back();
+                }
+            }
+        }
 
-         for (int i = 1; i < etoi(MC_OBJECT_TYPE::END); ++i)
-         {
-             auto& objs = m_worldObjects[i];
-             const auto b = objs.data();
-             for (auto iter = b; iter != b + objs.size();)
-             {
-                 auto& obj = *iter;
-                 if (obj->IsValid())
-                 {
-                     obj->Update(world_dt);
-                     ++iter;
-                 }
-                 else
-                 {
-                     m_mapWorldObjects.erase(obj->GetObjectID());
-                     std::swap(obj, *((b - 1) + objs.size()));
-                     objs.pop_back();
-                 }
-             }
-         }
+        while (const auto world_event = m_worldEventQueue.Pop())
+        {
+            world_event->operator()();
+            delete world_event;
+        }
 
-         if (0 != m_cur_send_buffer->GetLen())
-         {
-             io_executor->PostWorldSendBuffer(m_cur_send_buffer);
-             m_cur_send_buffer = nullptr;
-         }
-         
-         for (const auto& player : m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)])
-         {
-             const auto& session = player->GetSession();
-             const auto send_buff = session->GetSendBuffer();
-             if (0 == send_buff->GetLen())continue;
-             io_executor->PostSendQueue(session->GetSessionID(), send_buff);
-             session->ResetSendBuffer();
-         }
-     }
- }
+        for (int i = 1; i < etoi(MC_OBJECT_TYPE::END); ++i)
+        {
+            auto& objs = m_worldObjects[i];
+            const auto b = objs.data();
+            for (auto iter = b; iter != b + objs.size();)
+            {
+                auto& obj = *iter;
+                if (obj->IsValid())
+                {
+                    obj->Update(world_dt);
+                    ++iter;
+                }
+                else
+                {
+                    m_mapWorldObjects.erase(obj->GetObjectID());
+                    std::swap(obj, *((b - 1) + objs.size()));
+                    objs.pop_back();
+                }
+            }
+        }
 
- const S_ptr<Object>& MCWorld::AddObject(S_ptr<Object> obj, const MC_OBJECT_TYPE eType) noexcept
- {
-     m_mapWorldObjects.try_emplace(obj->GetObjectID(), obj);
-     return m_worldObjects[static_cast<int>(eType)].emplace_back(std::move(obj));
- }
+        if (0 != m_cur_send_buffer->GetLen())
+        {
+            io_executor->PostWorldSendBuffer(m_cur_send_buffer);
+            m_cur_send_buffer = nullptr;
+        }
 
- void MCWorld::AddAllObjects(const S_ptr<Session>& session) noexcept
- {
-     const auto& obj = session->GetMyGameObject();
-     const auto iter = m_mapWorldObjects.try_emplace(session->GetSessionID(), obj);
+        for (const auto& player : m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)])
+        {
+            const auto& session = player->GetSession();
+            const auto send_buff = session->GetSendBuffer();
+            if (0 == send_buff->GetLen())continue;
+            io_executor->PostSendQueue(session->GetSessionID(), send_buff);
+            session->ResetSendBuffer();
+        }
+    }
+}
 
-     if (!iter.second)return;
-    
-     m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)].emplace_back(obj);
+const S_ptr<Object>& MCWorld::AddObject(S_ptr<Object> obj, const MC_OBJECT_TYPE eType) noexcept
+{
+    m_mapWorldObjects.try_emplace(obj->GetObjectID(), obj);
+    return m_worldObjects[static_cast<int>(eType)].emplace_back(std::move(obj));
+}
 
-     session->RegisterSendBuffer();
-     
-     s2c_ADD_OBJECT p;
+void MCWorld::AddAllObjects(const S_ptr<Session>& session) noexcept
+{
+    const auto& obj = session->GetMyGameObject();
+    const auto iter = m_mapWorldObjects.try_emplace(session->GetSessionID(), obj);
 
-     for (const auto& mon : m_worldObjects[etoi(MC_OBJECT_TYPE::MONSTER)])
-     {
-         const auto pos = mon->GetPos();
+    if (!iter.second)return;
 
-         p.object_id = mon->GetObjectID();
+    m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)].emplace_back(obj);
 
-         p.position_x = pos.x;
-         p.position_y = pos.y;
-         p.position_z = pos.z;
+    session->RegisterSendBuffer();
 
-         p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
-         
-         session->GetSendBuffer()->Append(p);
-     }
+    s2c_ADD_OBJECT p;
 
-     for (const auto& item : m_worldObjects[etoi(MC_OBJECT_TYPE::ITEM)])
-     {
-         s2c_ITEM_DROP p;
+    for (const auto& mon : m_worldObjects[etoi(MC_OBJECT_TYPE::MONSTER)])
+    {
+        const auto pos = mon->GetPos();
 
-         const auto pos = item->GetPos();
+        p.object_id = mon->GetObjectID();
 
-         p.obj_id = item->GetObjectID();
+        p.position_x = pos.x;
+        p.position_y = pos.y;
+        p.position_z = pos.z;
 
-         p.x = pos.x;
-         p.y = pos.y;
-         p.z = pos.z;
+        p.obj_type = (uint8)MC_OBJECT_TYPE::MONSTER;
+
+        session->GetSendBuffer()->Append(p);
+    }
+
+    for (const auto& item : m_worldObjects[etoi(MC_OBJECT_TYPE::ITEM)])
+    {
+        s2c_ITEM_DROP p;
+
+        const auto pos = item->GetPos();
+
+        p.obj_id = item->GetObjectID();
+
+        p.x = pos.x;
+        p.y = pos.y;
+        p.z = pos.z;
 
         // TODO 아이템 종류
 
-         session->GetSendBuffer()->Append(p);
-     }
- }
+        session->GetSendBuffer()->Append(p);
+    }
+}
