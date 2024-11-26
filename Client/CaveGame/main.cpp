@@ -11,7 +11,6 @@
 
 #include "Hero.h"
 #include "EnderEye.h"
-#include "DropItem.h"
 #include "NetworkMgr.h"
 #include "PacketBase.hpp"
 #include "ServerObjectManager.h"
@@ -19,6 +18,7 @@
 #include "ServerObjectFactory.h"
 #include "MCItemManager.h"
 #include "MCItemTable.h"
+#include "EnderDragonRenderer.h"
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
@@ -183,7 +183,7 @@ int main()
         } 
 
         pClouds = Mgr(AssimpMgr)->Load("CloudShader.glsl", "MyCube.fbx");
-        pClouds->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 100.0f, 256.0f));
+        pClouds->GetTransform()->SetLocalPosition(glm::vec3(MCTilemap::MAP_WIDTH / 2, 100.0f, MCTilemap::MAP_WIDTH / 2));
         pClouds->GetTransform()->SetLocalScale(glm::vec3(320.0f, 1.0f, 320.0f));
         curScene->AddObject(pClouds, GROUP_TYPE::DEFAULT);
 
@@ -196,14 +196,9 @@ int main()
         curScene->SetSkyBox(SKYBOX_TYPE::SPHERE, "basic_skybox_3d_flip.fbx", "skybox.png");
 
         auto pEnderEye = make_shared<EnderEye>();
-        pEnderEye->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 12.0f, 256.0f));
+        pEnderEye->GetTransform()->SetLocalPosition(glm::vec3(MCTilemap::MAP_WIDTH / 2, 16.0f, MCTilemap::MAP_WIDTH / 2));
         pEnderEye->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * 0.5f);
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
-
-        // 드랍 아이템 생성 예시 코드
-       // auto pDropItem = make_shared<DropItem>(tilemap, Mgr(MCItemManager)->GetItemByID(10), 1);
-       // pDropItem->GetTransform()->SetLocalPosition(glm::vec3(64.0f, 16.0f, 64.0f));
-       // curScene->AddObject(pDropItem, GROUP_TYPE::DEFAULT);
 
         Mgr(ServerObjectManager)->SetTargetScene(Mgr(SceneMgr)->GetScene(SCENE_TYPE::STAGE));
         Send(c2s_ENTER{});

@@ -85,6 +85,9 @@
     <Filter Include="Common\MCItemTable">
       <UniqueIdentifier>{039525be-9954-4478-86f5-b219e58e6176}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CaveObject\EnderDragon">
+      <UniqueIdentifier>{96fe9cf5-d9db-46b3-97e1-0a3882c309bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -176,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\MCItemTable.cpp">
       <Filter>Common\MCItemTable</Filter>
+    </ClCompile>
+    <ClCompile Include="EnderDragonRenderer.cpp">
+      <Filter>CaveObject\EnderDragon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Common\MCItemTable.h">
       <Filter>Common\MCItemTable</Filter>
+    </ClInclude>
+    <ClInclude Include="EnderDragonRenderer.h">
+      <Filter>CaveObject\EnderDragon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
