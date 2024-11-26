@@ -51,8 +51,7 @@ enum class PKT_ID : uint8
 
     s2c_ITEM_DROP = 18,
 
-    c2s_GAME_CLEAR = 19,
-    s2c_GAME_CLEAR = 20,
+
 
 
     END,
@@ -317,21 +316,6 @@ struct s2c_ITEM_DROP
     uint32_t item_type;
     DECLARE_PACKET(s2c_ITEM_DROP);
 };
-/// <summary>
-/// 게임 클리어
-/// </summary>
-/// 
-struct c2s_GAME_CLEAR
-    : public PacketHeader
-{
-    DECLARE_PACKET(c2s_GAME_CLEAR);
-};
 
-struct s2c_GAME_CLEAR
-    : public PacketHeader
-{
-    uint32 winning_player_id; // 승리한 플레이어 ID
-    uint32 game_time;         // 게임 종료 시간 (초 단위)
-    DECLARE_PACKET(s2c_GAME_CLEAR);
-};
+
 #pragma pack (pop)
