@@ -13,32 +13,36 @@
 
 DECLARE_PACKET_FUNC(c2s_LOGIN)
 {
+	const auto& session = Mgr(IOExecutor)->GetSession(id);
 	s2c_LOGIN pkt;
 	pkt.mc_seed = MCWorld::G_MC_SEED;
 	pkt.id = (uint32)id;
-	Mgr(IOExecutor)->GetSession(id)->ReserveSend(pkt);
+	pkt.tex_id = session->GetPlayerTexID();
+	session->ReserveSend(pkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_ENTER)
 {
-	glm::vec3(256.0f, 16.0f, 256.0f);
-
 	s2c_ENTER pkt;
+	auto s = Mgr(IOExecutor)->GetSession(id);
 	pkt.other_player_id = (uint32)id;
+	pkt.other_player_texture_id = s->GetPlayerTexID();
+
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 
-	const auto s = Mgr(IOExecutor)->GetSession(id);
+	
 	for (const auto& [id_, session] : Mgr(IOExecutor)->GetAllSessions())
 	{
 		if (id_ == id)continue;
 		pkt.other_player_id = (uint32)id_;
+		pkt.other_player_texture_id = session->GetPlayerTexID();
+
 		s->ReserveSend(pkt);
 	}
 
-	auto session = Mgr(IOExecutor)->GetSession(id);
-	session->SetMyGameObject(std::make_shared<Object>(session));
+	s->SetMyGameObject(std::make_shared<Object>(s));
 
-	Mgr(MCWorld)->PostWorldEvent([session = std::move(session)]() {Mgr(MCWorld)->AddAllObjects(session); });
+	Mgr(MCWorld)->PostWorldEvent([session = std::move(s)]() {Mgr(MCWorld)->AddAllObjects(session); });
 }
 
 DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)

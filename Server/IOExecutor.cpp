@@ -113,7 +113,7 @@ void IOExecutor::OnAccept() noexcept
     m_clientsFD[cur_idx].events = POLLRDNORM;
 
     const auto cur_ID = GetObjectIDAndIncrement();
-    const auto session = std::make_shared<Session>(cur_ID, m_clientsFD[cur_idx].fd);
+    const auto session = std::make_shared<Session>(cur_ID, m_clientsFD[cur_idx].fd, (cur_ID) % G_NUM_OF_PLAYER_MODEL);
 
     BOOL flag = TRUE;
     if (setsockopt(m_clientsFD[cur_idx].fd, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(flag)) != 0)

@@ -9,7 +9,7 @@ class Session
 {
 	friend class IOExecutor;
 public:
-	Session(const uint64_t id, const SOCKET sock)noexcept;
+	Session(const uint64_t id, const SOCKET sock, const uint8_t texID_)noexcept;
 	~Session()noexcept;
 	void RegisterSendBuffer()
 	{
@@ -26,7 +26,7 @@ public:
 	void SetMyGameObject(S_ptr<class Object> obj)noexcept { m_myGameObject = obj; }
 	void ResetSendBuffer() { m_cur_send_buff = nullptr; }
 	const auto& GetMyGameObject()const noexcept { return m_myGameObject; }
-
+	const auto GetPlayerTexID()const noexcept { return m_texID; }
 private:
 	void ReturnSendBuffer(SendBuffer* const pBuff)noexcept { m_send_buff_pool.ReturnSendBuffer(pBuff); }
 	
@@ -74,6 +74,8 @@ private:
 	
 	std::vector<SendBuffer*> m_vecWsaSendBuff;
 	std::vector<WSABUF> m_wsaBuf;
+
+	const uint8_t m_texID;
 };
 
 

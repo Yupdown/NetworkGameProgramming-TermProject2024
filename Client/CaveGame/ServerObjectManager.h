@@ -30,7 +30,8 @@ public:
 	void SetHero(shared_ptr<Hero> hero);
 	auto& GetHero()noexcept { return m_hero; }
 	bool IsMyID(const uint32_t id_)const noexcept { return id_ == m_my_id_from_server; }
-
+	void SetMyTexID(const int id_) { m_my_tex_id = id_; }
+	const auto GetMyTexIDFromServer()const noexcept { return m_my_tex_id; }
 private:
 	std::unordered_map<unsigned int, std::shared_ptr<ServerObject>> m_serverObjects;
 
@@ -40,6 +41,7 @@ private:
 	std::shared_ptr<Hero> m_hero;
 
 	int m_my_id_from_server = -1;
+	int m_my_tex_id = -1;
 };
 
 static inline const auto& GetTileMapGlobal()noexcept { return ServerObjectManager::GetInst()->GetTileMap(); }

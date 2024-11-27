@@ -17,6 +17,7 @@ DECLARE_PACKET_FUNC(s2c_LOGIN)
 {
 	G_MC_SEED = pkt_.mc_seed;
 	Mgr(ServerObjectManager)->SetMyID(pkt_.id);
+	Mgr(ServerObjectManager)->SetMyTexID(pkt_.tex_id);
 	std::cout << "Recv MC SEED !: " << G_MC_SEED << '\n';
 }
 
@@ -25,10 +26,11 @@ DECLARE_PACKET_FUNC(s2c_ENTER)
 	if (Mgr(ServerObjectManager)->IsMyID(pkt_.other_player_id))
 		return;
 
-	ServerObjectBulider b;
+	PlayerBuilder b;
 
 	b.pos = G_INIT_POS;
 	b.obj_id = pkt_.other_player_id;
+	b.tex_id = pkt_.other_player_texture_id;
 
 	Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreatePlayer(b), GROUP_TYPE::PLAYER);
 }

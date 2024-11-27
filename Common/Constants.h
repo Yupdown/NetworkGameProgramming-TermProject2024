@@ -14,3 +14,5 @@ enum class MC_OBJECT_TYPE :unsigned char
 
 	END
 };
+
+static constexpr int G_NUM_OF_PLAYER_MODEL = 9;

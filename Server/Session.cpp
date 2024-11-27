@@ -3,9 +3,10 @@
 #include "Object.h"
 #include "Component.h"
 
-Session::Session(const uint64_t id, const SOCKET sock)noexcept
+Session::Session(const uint64_t id, const SOCKET sock, const uint8_t texID_)noexcept
 	: m_sessionID{ id }
 	, m_socket{ sock }
+	, m_texID{ texID_ }
 {
 }
 

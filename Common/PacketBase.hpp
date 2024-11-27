@@ -135,6 +135,7 @@ struct s2c_LOGIN
 {
     int mc_seed;
     uint32 id;
+    uint8_t tex_id;
     DECLARE_PACKET(s2c_LOGIN);
 };
 //
@@ -153,6 +154,7 @@ struct s2c_ENTER
     :public PacketHeader
 {
     uint32 other_player_id;
+    uint8 other_player_texture_id;
     DECLARE_PACKET(s2c_ENTER);
 };
 //

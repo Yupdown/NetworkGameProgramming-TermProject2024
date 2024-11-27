@@ -169,7 +169,8 @@ int main()
             Mgr(ServerObjectManager)->SetHero(player);
 
             player->SetObjName("player");
-            player->SetRendererTexture(0);
+            player->SetRendererTexture(Mgr(ServerObjectManager)->GetMyTexIDFromServer());
+
             // 플레이어 스폰 위치를 맵의 정중앙, 하늘 위로 설정
             player->GetTransform()->SetLocalPosition(glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2));
             curScene->AddObject(player, GROUP_TYPE::PLAYER);

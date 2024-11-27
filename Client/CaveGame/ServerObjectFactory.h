@@ -10,6 +10,12 @@ struct ServerObjectBulider
 	glm::vec3 pos;
 };
 
+struct PlayerBuilder
+	:public ServerObjectBulider
+{
+	uint8_t tex_id;
+};
+
 class ServerObjectFactory
 {
 public:

@@ -6,11 +6,13 @@
 
 shared_ptr<ServerObject> ServerObjectFactory::CreatePlayer(ServerObjectBulider& b_) noexcept
 {
+	const auto& b = static_cast<PlayerBuilder&>(b_);
+
 	auto player = make_shared<Player>(g_tileMapForCreateObject);
 	player->SetObjName("player");
-	player->GetTransform()->SetLocalPosition(b_.pos);
-	player->SetRendererTexture(b_.obj_id);
-	player->SetID(b_.obj_id);
+	player->GetTransform()->SetLocalPosition(b.pos);
+	player->SetRendererTexture(b.tex_id);
+	player->SetID(b.obj_id);
 
 	return player;
 }

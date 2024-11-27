@@ -74,7 +74,7 @@ void Player::SetRendererTexture(int id)
 
 void Player::ValidateRendererTexture()
 {
-	std::string tex_name = std::format("char_{:02}.png", m_rendererTextureId % 9 + 1);
+	std::string tex_name = std::format("char_{:02}.png", m_rendererTextureId % G_NUM_OF_PLAYER_MODEL + 1);
 
 	// replace all materials with the same material
 	for (auto& child : *m_rendererObj)
