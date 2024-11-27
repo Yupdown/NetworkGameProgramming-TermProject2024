@@ -133,7 +133,7 @@ void Hero::UpdateTileManipulation()noexcept
 	}
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_MIDDLE))
 	{
-		Fire();
+		Fire(m_pCacheMyTransform->GetLocalPosition(), m_cameraAngleAxisSmooth.x, m_cameraAngleAxisSmooth.y);
 	}
 }
 

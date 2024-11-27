@@ -119,6 +119,21 @@ DECLARE_PACKET_FUNC(c2s_MOVE_OBJECT)
 DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)
 {
 
+	// TODO: 월드에 화살추가
+	s2c_ADD_PROJECTILE pkt;
+	pkt.fire_player_id = (uint32)id;
+
+	pkt.dir_x = pkt_.dir_x;
+	pkt.dir_y = pkt_.dir_y;
+
+	pkt.pos_x = pkt_.pos_x;
+	pkt.pos_y = pkt_.pos_y;
+	pkt.pos_z = pkt_.pos_z;
+
+	pkt.projectile_id = Mgr(IOExecutor)->GetObjectIDAndIncrement(); // TODO 월드에 오브젝트로서 만들고 해야함
+	pkt.shooter_local_arrow_id = pkt_.local_arrow_id;
+
+	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_USE_ITEM)

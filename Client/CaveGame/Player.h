@@ -83,7 +83,7 @@ public:
 
 	glm::vec3 GetPlayerLook() const noexcept;
 
-	void Fire()noexcept;
+	class ProjectileArrow* Fire(const glm::vec3& arrow_pos, const float x_,const float y_)noexcept;
 
 public:
 	virtual void InitializeRenderer();

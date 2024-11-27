@@ -21,6 +21,8 @@ public:
 	void SetTargetScene(const std::shared_ptr<Scene>& scene);
 	void SetTileMap(std::shared_ptr<MCTilemap> tile_map) { m_tileMap = std::move(tile_map); }
 	const auto& GetTileMap()const noexcept { return m_tileMap; }
+	
+	const auto& GetTargetScene()const noexcept { return m_targetScene; }
 public:
 	void SetMyID(const int id_) {
 		NAGOX_ASSERT(-1 == m_my_id_from_server, "ID Must Init Once");

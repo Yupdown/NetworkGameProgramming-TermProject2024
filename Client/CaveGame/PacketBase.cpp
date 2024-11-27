@@ -5,6 +5,7 @@
 #include "ServerObjectFactory.h"
 #include "DropItem.h"
 #include "MCItemManager.h"
+#include "ProjectileArrow.h"
 
 // Server -> Client , 서버로 부터의 패킷을 받아서 처리하는 함수들의 모임
 // c2s는 없으면 링크에러나서 더미로 만들었음 좋은 의견있으면 건의 부탁
@@ -73,7 +74,26 @@ DECLARE_PACKET_FUNC(s2c_MOVE_OBJECT)
 
 DECLARE_PACKET_FUNC(s2c_ADD_PROJECTILE)
 {
+	if (Mgr(ServerObjectManager)->IsMyID(pkt_.fire_player_id))
+	{
+		const auto& projs = Mgr(ServerObjectManager)->GetTargetScene()->GetGroupObj(GROUP_TYPE::PROJ_PLAYER);
 
+		for (const auto& proj : projs)
+		{
+			const auto p = static_cast<ProjectileArrow*>(proj.get());
+			if (p->GetArrowLocalID() == pkt_.shooter_local_arrow_id)
+			{
+				p->SetID(pkt_.projectile_id);
+				break;
+			}
+		}
+		
+	}
+	else if (const auto obj = Mgr(ServerObjectManager)->FindObject(pkt_.fire_player_id))
+	{
+		// std::cout << pkt_.object_id << std::endl;
+		static_cast<Player*>(obj.get())->Fire({ pkt_.pos_x,pkt_.pos_y ,pkt_.pos_z }, pkt_.dir_x, pkt_.dir_y)->SetID(pkt_.projectile_id);
+	}
 }
 
 DECLARE_PACKET_FUNC(s2c_USE_ITEM)
