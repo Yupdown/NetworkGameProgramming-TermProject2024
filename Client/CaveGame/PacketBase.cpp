@@ -57,6 +57,14 @@ DECLARE_PACKET_FUNC(s2c_ADD_OBJECT)
 	{
 		Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateMonster(b), GROUP_TYPE::MONSTER);
 	}
+	else if (pkt_.obj_type == (uint8)MC_OBJECT_TYPE::BOSS)
+	{
+		// TODO 테스트용 하드코딩
+		EnderDragonBuilder bb;
+		bb.obj_id = b.obj_id;
+		bb.pos = b.pos;
+		Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateEnderDragon(b), GROUP_TYPE::MONSTER);
+	}
 	// TODO 다른 오브젝트
 }
 
@@ -119,4 +127,14 @@ DECLARE_PACKET_FUNC(s2c_ITEM_DROP)
 	// 확인용
 	pDropItem->GetTransform()->SetLocalScale(5.f);
 	Mgr(ServerObjectManager)->AddObject(std::move(pDropItem), GROUP_TYPE::DROP_ITEM);
+}
+
+DECLARE_PACKET_FUNC(s2c_SUMMON_BOSS)
+{
+	EnderDragonBuilder b;
+	b.obj_id = pkt_.boss_id;
+	b.pos.x = pkt_.pos_x;
+	b.pos.y = pkt_.pos_y;
+	b.pos.z = pkt_.pos_z;
+	Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateEnderDragon(b), GROUP_TYPE::MONSTER);
 }

@@ -5,6 +5,8 @@
 #include "EntityMovement.h"
 #include "FSM.h"
 #include "State.h"
+#include "EnderDragon.h"
+#include "MCTilemap.h"
 
 S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 {
@@ -35,4 +37,13 @@ S_ptr<Object> MCObjectFactory::CreateItem(MCItemBuilder& b_)
 	//item->GetEntityMovement()->current_position = b_.pos;
 	// TODO: 어떤아이템인가의 정보 추가하기
 	return item;
+}
+
+S_ptr<Object> MCObjectFactory::CreateEnderDragon(EnderDragonBuilder& b_)
+{
+	auto ed = std::make_shared<Object>();
+	ed->SetPos(b_.pos);
+	const auto edc = ed->AddComp<EnderDragon>(new EnderDragon);
+
+	return ed;
 }

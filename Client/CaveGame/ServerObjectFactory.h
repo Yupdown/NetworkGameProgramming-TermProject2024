@@ -16,6 +16,12 @@ struct PlayerBuilder
 	uint8_t tex_id;
 };
 
+struct EnderDragonBuilder
+	:public ServerObjectBulider
+{
+	// TODO: 보스를 위해 필요한 정보들
+};
+
 class ServerObjectFactory
 {
 public:
@@ -27,7 +33,7 @@ public:
 
 	static shared_ptr<ServerObject> CreatePlayer(ServerObjectBulider& b_)noexcept;
 	static shared_ptr<ServerObject> CreateMonster(ServerObjectBulider& b_)noexcept;
-
+	static shared_ptr<ServerObject> CreateEnderDragon(ServerObjectBulider& b_)noexcept;
 private:
 	static inline std::shared_ptr<MCTilemap> g_tileMapForCreateObject;
 };

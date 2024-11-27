@@ -53,6 +53,8 @@ enum class PKT_ID : uint8
 
 
 
+    c2s_SUMMON_BOSS = 19,
+    s2c_SUMMON_BOSS = 20,
 
     END,
 };
@@ -322,5 +324,24 @@ struct s2c_ITEM_DROP
     DECLARE_PACKET(s2c_ITEM_DROP);
 };
 
+/// <summary>
+/// 보스소환
+/// </summary>
+/// 
+
+struct c2s_SUMMON_BOSS
+    :public PacketHeader
+{
+    DECLARE_PACKET(c2s_SUMMON_BOSS);
+};
+
+struct s2c_SUMMON_BOSS
+    :public PacketHeader
+{
+    uint32 boss_id;
+    float pos_x, pos_y, pos_z;
+
+    DECLARE_PACKET(s2c_SUMMON_BOSS);
+};
 
 #pragma pack (pop)

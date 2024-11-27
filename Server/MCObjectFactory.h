@@ -6,13 +6,18 @@ class Object;
 struct MCObjectBuilder
 {
 	glm::vec3 pos;
-	uint32_t obj_id;
 };
 
 struct MCItemBuilder
 	:public MCObjectBuilder
 {
 	uint8_t item_id;
+};
+
+struct EnderDragonBuilder
+	:public MCObjectBuilder
+{
+	
 };
 
 class MCObjectFactory
@@ -23,5 +28,6 @@ public:
 public:
 	static S_ptr<Object> CreateMonster(MCObjectBuilder& b_);
 	static S_ptr<Object> CreateItem(MCItemBuilder& b_);
+	static S_ptr<Object> CreateEnderDragon(EnderDragonBuilder& b_);
 };
 

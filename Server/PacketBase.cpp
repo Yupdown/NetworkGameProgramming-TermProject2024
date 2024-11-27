@@ -6,6 +6,7 @@
 #include "MCTilemap.h"
 #include "Object.h"
 #include "EntityMovement.h"
+#include "MCObjectFactory.h"
 
 // c2s를 정의하는 CPP
 
@@ -141,3 +142,20 @@ DECLARE_PACKET_FUNC(c2s_USE_ITEM)
 
 }
 
+DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
+{
+	// TODO: 드래곤소환후 월드에 넣기
+
+	EnderDragonBuilder b;
+	b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2);
+
+	const auto ed = MCObjectFactory::CreateEnderDragon(b);
+
+	s2c_SUMMON_BOSS pkt;
+	pkt.boss_id = ed->GetObjectID();
+	pkt.pos_x = b.pos.x;
+	pkt.pos_y = b.pos.y;
+	pkt.pos_z = b.pos.z;
+
+	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+}

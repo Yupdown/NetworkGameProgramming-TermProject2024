@@ -183,6 +183,9 @@
     <ClCompile Include="EnderDragonRenderer.cpp">
       <Filter>CaveObject\EnderDragon</Filter>
     </ClCompile>
+    <ClCompile Include="EnderDragon.cpp">
+      <Filter>CaveObject\EnderDragon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3D.hpp">
@@ -294,6 +297,9 @@
       <Filter>Common\MCItemTable</Filter>
     </ClInclude>
     <ClInclude Include="EnderDragonRenderer.h">
+      <Filter>CaveObject\EnderDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="EnderDragon.h">
       <Filter>CaveObject\EnderDragon</Filter>
     </ClInclude>
   </ItemGroup>

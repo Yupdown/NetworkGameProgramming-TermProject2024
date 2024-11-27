@@ -39,8 +39,7 @@ void MCWorld::Init() noexcept
         b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2 + dx, 32.0f, MCTilemap::MAP_WIDTH / 2 + dz);
 
         const auto& mon = AddObject(MCObjectFactory::CreateMonster(b), MC_OBJECT_TYPE::MONSTER);
-        b.obj_id = mon->GetObjectID();
-
+        
         mon->Init();
     }
 
@@ -53,8 +52,7 @@ void MCWorld::Init() noexcept
         b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2 + dx, 16.0f, MCTilemap::MAP_WIDTH / 2 + dz);
 
         const auto& item = AddObject(MCObjectFactory::CreateItem(b), MC_OBJECT_TYPE::ITEM);
-        b.obj_id = item->GetObjectID();
-
+        
         item->Init();
     }
 

@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "Hero.h"
 #include "Monster.h"
+#include "EnderDragon.h"
+#include "MCTilemap.h"
 
 shared_ptr<ServerObject> ServerObjectFactory::CreatePlayer(ServerObjectBulider& b_) noexcept
 {
@@ -25,4 +27,16 @@ shared_ptr<ServerObject> ServerObjectFactory::CreateMonster(ServerObjectBulider&
 	mon->SetID(b_.obj_id);
 
 	return mon;
+}
+
+shared_ptr<ServerObject> ServerObjectFactory::CreateEnderDragon(ServerObjectBulider& b_) noexcept
+{
+	auto b = static_cast<EnderDragonBuilder&>(b_);
+
+	auto ed = std::make_shared<EnderDragon>();
+	ed->GetTransform()->SetLocalPosition(glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2));
+	ed->SetID(b_.obj_id);
+	// TODO 임시 테스트용
+
+	return ed;
 }

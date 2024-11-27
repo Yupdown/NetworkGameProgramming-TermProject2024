@@ -135,6 +135,12 @@ void Hero::UpdateTileManipulation()noexcept
 	{
 		Fire(m_pCacheMyTransform->GetLocalPosition(), m_cameraAngleAxisSmooth.x, m_cameraAngleAxisSmooth.y);
 	}
+
+	// TODO 임시 드래곤 소환
+	if (KEY_TAP(GLFW_KEY_BACKSLASH))
+	{
+		Send(c2s_SUMMON_BOSS{});
+	}
 }
 
 void Hero::Update()
