@@ -53,10 +53,10 @@ public:
         bool operator<(const Node& other) const { return f() > other.f(); }
         bool operator==(const Node& other) const { return xyz == other.xyz; }
     };
-    static int mdist(const glm::ivec3& a, const glm::ivec3& b) {
+    static int mdist(const glm::ivec3& a, const glm::ivec3& b)noexcept {
         return glm::abs(a.x - b.x) + glm::abs(a.y - b.y) + glm::abs(a.z - b.z);
     }
-    static int udist(const glm::ivec3& a, const glm::ivec3& b) {
+    static int udist(const glm::ivec3& a, const glm::ivec3& b)noexcept {
         const int dx = a.x - b.x;
         const int dy = a.y - b.y;
         const int dz = a.z - b.z;

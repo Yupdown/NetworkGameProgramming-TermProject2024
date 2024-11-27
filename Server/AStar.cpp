@@ -58,7 +58,7 @@ std::vector<glm::ivec3> AStar::GetAStarPath(const glm::ivec3& start, const glm::
     int cnt = 0;
     while (!open_set.empty())
     {
-        if (cnt == 2000) break;  // 최대 탐색 제한
+        if (cnt == 20) break;  // 최대 탐색 제한
         ++cnt;
         const Node current = open_set.top();
         open_set.pop();

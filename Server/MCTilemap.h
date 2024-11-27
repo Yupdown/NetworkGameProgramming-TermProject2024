@@ -72,11 +72,11 @@ private:
 
 	std::vector<std::function<void(MCTileChunk*, int, int)>> notifyCallback;
 private:
-	void SetTileFlag(const uint8_t x, const uint8_t y, const uint8_t z,const bool flag)noexcept {
+	void SetTileFlag(const int32_t x, const int32_t y, const int32_t z,const bool flag)noexcept {
 		m_tileFlag[x][y][z] = flag;
 	}
 public:
-	const bool GetTileFlag(const uint8_t x, const uint8_t y, const uint8_t z)const noexcept { return m_tileFlag[x][y][z]; }
+	const bool GetTileFlag(const int32_t x, const int32_t y, const int32_t z)const noexcept { return m_tileFlag[x][y][z]; }
 	void SetTile(int x, int y, int z, uint8_t tile, bool notify = false) noexcept;
 	void SetTile(const glm::ivec3& v, uint8_t tile, bool notify = false) noexcept;
 	uint8_t GetTile(int x, int y, int z) const noexcept;
