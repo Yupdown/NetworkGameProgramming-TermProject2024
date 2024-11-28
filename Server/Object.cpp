@@ -60,6 +60,7 @@ void Object::Update(const float DT) noexcept
 		pkt.acceleration_z = accel.z;
 
 		pkt.rotation_y = body_angle;
+		pkt.yaw = body_angle;
 
 		Mgr(MCWorld)->AppendToWorldSendBuffer(pkt);
 	}

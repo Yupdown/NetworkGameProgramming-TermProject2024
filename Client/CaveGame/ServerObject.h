@@ -28,6 +28,7 @@ public:
 	void SetAcceleration(const glm::vec3& acceleration) { m_acceleration = acceleration; }
 
 	void SetID(const int id_) { m_id = id_; }
+	virtual void OnObjectDamaged(int value);
 
 protected:
 	// TODO: 이거 어떻게 할 지 고민

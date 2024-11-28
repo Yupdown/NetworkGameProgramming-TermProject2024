@@ -24,3 +24,7 @@ void ServerObject::SyncMovement(const s2c_MOVE_OBJECT& pkt)
 	SetVelocity(vVelocity);
 	SetAcceleration(vAcceleration);
 }
+
+void ServerObject::OnObjectDamaged(int value)
+{
+}

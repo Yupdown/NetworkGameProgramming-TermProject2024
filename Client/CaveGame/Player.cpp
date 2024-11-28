@@ -72,7 +72,8 @@ void Player::InitializeRenderer()
 
 void Player::UpdateRenderer()
 {
-	const float rotationFactor = glm::min(glm::length(m_vVelocity) * glm::pi<float>() * 0.05f, 0.75f) * sin(m_fMoveTime * 1.75f);
+	const float vl = glm::length(glm::vec2(m_vVelocity.x, m_vVelocity.z));
+	const float rotationFactor = glm::min(vl * glm::pi<float>() * 0.05f, 0.75f) * sin(m_fMoveTime * 1.75f);
 	const float l = 60.0f;
 	const float dx = l * sin(rotationFactor);
 	const float dy = l * (1.0f - cos(rotationFactor));
@@ -129,7 +130,6 @@ void Player::HandleCollision() noexcept
 	m_vVelocity.z = vVelocityXZ.y;
 
 	const glm::vec3 origin_pos = m_pCacheMyTransform->GetLocalPosition();
-
 	const glm::vec3 position = origin_pos;
 	glm::vec3 positionPost = position + m_vVelocity * DT;
 
@@ -138,7 +138,7 @@ void Player::HandleCollision() noexcept
 	m_pCacheMyTransform->SetLocalPosition(positionPost);
 
 	float old_fMoveTime = m_fMoveTime;
-	m_fMoveTime += glm::length(m_vVelocity) * DT;
+	m_fMoveTime += glm::length(glm::vec2(m_vVelocity.x, m_vVelocity.z)) * DT;
 
 	bool bSoundPlay = false;
 	if (m_bGround && glm::mod(old_fMoveTime, 2.5f) > glm::mod(m_fMoveTime, 2.5f))
@@ -244,13 +244,18 @@ void Player::Update()
 	ServerObject::Update();
 }
 
+void Player::OnObjectDamaged(int value)
+{
+	std::cout << "Player Damaged: " << value << std::endl;
+}
+
 class ProjectileArrow* Player::Fire(const glm::vec3& arrow_pos, const float x_, const float y_) noexcept
 {
 	auto projectile = make_shared<ProjectileArrow>(m_refTilemap);
 
-	const glm::vec3 p = arrow_pos + glm::vec3(0.0f, 1.7f, 0.0f);
 
 	const auto r = glm::rotate(glm::quat(glm::vec3(glm::radians(x_), glm::radians(y_), 0.0f)), glm::vec3(0.0f, 0.0f, 1.0f));
+	const glm::vec3 p = arrow_pos + glm::vec3(0.0f, 1.7f, 0.0f) + glm::normalize(r) * 0.75f;
 
 	projectile->SetPosition(p);
 	projectile->SetVelocity(r * 32.0f); // GetPlayerLook ÀÌ¿´À½
