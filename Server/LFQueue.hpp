@@ -27,6 +27,7 @@ public:
 		}
 		return ptr;
 	}
+	const bool empty()const noexcept { return m_popIndex == m_pushIndex; }
 private:
 	std::atomic<T*> m_arrElements[MAX_TASK] = { nullptr };
 	alignas(64) uint64_t m_popIndex = 0;

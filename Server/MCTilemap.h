@@ -76,7 +76,10 @@ private:
 		m_tileFlag[x][y][z] = flag;
 	}
 public:
-	const bool GetTileFlag(const int32_t x, const int32_t y, const int32_t z)const noexcept { return m_tileFlag[x][y][z]; }
+	const bool GetTileFlag(const int32_t x, const int32_t y, const int32_t z)const noexcept {
+		if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT || z < 0 || z >= MAP_WIDTH)return false;
+		return m_tileFlag[x][y][z]; 
+	}
 	void SetTile(int x, int y, int z, uint8_t tile, bool notify = false) noexcept;
 	void SetTile(const glm::ivec3& v, uint8_t tile, bool notify = false) noexcept;
 	uint8_t GetTile(int x, int y, int z) const noexcept;

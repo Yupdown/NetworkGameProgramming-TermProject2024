@@ -68,7 +68,7 @@ void MCWorld::Update()
         m_timerForUpdateLoopCheck.Update();
         const auto dt = m_timerForUpdateLoopCheck.GetDT();
         m_accTimeForUpdateInterval -= dt;
-        if (0.f < m_accTimeForUpdateInterval)continue;
+        if (0.f < m_accTimeForUpdateInterval && m_worldEventQueue.empty())continue;
         m_accTimeForUpdateInterval = UPDATE_INTERVAL;
         m_timerForUpdate.Update();
         const auto world_dt = m_timerForUpdate.GetDT();
@@ -126,10 +126,17 @@ void MCWorld::Update()
             }
         }
 
-        if (0 != m_cur_send_buffer->GetLen())
+        if (m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)].empty())
         {
-            io_executor->PostWorldSendBuffer(m_cur_send_buffer);
-            m_cur_send_buffer = nullptr;
+            m_cur_send_buffer->Clear();
+        }
+        else
+        {
+            if (0 != m_cur_send_buffer->GetLen())
+            {
+                io_executor->PostWorldSendBuffer(m_cur_send_buffer);
+                m_cur_send_buffer = nullptr;
+            }
         }
 
         for (const auto& player : m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)])

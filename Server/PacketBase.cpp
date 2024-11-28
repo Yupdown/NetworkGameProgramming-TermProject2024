@@ -95,23 +95,16 @@ DECLARE_PACKET_FUNC(c2s_MOVE_OBJECT)
 	pkt.rotation_y = pkt_.rotation_y;
 	pkt.yaw = pkt_.yaw;
 
+	const auto& session = Mgr(IOExecutor)->GetSession(id);
+	if (!session)return;
+	const auto& player = session->GetMyGameObject();
+	if (!player)return;
+	const auto movement = &player->GetPosInfo();
 
-	const auto& players = Mgr(MCWorld)->GetWorldObjects(MC_OBJECT_TYPE::PLAYER);
-	auto b = players.data();
-	const auto e = b + players.size();
-	while (e != b) 
-	{
-		const auto& obj = *b++;
-		if (obj->GetObjectID() == id)
-		{
-			const auto movement = &obj->GetPosInfo();
-			movement->m_vPos = { pkt_.position_x ,pkt_.position_y ,pkt_.position_z };
-			movement->m_vVelocity = { pkt_.velocity_x ,pkt_.velocity_y ,pkt_.velocity_z };
-			movement->m_vAccelation = { pkt_.acceleration_x ,pkt_.acceleration_y ,pkt_.acceleration_z };
-			movement->m_cameraAngleAxisSmooth = { pkt_.cam_x,pkt_.cam_y ,pkt_.cam_z };
-			break;
-		}
-	}
+	movement->m_vPos = { pkt_.position_x ,pkt_.position_y ,pkt_.position_z };
+	movement->m_vVelocity = { pkt_.velocity_x ,pkt_.velocity_y ,pkt_.velocity_z };
+	movement->m_vAccelation = { pkt_.acceleration_x ,pkt_.acceleration_y ,pkt_.acceleration_z };
+	movement->m_cameraAngleAxisSmooth = { pkt_.cam_x,pkt_.cam_y ,pkt_.cam_z };
 	
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
