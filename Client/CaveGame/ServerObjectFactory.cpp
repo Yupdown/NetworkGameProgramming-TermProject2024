@@ -5,6 +5,7 @@
 #include "Monster.h"
 #include "EnderDragon.h"
 #include "MCTilemap.h"
+#include "ProjectileArrow.h"
 
 shared_ptr<ServerObject> ServerObjectFactory::CreatePlayer(ServerObjectBulider& b_) noexcept
 {
@@ -27,6 +28,23 @@ shared_ptr<ServerObject> ServerObjectFactory::CreateMonster(ServerObjectBulider&
 	mon->SetID(b_.obj_id);
 
 	return mon;
+}
+
+shared_ptr<ServerObject> ServerObjectFactory::CreateProjArrow(ServerObjectBulider& b_) noexcept
+{
+	const auto& b = static_cast<ProjArrowBuilder&>(b_);
+
+	auto projectile = make_shared<ProjectileArrow>(g_tileMapForCreateObject);
+
+
+	const auto r = glm::rotate(glm::quat(glm::vec3(glm::radians(b.rot_x), glm::radians(b.rot_y), 0.0f)), glm::vec3(0.0f, 0.0f, 1.0f));
+	const glm::vec3 p = b.pos + glm::vec3(0.0f, 1.7f, 0.0f) + glm::normalize(r) * 0.75f;
+
+	projectile->SetID(b.obj_id);
+	projectile->SetPosition(p);
+	projectile->SetVelocity(r * 32.0f);
+
+	return projectile;
 }
 
 shared_ptr<ServerObject> ServerObjectFactory::CreateEnderDragon(ServerObjectBulider& b_) noexcept

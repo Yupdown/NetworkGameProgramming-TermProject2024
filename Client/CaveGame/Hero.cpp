@@ -370,3 +370,17 @@ void Hero::MoveByView(const glm::vec3& vDelta)
 	m_rendererBodyAngleY = Lerp(m_rendererBodyAngleY, m_cameraAngleAxis.y, DT * 8.0f);
 	m_bForceSendData = true;
 }
+
+void Hero::Fire(const glm::vec3& arrow_pos, const float x_, const float y_) noexcept
+{
+	c2s_ADD_PROJECTILE pkt;
+
+	pkt.pos_x = arrow_pos.x;
+	pkt.pos_y = arrow_pos.y;
+	pkt.pos_z = arrow_pos.z;
+
+	pkt.dir_x = x_;
+	pkt.dir_y = y_;
+
+	Send(pkt);
+}

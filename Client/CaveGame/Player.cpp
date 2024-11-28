@@ -248,36 +248,3 @@ void Player::OnObjectDamaged(int value)
 {
 	std::cout << "Player Damaged: " << value << std::endl;
 }
-
-class ProjectileArrow* Player::Fire(const glm::vec3& arrow_pos, const float x_, const float y_) noexcept
-{
-	auto projectile = make_shared<ProjectileArrow>(m_refTilemap);
-
-
-	const auto r = glm::rotate(glm::quat(glm::vec3(glm::radians(x_), glm::radians(y_), 0.0f)), glm::vec3(0.0f, 0.0f, 1.0f));
-	const glm::vec3 p = arrow_pos + glm::vec3(0.0f, 1.7f, 0.0f) + glm::normalize(r) * 0.75f;
-
-	projectile->SetPosition(p);
-	projectile->SetVelocity(r * 32.0f); // GetPlayerLook ÀÌ¿´À½
-	
-	if (m_bIsHero)
-	{
-		c2s_ADD_PROJECTILE pkt;
-		pkt.pos_x = arrow_pos.x;
-		pkt.pos_y = arrow_pos.y;
-		pkt.pos_z = arrow_pos.z;
-
-		pkt.dir_x = x_;
-		pkt.dir_y = y_;
-
-		pkt.local_arrow_id = projectile->GetArrowLocalID();
-
-		Send(pkt);
-	}
-
-	const auto temp = projectile.get();
-
-	CreateObj(std::move(projectile), GROUP_TYPE::PROJ_PLAYER);
-
-	return temp;
-}

@@ -61,12 +61,13 @@ void ProjectileArrow::Update()
         }
 
         // 각 그룹에 대해 충돌 검사를 수행할 람다 함수
-        auto group_collision_func = [this](GROUP_TYPE type, float radius, float height) {
-                auto& monster_group = Mgr(ServerObjectManager)->GetTargetScene()->GetGroupObj(type);
-                for (auto& monster : monster_group)
+        constexpr const auto group_collision_func = [](std::shared_ptr<ProjectileArrow> pArrow,GROUP_TYPE type, float radius, float height)noexcept {
+                const auto& monster_group = Mgr(ServerObjectManager)->GetTargetScene()->GetGroupObj(type);
+                const auto project_pos = pArrow->GetTransform()->GetLocalPosition();
+                for (const auto& monster : monster_group)
                 {
                     const auto& monster_pos = monster->GetTransform()->GetLocalPosition();
-                    const auto& project_pos = GetTransform()->GetLocalPosition();
+                    //const auto& project_pos = pArrow->GetTransform()->GetLocalPosition();
                     const float collision_radius = radius;
                     const float collision_height = height;
 
@@ -77,17 +78,19 @@ void ProjectileArrow::Update()
                     if (is_hit)
                     {
                         // 오브젝트에게 대미지를 입힘
-                        shared_ptr<ServerObject> serverObj = dynamic_pointer_cast<ServerObject>(monster);
-                        serverObj->OnObjectDamaged(100);
+                        // 몬스터가 확실하니 믿고 static
+                        const auto serverObj = static_cast<ServerObject*>(monster.get());
+                        serverObj->OnObjectDamaged(ARROW_DMG);
 
                         // 화살 삭제; 서버오브젝트로 전환시 ServerObjectManager::RemoveObject() 호출
-                        DestroyObj(shared_from_this());
+                        DestroyObj(std::move(pArrow));
                         return;
                     }
                 }
             };
-        group_collision_func(GROUP_TYPE::MONSTER, 0.5f, 3.0f);
-        group_collision_func(GROUP_TYPE::PLAYER, 0.5f, 2.0f);
+        auto ptr_this = std::static_pointer_cast<ProjectileArrow>(shared_from_this());
+        group_collision_func(ptr_this,GROUP_TYPE::MONSTER, 0.5f, 3.0f);
+        group_collision_func(std::move(ptr_this), GROUP_TYPE::PLAYER, 0.5f, 2.0f);
     }
     // 화살이 벽에 고정되어 있다면
     else

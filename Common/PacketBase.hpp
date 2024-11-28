@@ -254,7 +254,6 @@ struct s2c_MOVE_OBJECT
 struct c2s_ADD_PROJECTILE
     :public PacketHeader
 {
-    uint32 local_arrow_id; // 이거 서버측으로부터 화살 패킷 왔을 때 내거면 ID부여하려고 
     float pos_x, pos_y, pos_z;
     float dir_x, dir_y;
     DECLARE_PACKET(c2s_ADD_PROJECTILE);
@@ -264,8 +263,6 @@ struct s2c_ADD_PROJECTILE
     :public PacketHeader
 {
     uint32 projectile_id;
-    uint32 shooter_local_arrow_id;
-    uint32 fire_player_id;
     float pos_x, pos_y, pos_z;
     float dir_x, dir_y;
     DECLARE_PACKET(s2c_ADD_PROJECTILE);

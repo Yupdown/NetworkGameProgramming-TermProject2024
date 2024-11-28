@@ -7,7 +7,7 @@ class MCTilemap;
 class Hero :
     public Player
 {
-    static constexpr const float G_SEND_INTERVAL = 0.01f;
+    static constexpr const float G_SEND_INTERVAL = 0.02f;
 private:
     void InputMove()noexcept;
     void UpdateTileManipulation()noexcept;
@@ -15,6 +15,8 @@ private:
 
     shared_ptr<GameObj> CreateCursorBlockObj() const;
     shared_ptr<GameObj> CreateParticlePrefab() const;
+
+    static void Fire(const glm::vec3& arrow_pos, const float x_, const float y_)noexcept;
 
 public:
     Hero(std::shared_ptr<MCTilemap> pTilemap)noexcept;

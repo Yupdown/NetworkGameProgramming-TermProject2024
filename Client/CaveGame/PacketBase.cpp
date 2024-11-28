@@ -82,26 +82,15 @@ DECLARE_PACKET_FUNC(s2c_MOVE_OBJECT)
 
 DECLARE_PACKET_FUNC(s2c_ADD_PROJECTILE)
 {
-	if (Mgr(ServerObjectManager)->IsMyID(pkt_.fire_player_id))
-	{
-		const auto& projs = Mgr(ServerObjectManager)->GetTargetScene()->GetGroupObj(GROUP_TYPE::PROJ_PLAYER);
+	ProjArrowBuilder b;
+	b.obj_id = pkt_.projectile_id;
+	b.pos.x = pkt_.pos_x;
+	b.pos.y = pkt_.pos_y;
+	b.pos.z = pkt_.pos_z;
+	b.rot_x = pkt_.dir_x;
+	b.rot_y = pkt_.dir_y;
 
-		for (const auto& proj : projs)
-		{
-			const auto p = static_cast<ProjectileArrow*>(proj.get());
-			if (p->GetArrowLocalID() == pkt_.shooter_local_arrow_id)
-			{
-				p->SetID(pkt_.projectile_id);
-				break;
-			}
-		}
-		
-	}
-	else if (const auto obj = Mgr(ServerObjectManager)->FindObject(pkt_.fire_player_id))
-	{
-		// std::cout << pkt_.object_id << std::endl;
-		static_cast<Player*>(obj.get())->Fire({ pkt_.pos_x,pkt_.pos_y ,pkt_.pos_z }, pkt_.dir_x, pkt_.dir_y)->SetID(pkt_.projectile_id);
-	}
+	Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjArrow(b), GROUP_TYPE::PROJ_PLAYER);
 }
 
 DECLARE_PACKET_FUNC(s2c_USE_ITEM)

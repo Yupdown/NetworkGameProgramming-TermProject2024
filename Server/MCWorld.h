@@ -25,7 +25,7 @@
  	~MCWorld();
  public:
      static constexpr const int G_MC_SEED = 1;
-     static constexpr const float UPDATE_INTERVAL = 0.01f;
+     static constexpr const float UPDATE_INTERVAL = 0.02f;
  public:
 
 
