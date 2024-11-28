@@ -335,6 +335,11 @@ void Scene::PreRender()
 	sceneData.viewMat = pCam->GetCamMatView();
 	sceneData.viewPos = pCam->GetTransform()->GetWorldPosition();
 
+	// convert game time into seconds
+	auto gameTime = Mgr(TimeMgr)->GetGameTime();
+	float tSeconds = gameTime.count() * 1e-9f;
+	sceneData.time = tSeconds;
+
 	if (const auto observer = Camera::GetObserverCam())
 	{
 		sceneData.observerPos = observer->GetTransform()->GetWorldPosition();

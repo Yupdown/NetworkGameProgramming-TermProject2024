@@ -44,7 +44,7 @@ struct alignas(16) UBOData
 	glm::mat4 projMat;
 	glm::mat4 viewMat;
 	glm::vec3 viewPos;
-	float pad1;
+	float time;
 	PointLightData pointLights[20];
 	SpotLightData spotLights[20];
 	DirectionalLightData dirLight;
