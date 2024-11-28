@@ -1,5 +1,7 @@
 #include "pch.h"
+#include "Mesh.h"
 #include "Hero.h"
+#include "Model.h"
 #include "KeyMgr.h"
 #include "MCTilemap.h"
 #include "Transform.h"
@@ -39,8 +41,164 @@ static bool RayAABBIntersection(const glm::vec3 rayOrigin, const glm::vec3 rayDi
 Hero::Hero(std::shared_ptr<MCTilemap> pTilemap) noexcept
 	:Player{ std::move(pTilemap) }
 {
+	m_fpChangeCamMode[0] = [this]() noexcept {
+		m_cameraObj->GetTransform()->SetLocalPosition(glm::zero<glm::vec3>());
+		m_cameraObj->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
+		};
+	m_fpChangeCamMode[1] = [this]() noexcept {
+		m_cameraObj->GetTransform()->SetLocalPosition(glm::zero<glm::vec3>());
+		m_cameraObj->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
+		};
+	m_fpChangeCamMode[2] = [this]() noexcept {
+		m_cameraObj->GetTransform()->SetLocalPosition(glm::zero<glm::vec3>());
+		m_cameraObj->GetTransform()->SetLocalRotation(glm::quat(glm::vec3(0.0f, glm::pi<float>(), 0.0f)));
+		};
+
+	m_cameraAnchor = make_obj<GameObj>();
+	m_cameraAnchor->GetTransform()->SetLocalPosition(glm::vec3(0.0f, 1.7f, 0.0f));
+
+	m_cameraObj = make_obj<GameObj>();
+	m_fpChangeCamMode[m_curCamMode]();
+
+	m_pCamera = m_cameraObj->AddComponent<Camera>();
+	m_pCamera->SetNear(1 / 64.0f);
+
+	m_cursorBlockObj = CreateCursorBlockObj();
+	m_cursorBlockObj->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * (m_bIsHero ? 1.05f : 0.0f));
+
+	m_particlePrefab = CreateParticlePrefab();
+
 	m_bIsHero = true;
 	m_pCamera->SetMainCam();
+}
+
+void Hero::Start()
+{
+	Player::Start();
+
+	InitCamDirection();
+
+	AddChild(m_cameraAnchor);
+	AddChild(m_cursorBlockObj);
+
+	m_cameraAnchor->AddChild(m_cameraObj);
+	m_pCacheMyTransformCamera = m_cameraObj->GetTransform();
+}
+
+shared_ptr<GameObj> Hero::CreateCursorBlockObj() const
+{
+	shared_ptr<GameObj> obj = make_obj<GameObj>();
+	auto meshRenderer = obj->AddComponent<MeshRenderer>();
+
+	vector<Vertex> vertices;
+	for (int i = 0; i < 8; ++i)
+	{
+		Vertex v;
+		v.position = glm::vec3(i % 2, i / 2 % 2, i / 4 % 2) - glm::one<glm::vec3>() * 0.5f;
+		v.color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		vertices.push_back(v);
+	}
+	vector<GLuint> indices{
+		0, 1, 0, 2, 3, 1, 3, 2,
+		0, 4, 1, 5, 2, 6, 3, 7,
+		4, 5, 4, 6, 7, 5, 7, 6
+	};
+
+	shared_ptr<Mesh> mesh = make_shared<Mesh>(vertices, indices);
+	mesh->SetPolygonMode(GL_LINES);
+	mesh->SetBuffers();
+	meshRenderer->AddMesh(mesh);
+	meshRenderer->SetShader("CursorBlockShader.glsl");
+
+	return obj;
+}
+
+shared_ptr<GameObj> Hero::CreateParticlePrefab() const
+{
+	shared_ptr<GameObj> instance = make_obj<GameObj>();
+	auto renderer = instance->AddComponent<MeshRenderer>();
+
+	vector<Vertex> vertices;
+	vector<GLuint> indices;
+	for (int i = 0; i < 4; ++i)
+	{
+		Vertex v;
+		v.position = glm::vec3(0.5f - i % 2, i / 2 - 0.5f, 0.0f);
+		v.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		v.normal = glm::vec3(0.0f, 0.0f, 1.0f);
+		v.tangent = glm::vec3(1.0f, 0.0f, 0.0f);
+		v.uv = glm::vec2(i % 2, i / 2) * 0.25f + glm::one<glm::vec2>() * 0.75f;
+		vertices.emplace_back(v);
+	}
+	indices = { 0, 1, 2, 1, 3, 2 };
+	auto mesh = make_shared<Mesh>();
+	mesh->Init(std::move(vertices), std::move(indices));
+	shared_ptr<Model> model = make_shared<Model>();
+	model->AddMesh(mesh);
+	model->AddMaterial(make_shared<Material>());
+	renderer->SetModelData(model);
+	renderer->SetShader("DefaultShader.glsl");
+
+	return instance;
+}
+
+void Hero::InitCamDirection() noexcept
+{
+	m_cameraAngleAxis = glm::zero<glm::vec3>();
+	m_cameraAngleAxisSmooth = glm::zero<glm::vec3>();
+	m_cameraAnchor->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
+	m_rendererObj->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
+	m_pCamera->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
+	GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
+}
+
+void Hero::UpdatePlayerCamFpsMode() noexcept
+{
+	const auto camTrans = m_cameraAnchor->GetTransform();
+	glm::vec2 offset = Mgr(KeyMgr)->GetMouseDelta() * m_fCamSensivity;
+
+	m_cameraAngleAxis += glm::vec3(offset.y, offset.x, 0.0f);
+	m_cameraAngleAxis.x = glm::clamp(m_cameraAngleAxis.x, -89.0f, 89.0f);
+
+	m_cameraAngleAxisSmooth = glm::mix(m_cameraAngleAxisSmooth, m_cameraAngleAxis, DT * 16.0f);
+	camTrans->SetLocalRotation(glm::quat(glm::radians(m_cameraAngleAxisSmooth)));
+}
+
+void Hero::UpdateCameraTransform(const shared_ptr<Transform>& pCameraTransfrom)noexcept
+{
+	glm::vec3 wv = m_cameraAnchor->GetTransform()->GetWorldPosition();
+	const float fMaxDist = 5.0f;
+	switch (m_curCamMode)
+	{
+	case 0:
+		pCameraTransfrom->SetLocalPosition(glm::zero<glm::vec3>());
+		pCameraTransfrom->SetLocalRotation(glm::identity<glm::quat>());
+		break;
+	case 1:
+	{
+		const RaycastResult result = m_refTilemap->RaycastTile(wv, -this->GetCameraDirection(), fMaxDist);
+		float target = -(result.hit ? glm::distance(wv, result.hitPosition) : fMaxDist);
+		pCameraTransfrom->SetLocalPosition(glm::vec3(0.0f, 0.0f, glm::max(target, glm::mix(pCameraTransfrom->GetLocalPosition().z, target, DT * 8.0f))));
+		pCameraTransfrom->SetLocalRotation(glm::identity<glm::quat>());
+	}
+	break;
+	case 2:
+	{
+		const RaycastResult result = m_refTilemap->RaycastTile(wv, this->GetCameraDirection(), fMaxDist);
+		float target = result.hit ? glm::distance(wv, result.hitPosition) : fMaxDist;
+		pCameraTransfrom->SetLocalPosition(glm::vec3(0.0f, 0.0f, glm::min(target, glm::mix(pCameraTransfrom->GetLocalPosition().z, target, DT * 8.0f))));
+		pCameraTransfrom->SetLocalRotation(glm::quat(glm::vec3(0.0f, glm::pi<float>(), 0.0f)));
+		break;
+	}
+	}
+	float tParam = m_fMoveTime;
+	float mParam = 0.04f;
+	pCameraTransfrom->SetLocalPosition(glm::vec3(glm::sin(tParam) * mParam, glm::sin(tParam * 2.0f) * mParam, pCameraTransfrom->GetLocalPosition().z));
+}
+
+glm::vec3 Hero::GetCameraDirection() const
+{
+	return glm::rotate(glm::quat(glm::vec3(glm::radians(m_cameraAngleAxisSmooth.x), glm::radians(m_cameraAngleAxisSmooth.y), 0.0f)), glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 void Hero::InputMove() noexcept
@@ -96,7 +254,7 @@ void Hero::UpdateTileManipulation()noexcept
 	//}
 
 	const glm::vec3 wv = m_cameraAnchor->GetTransform()->GetWorldPosition();
-	const RaycastResult result = m_refTilemap->RaycastTile(wv, this->GetPlayerLook(), 10.0f);
+	const RaycastResult result = m_refTilemap->RaycastTile(wv, this->GetCameraDirection(), 10.0f);
 	m_cursorBlockObj->GetTransform()->SetLocalPosition((glm::vec3(result.hitTilePosition) + glm::one<glm::vec3>() * 0.5f) - GetTransform()->GetLocalPosition());
 
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_LEFT) && result.hit)
@@ -145,10 +303,18 @@ void Hero::UpdateTileManipulation()noexcept
 
 void Hero::Update()
 {
+	m_rendererObj->GetTransform()->SetLocalScale(!m_bIsHero || m_curCamMode ? glm::one<glm::vec3>() * 0.003f : glm::zero<glm::vec3>());
+
 	m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
 	InputMove();
 	UpdatePlayerCamFpsMode();
 	UpdateTileManipulation();
+
+	m_playerLookYaw = glm::mix(m_playerLookYaw, m_cameraAngleAxis.y, DT * 16.0f);
+	m_playerLookPitch = glm::mix(m_playerLookPitch, -m_cameraAngleAxis.x, DT * 16.0f);
+	m_lookYaw = m_playerLookYaw;
+	m_lookPitch = m_playerLookPitch;
+
 	Player::Update();
 	m_fAccTime += DT;
 	if (G_SEND_INTERVAL <= m_fAccTime || m_bForceSendData)
@@ -157,6 +323,9 @@ void Hero::Update()
 		m_fAccTime = 0.f;
 		m_bForceSendData = false;
 	}
+
+	m_pCamera->SetCamFov(Lerp(m_pCamera->GetCamFov(), glm::radians(KEY_HOLD(GLFW_KEY_LEFT_CONTROL) ? 60.0f : 45.0f), DT * 8.0f));
+	UpdateCameraTransform(m_pCacheMyTransformCamera);
 }
 
 void Hero::OnDamaged()
@@ -177,9 +346,9 @@ void Hero::SendMyMoveData() const noexcept
 	pkt.position_y = pos.y;
 	pkt.position_z = pos.z;
 
-	pkt.pitch = m_lookPitch;
 	pkt.rotation_y = m_rendererBodyAngleY;
 	pkt.yaw = m_lookYaw;
+	pkt.pitch = m_lookPitch;
 
 	pkt.velocity_x = m_vVelocity.x;
 	pkt.velocity_y = m_vVelocity.y;

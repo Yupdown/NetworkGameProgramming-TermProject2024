@@ -11,7 +11,7 @@ void ServerObject::SyncMovement(const s2c_MOVE_OBJECT& pkt)
 	// This assumes that the server manager was calling the individual object by its ID
 
 	const glm::vec3 vPosition = glm::vec3(pkt.position_x, pkt.position_y, pkt.position_z);
-	 const glm::quat qRotation = glm::angleAxis(glm::radians(pkt.rotation_y), glm::vec3(0, 1, 0));
+	const glm::quat qRotation = glm::angleAxis(glm::radians(pkt.rotation_y), glm::vec3(0, 1, 0));
 	const glm::vec3 vVelocity = glm::vec3(pkt.velocity_x, pkt.velocity_y, pkt.velocity_z);
 	const glm::vec3 vAcceleration = glm::vec3(pkt.acceleration_x, pkt.acceleration_y, pkt.acceleration_z);
 
@@ -20,7 +20,7 @@ void ServerObject::SyncMovement(const s2c_MOVE_OBJECT& pkt)
 	m_lookPitch = pkt.pitch;
 
 	SetPosition(vPosition);
-	SetRotation(qRotation);
+	// SetRotation(qRotation);
 	SetVelocity(vVelocity);
 	SetAcceleration(vAcceleration);
 }

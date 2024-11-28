@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "Mesh.h"
 #include "KeyMgr.h"
 #include "TimeMgr.h"
 #include "Player.h"
@@ -29,44 +28,6 @@
 extern std::atomic_bool g_bTileFinish;
 static std::uniform_int_distribution tile_num{ 1,12 };
 
-shared_ptr<GameObj> Player::CreateCursorBlockObj() const
-{
-	shared_ptr<GameObj> obj = make_obj<GameObj>();
-	auto meshRenderer = obj->AddComponent<MeshRenderer>();
-
-	vector<Vertex> vertices;
-	for (int i = 0; i < 8; ++i)
-	{
-		Vertex v;
-		v.position = glm::vec3(i % 2, i / 2 % 2, i / 4 % 2) - glm::one<glm::vec3>() * 0.5f;
-		v.color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		vertices.push_back(v);
-	}
-	vector<GLuint> indices{
-		0, 1, 0, 2, 3, 1, 3, 2,
-		0, 4, 1, 5, 2, 6, 3, 7,
-		4, 5, 4, 6, 7, 5, 7, 6
-	};
-
-	shared_ptr<Mesh> mesh = make_shared<Mesh>(vertices, indices);
-	mesh->SetPolygonMode(GL_LINES);
-	mesh->SetBuffers();
-	meshRenderer->AddMesh(mesh);
-	meshRenderer->SetShader("CursorBlockShader.glsl");
-
-	return obj;
-}
-
-void Player::InitCamDirection() noexcept
-{
-	m_cameraAngleAxis = glm::zero<glm::vec3>();
-	m_cameraAngleAxisSmooth = glm::zero<glm::vec3>();
-	m_cameraAnchor->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
-	m_rendererObj->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
-	m_pCamera->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
-	GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
-}
-
 void Player::SetRendererTexture(int id)
 {
 	m_rendererTextureId = id;
@@ -93,6 +54,7 @@ void Player::InitializeRenderer()
 {
 	m_rendererObj = Mgr(AssimpMgr)->LoadAllPartsAsGameObj("DefaultWarpShader.glsl", "Player.fbx");
 	m_rendererObj->GetTransform()->SetLocalPosition(glm::vec3(0.0f, 1.1f, 0.0f));
+	m_rendererObj->GetTransform()->SetLocalScale(0.003f);
 
 	m_transformHead = m_rendererObj->FindChildObj("Head")->GetTransform();
 	m_transformHeadOut = m_rendererObj->FindChildObj("HeadOut")->GetTransform();
@@ -110,15 +72,10 @@ void Player::InitializeRenderer()
 
 void Player::UpdateRenderer()
 {
-	m_rendererObj->GetTransform()->SetLocalScale(!m_bIsHero || m_curCamMode ? glm::one<glm::vec3>() * 0.003f : glm::zero<glm::vec3>());
-
 	const float rotationFactor = glm::min(glm::length(m_vVelocity) * glm::pi<float>() * 0.05f, 0.75f) * sin(m_fMoveTime * 1.75f);
 	const float l = 60.0f;
 	const float dx = l * sin(rotationFactor);
 	const float dy = l * (1.0f - cos(rotationFactor));
-
-	m_playerLookPitch = glm::mix(m_playerLookPitch, -m_cameraAngleAxis.x, DT * 16.0f);
-	m_playerLookYaw = glm::mix(m_playerLookYaw, m_cameraAngleAxis.y, DT * 16.0f);
 	m_rendererBodyAngleY = glm::clamp(m_rendererBodyAngleY, m_playerLookYaw - 30.0f, m_playerLookYaw + 30.0f);
 
 	UpdateBodyRotation(m_rendererBodyAngleY);
@@ -156,35 +113,6 @@ void Player::UpdateHeadRotation(float pitch, float yaw)
 	m_transformHead->SetLocalRotation(headRotation);
 	if (m_transformHeadOut != nullptr)
 		m_transformHeadOut->SetLocalRotation(headRotation);
-}
-
-shared_ptr<GameObj> Player::CreateParticlePrefab() const
-{
-	shared_ptr<GameObj> instance = make_obj<GameObj>();
-	auto renderer = instance->AddComponent<MeshRenderer>();
-
-	vector<Vertex> vertices;
-	vector<GLuint> indices;
-	for (int i = 0; i < 4; ++i)
-	{
-		Vertex v;
-		v.position = glm::vec3(0.5f - i % 2, i / 2 - 0.5f, 0.0f);
-		v.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-		v.normal = glm::vec3(0.0f, 0.0f, 1.0f);
-		v.tangent = glm::vec3(1.0f, 0.0f, 0.0f);
-		v.uv = glm::vec2(i % 2, i / 2) * 0.25f + glm::one<glm::vec2>() * 0.75f;
-		vertices.emplace_back(v);
-	}
-	indices = { 0, 1, 2, 1, 3, 2 };
-	auto mesh = make_shared<Mesh>();
-	mesh->Init(std::move(vertices), std::move(indices));
-	shared_ptr<Model> model = make_shared<Model>();
-	model->AddMesh(mesh);
-	model->AddMaterial(make_shared<Material>());
-	renderer->SetModelData(model);
-	renderer->SetShader("DefaultShader.glsl");
-
-	return instance;
 }
 
 void Player::HandleCollision() noexcept
@@ -232,50 +160,6 @@ void Player::HandleCollision() noexcept
 	m_bForceSendData |= !IsSameVector(origin_pos, after_pos);
 }
 
-void Player::UpdatePlayerCamFpsMode() noexcept
-{
-	const auto camTrans = m_cameraAnchor->GetTransform();
-	glm::vec2 offset = Mgr(KeyMgr)->GetMouseDelta() * m_fCamSensivity;
-
-	m_cameraAngleAxis += glm::vec3(offset.y, offset.x, 0.0f);
-	m_cameraAngleAxis.x = glm::clamp(m_cameraAngleAxis.x, -89.0f, 89.0f);
-
-	m_cameraAngleAxisSmooth = glm::mix(m_cameraAngleAxisSmooth, m_cameraAngleAxis, DT * 16.0f);
-	camTrans->SetLocalRotation(glm::quat(glm::radians(m_cameraAngleAxisSmooth)));
-}
-
-void Player::UpdateCameraTransform(const shared_ptr<Transform>& pCameraTransfrom)noexcept
-{
-	glm::vec3 wv = m_cameraAnchor->GetTransform()->GetWorldPosition();
-	const float fMaxDist = 5.0f;
-	switch (m_curCamMode)
-	{
-	case 0:
-		pCameraTransfrom->SetLocalPosition(glm::zero<glm::vec3>());
-		pCameraTransfrom->SetLocalRotation(glm::identity<glm::quat>());
-		break;
-	case 1:
-	{
-		const RaycastResult result = m_refTilemap->RaycastTile(wv, -this->GetPlayerLook(), fMaxDist);
-		float target = -(result.hit ? glm::distance(wv, result.hitPosition) : fMaxDist);
-		pCameraTransfrom->SetLocalPosition(glm::vec3(0.0f, 0.0f, glm::max(target, glm::mix(pCameraTransfrom->GetLocalPosition().z, target, DT * 8.0f))));
-		pCameraTransfrom->SetLocalRotation(glm::identity<glm::quat>());
-	}
-	break;
-	case 2:
-	{
-		const RaycastResult result = m_refTilemap->RaycastTile(wv, this->GetPlayerLook(), fMaxDist);
-		float target = result.hit ? glm::distance(wv, result.hitPosition) : fMaxDist;
-		pCameraTransfrom->SetLocalPosition(glm::vec3(0.0f, 0.0f, glm::min(target, glm::mix(pCameraTransfrom->GetLocalPosition().z, target, DT * 8.0f))));
-		pCameraTransfrom->SetLocalRotation(glm::quat(glm::vec3(0.0f, glm::pi<float>(), 0.0f)));
-		break;
-	}
-	}
-	float tParam = m_fMoveTime;
-	float mParam = 0.04f;
-	pCameraTransfrom->SetLocalPosition(glm::vec3(glm::sin(tParam) * mParam, glm::sin(tParam * 2.0f) * mParam, pCameraTransfrom->GetLocalPosition().z));
-}
-
 void Player::DestroyBlock(const glm::ivec3& hitTilePosition)noexcept
 {
 	// 쓰고있는 텍스쳐의 이름 또는 인덱스, 아니면 텍스쳐포인터를 알면됌
@@ -319,33 +203,6 @@ void Player::CreateBlock(const glm::ivec3& hitTilePosition, uint8_t tile_id)noex
 
 Player::Player(shared_ptr<MCTilemap> tilemap) : m_refTilemap(tilemap)
 {
-	m_fpChangeCamMode[0] = [this]() noexcept {
-		m_cameraObj->GetTransform()->SetLocalPosition(glm::zero<glm::vec3>());
-		m_cameraObj->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
-		};
-	m_fpChangeCamMode[1] = [this]() noexcept {
-		m_cameraObj->GetTransform()->SetLocalPosition(glm::zero<glm::vec3>());
-		m_cameraObj->GetTransform()->SetLocalRotation(glm::identity<glm::quat>());
-		};
-	m_fpChangeCamMode[2] = [this]() noexcept {
-		m_cameraObj->GetTransform()->SetLocalPosition(glm::zero<glm::vec3>());
-		m_cameraObj->GetTransform()->SetLocalRotation(glm::quat(glm::vec3(0.0f, glm::pi<float>(), 0.0f)));
-		};
-
-	m_cameraAnchor = make_obj<GameObj>();
-	m_cameraAnchor->GetTransform()->SetLocalPosition(glm::vec3(0.0f, 1.7f, 0.0f));
-
-	m_cameraObj = make_obj<GameObj>();
-	m_fpChangeCamMode[m_curCamMode]();
-
-	m_pCamera = m_cameraObj->AddComponent<Camera>();
-	m_pCamera->SetNear(1 / 64.0f);
-	
-	m_cursorBlockObj = CreateCursorBlockObj();
-	m_cursorBlockObj->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * (m_bIsHero ? 1.05f : 0.0f));
-
-	m_particlePrefab = CreateParticlePrefab();
-
 	m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
 }
 
@@ -357,14 +214,9 @@ Player::~Player()
 void Player::Start()
 {
 	InitializeRenderer();
-	InitCamDirection();
 	m_pCacheMyTransform = GetTransform();
 	AddChild(m_rendererObj);
-	AddChild(m_cameraAnchor);
-	AddChild(m_cursorBlockObj);
 	AddChild(make_shared<PlayerShadow>(m_refTilemap));
-	m_cameraAnchor->AddChild(m_cameraObj);
-	m_pCacheMyTransformCamera = m_cameraObj->GetTransform();
 
 	for (auto& child : *m_rendererObj)
 	{
@@ -387,18 +239,12 @@ void Player::Update()
 		m_playerLookYaw = m_lookYaw;
 		m_playerLookPitch = m_lookPitch;
 	}
+
 	HandleCollision();
-	//UpdatePlayerCamFpsMode();
-	UpdateCameraTransform(m_pCacheMyTransformCamera);
-	GameObj::Update();
-
-	m_pCamera->SetCamFov(Lerp(m_pCamera->GetCamFov(), glm::radians(KEY_HOLD(GLFW_KEY_LEFT_CONTROL) ? 60.0f : 45.0f), DT * 8.0f));
 	UpdateRenderer();
-}
+	// UpdatePlayerCamFpsMode();
 
-glm::vec3 Player::GetPlayerLook() const noexcept
-{
-	return glm::rotate(glm::quat(glm::vec3(glm::radians(m_cameraAngleAxisSmooth.x), glm::radians(m_cameraAngleAxisSmooth.y), 0.0f)), glm::vec3(0.0f, 0.0f, 1.0f));
+	ServerObject::Update();
 }
 
 class ProjectileArrow* Player::Fire(const glm::vec3& arrow_pos, const float x_, const float y_) noexcept

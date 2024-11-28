@@ -7,13 +7,8 @@ void Monster::Update()
 {
 	Player::HandleCollision();
 
-	UpdatePlayerCamFpsMode();
-	UpdateCameraTransform(m_pCacheMyTransformCamera);
-
 	GameObj::Update();
 	UpdateRenderer();
-
-
 }
 
 void Monster::InitializeRenderer()
