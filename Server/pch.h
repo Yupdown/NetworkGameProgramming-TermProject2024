@@ -22,6 +22,7 @@
 #include "Constants.h"
 #include <queue>
 #include <bitset>
+#include "PacketBase.hpp"
 
 #pragma comment(lib, "Ws2_32.lib")
 
