@@ -88,6 +88,9 @@
     <Filter Include="CaveObject\EnderDragon">
       <UniqueIdentifier>{96fe9cf5-d9db-46b3-97e1-0a3882c309bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CaveObject\DeathObject">
+      <UniqueIdentifier>{5aa22e69-bf3c-45ed-a395-5b3ac7edf55e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -185,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="EnderDragon.cpp">
       <Filter>CaveObject\EnderDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathObject.cpp">
+      <Filter>CaveObject\DeathObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="EnderDragon.h">
       <Filter>CaveObject\EnderDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathObject.h">
+      <Filter>CaveObject\DeathObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

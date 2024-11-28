@@ -6,6 +6,8 @@
 #include "DropItem.h"
 #include "MCItemManager.h"
 #include "ProjectileArrow.h"
+#include "EventMgr.h"
+#include "DeathObject.h"
 
 // Server -> Client , 서버로 부터의 패킷을 받아서 처리하는 함수들의 모임
 // c2s는 없으면 링크에러나서 더미로 만들었음 좋은 의견있으면 건의 부탁
@@ -109,7 +111,7 @@ DECLARE_PACKET_FUNC(s2c_ITEM_DROP)
 	pDropItem->GetTransform()->SetLocalPosition({ pkt_.x,pkt_.y,pkt_.z });
 	pDropItem->SetID(pkt_.obj_id);
 	// 확인용
-	pDropItem->GetTransform()->SetLocalScale(5.f);
+	// pDropItem->GetTransform()->SetLocalScale(5.f);
 	Mgr(ServerObjectManager)->AddObject(std::move(pDropItem), GROUP_TYPE::DROP_ITEM);
 }
 
@@ -126,12 +128,12 @@ DECLARE_PACKET_FUNC(s2c_SUMMON_BOSS)
 DECLARE_PACKET_FUNC(s2c_REMOVE_OBJECT)
 {
 	// TODO: 사라지는 오브젝트 타입에따라 다른행동하기
-	if (!Mgr(ServerObjectManager)->FindObject(pkt_.object_id))return;
-	Mgr(ServerObjectManager)->RemoveObject(pkt_.object_id);
-
-	const auto type = (MC_OBJECT_TYPE)pkt_.obj_type;
+	shared_ptr<ServerObject> obj = Mgr(ServerObjectManager)->FindObject(pkt_.object_id);
+	if (obj == nullptr)
+		return;
 
 	// TODO: 오브젝트별로 사라질 때 뭔가 이벤트가 있다면
+	const auto type = (MC_OBJECT_TYPE)pkt_.obj_type;
 	switch (type)
 	{
 	case MC_OBJECT_TYPE::ARROW:
@@ -140,10 +142,15 @@ DECLARE_PACKET_FUNC(s2c_REMOVE_OBJECT)
 	}
 	case MC_OBJECT_TYPE::MONSTER:
 	{
+		const auto monster = static_cast<Player*>(obj.get());
+		std::shared_ptr<DeathObject> deathObj = make_shared<DeathObject>(monster->GetRendererObj());
+		deathObj->GetTransform()->SetLocalPosition(obj->GetPosition());
+		CreateObj(std::move(deathObj), GROUP_TYPE::DEFAULT);
 		break;
 	}
 	default:
-		break;	
+		break;
 	}
 
+	Mgr(ServerObjectManager)->RemoveObject(pkt_.object_id);
 }

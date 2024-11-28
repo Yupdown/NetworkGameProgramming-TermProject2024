@@ -52,6 +52,7 @@ public:
 	void DestroyBlock(const glm::ivec3& hitTilePosition)noexcept;
 	void CreateBlock(const glm::ivec3& hitTilePosition, uint8_t tile_id) noexcept;
 	bool IsHero()const noexcept { return m_bIsHero; }
+	shared_ptr<GameObj> GetRendererObj()const noexcept { return m_rendererObj; }
 
 public:
 	Player(shared_ptr<MCTilemap> tilemap);

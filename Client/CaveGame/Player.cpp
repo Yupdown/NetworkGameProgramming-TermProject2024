@@ -24,6 +24,7 @@
 #include "Hero.h"
 #include "NetworkMgr.h"
 #include "ServerObjectManager.h"
+#include "DeathObject.h"
 
 extern std::atomic_bool g_bTileFinish;
 static std::uniform_int_distribution tile_num{ 1,12 };
