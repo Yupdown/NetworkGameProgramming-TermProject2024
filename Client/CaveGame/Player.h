@@ -59,6 +59,7 @@ public:
 
 	void Start()override;
 	void Update()override;
+	void OnObjectDamaged(int value)override;
 
 	class ProjectileArrow* Fire(const glm::vec3& arrow_pos, const float x_,const float y_)noexcept;
 

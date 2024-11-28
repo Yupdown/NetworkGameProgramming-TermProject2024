@@ -13,5 +13,7 @@ public:
 public:
 	void InitializeRenderer() override;
 	void UpdateRenderer() override;
+
+	void OnObjectDamaged(int value) override;
 };
 

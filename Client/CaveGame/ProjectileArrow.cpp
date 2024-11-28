@@ -5,6 +5,8 @@
 #include <AssimpMgr.h>
 #include <Material.h>
 #include <MeshRenderer.h>
+#include <ServerObjectManager.h>
+#include <EventHandler.h>
 
 ProjectileArrow::ProjectileArrow(shared_ptr<MCTilemap> tilemap) : ServerObject()
 {
@@ -57,6 +59,35 @@ void ProjectileArrow::Update()
             glm::quat lookRotation = glm::quatLookAt(n, glm::vec3(0.0f, 1.0f, 0.0f));
             SetRotation(lookRotation);
         }
+
+        // 각 그룹에 대해 충돌 검사를 수행할 람다 함수
+        auto group_collision_func = [this](GROUP_TYPE type, float radius, float height) {
+                auto& monster_group = Mgr(ServerObjectManager)->GetTargetScene()->GetGroupObj(type);
+                for (auto& monster : monster_group)
+                {
+                    const auto& monster_pos = monster->GetTransform()->GetLocalPosition();
+                    const auto& project_pos = GetTransform()->GetLocalPosition();
+                    const float collision_radius = radius;
+                    const float collision_height = height;
+
+                    // 화살 충돌 여부 계산 (점 대 원기둥 충돌)
+                    bool is_hit = true;
+                    is_hit &= glm::distance(glm::vec2(monster_pos.x, monster_pos.z), glm::vec2(project_pos.x, project_pos.z)) <= collision_radius;
+                    is_hit &= project_pos.y >= monster_pos.y && project_pos.y <= monster_pos.y + collision_height;
+                    if (is_hit)
+                    {
+                        // 오브젝트에게 대미지를 입힘
+                        shared_ptr<ServerObject> serverObj = dynamic_pointer_cast<ServerObject>(monster);
+                        serverObj->OnObjectDamaged(100);
+
+                        // 화살 삭제; 서버오브젝트로 전환시 ServerObjectManager::RemoveObject() 호출
+                        DestroyObj(shared_from_this());
+                        return;
+                    }
+                }
+            };
+        group_collision_func(GROUP_TYPE::MONSTER, 0.5f, 3.0f);
+        group_collision_func(GROUP_TYPE::PLAYER, 0.5f, 2.0f);
     }
     // 화살이 벽에 고정되어 있다면
     else
