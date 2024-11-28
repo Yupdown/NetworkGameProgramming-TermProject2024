@@ -76,10 +76,10 @@ void Player::UpdateRenderer()
 	const float l = 60.0f;
 	const float dx = l * sin(rotationFactor);
 	const float dy = l * (1.0f - cos(rotationFactor));
-	m_rendererBodyAngleY = glm::clamp(m_rendererBodyAngleY, m_playerLookYaw - 30.0f, m_playerLookYaw + 30.0f);
+	m_rendererBodyAngleY = glm::clamp(m_rendererBodyAngleY, m_lookYaw - 30.0f, m_lookYaw + 30.0f);
 
 	UpdateBodyRotation(m_rendererBodyAngleY);
-	UpdateHeadRotation(m_playerLookPitch, m_playerLookYaw);
+	UpdateHeadRotation(m_lookPitch, m_lookYaw);
 
 	m_transformLArm->SetLocalPosition(glm::vec3(dx, dy, m_transformLArm->GetLocalPosition().z));
 	m_transformLArmOut->SetLocalPosition(glm::vec3(dx, dy, m_transformLArmOut->GetLocalPosition().z));
@@ -235,9 +235,6 @@ void Player::Update()
 	if (!m_bIsHero)
 	{
 		m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
-		m_rendererBodyAngleY = m_lookYaw; // TODO : 이거 이대로 해도 ㄱㅊ?
-		m_playerLookYaw = m_lookYaw;
-		m_playerLookPitch = m_lookPitch;
 	}
 
 	HandleCollision();

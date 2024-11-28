@@ -21,9 +21,6 @@ protected:
 	float m_vVelocityMax = 7.5f;
 	bool m_bGround = false;
 
-	float m_playerLookPitch = 0.0f;
-	float m_playerLookYaw = 0.0f;
-
 	shared_ptr<Transform> m_transformHead;
 	shared_ptr<Transform> m_transformHeadOut;
 	shared_ptr<Transform> m_transformLArm;

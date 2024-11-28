@@ -310,10 +310,8 @@ void Hero::Update()
 	UpdatePlayerCamFpsMode();
 	UpdateTileManipulation();
 
-	m_playerLookYaw = glm::mix(m_playerLookYaw, m_cameraAngleAxis.y, DT * 16.0f);
-	m_playerLookPitch = glm::mix(m_playerLookPitch, -m_cameraAngleAxis.x, DT * 16.0f);
-	m_lookYaw = m_playerLookYaw;
-	m_lookPitch = m_playerLookPitch;
+	m_lookYaw = glm::mix(m_lookYaw, m_cameraAngleAxis.y, DT * 16.0f);
+	m_lookPitch = glm::mix(m_lookPitch, -m_cameraAngleAxis.x, DT * 16.0f);
 
 	Player::Update();
 	m_fAccTime += DT;
@@ -333,7 +331,7 @@ void Hero::OnDamaged()
 	// play Player_hurt1.ogg
 	Mgr(SoundMgr)->PlayEffect("Player_hurt1.ogg", 1.0f);
 	m_cameraAngleAxisSmooth.z = 30.0f;
-	float theta = (m_playerLookYaw + 90.0f) * F_DEG2RAD;
+	float theta = (m_lookYaw + 90.0f) * F_DEG2RAD;
 	float magnitude = 10.0f;
 	m_vVelocity += glm::vec3(glm::cos(theta), 1.0f, glm::sin(theta)) * magnitude;
 }
