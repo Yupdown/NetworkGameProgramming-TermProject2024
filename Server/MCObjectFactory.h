@@ -20,6 +20,12 @@ struct EnderDragonBuilder
 	
 };
 
+struct ProjArrowBuilder
+	:public MCObjectBuilder
+{
+	float rot_x, rot_y;
+};
+
 class MCObjectFactory
 {
 public:
@@ -29,5 +35,6 @@ public:
 	static S_ptr<Object> CreateMonster(MCObjectBuilder& b_);
 	static S_ptr<Object> CreateItem(MCItemBuilder& b_);
 	static S_ptr<Object> CreateEnderDragon(EnderDragonBuilder& b_);
+	static S_ptr<Object> CreateProjArrow(ProjArrowBuilder& b_);
 };
 

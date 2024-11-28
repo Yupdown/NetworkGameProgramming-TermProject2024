@@ -2,11 +2,12 @@
 #include "MCObjectFactory.h"
 #include "MCWorld.h"
 #include "Object.h"
-#include "EntityMovement.h"
+#include "PathFollower.h"
 #include "FSM.h"
 #include "State.h"
 #include "EnderDragon.h"
 #include "MCTilemap.h"
+#include "ProjArrow.h"
 
 S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 {
@@ -18,11 +19,10 @@ S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 	fsm->AddState(new Chase);
 	fsm->Start(MON_STATE::PATROL);
 
-	const auto m = mon->AddComp<EntityMovement>(new EntityMovement);
-	mon->SetEntityMovement(m);
-	fsm->m_movement = mon->GetEntityMovement();
+	const auto m = mon->AddComp<PathFollower>(new PathFollower);
+	fsm->SetPathFollower(m);
 	mon->SetPos(b_.pos);
-	mon->GetEntityMovement()->current_position = b_.pos;
+	
 	
 	return mon;
 }
@@ -46,4 +46,18 @@ S_ptr<Object> MCObjectFactory::CreateEnderDragon(EnderDragonBuilder& b_)
 	const auto edc = ed->AddComp<EnderDragon>(new EnderDragon);
 
 	return ed;
+}
+
+S_ptr<Object> MCObjectFactory::CreateProjArrow(ProjArrowBuilder& b_)
+{
+	auto a = std::make_shared<Object>();
+	a->SetObjectType(MC_OBJECT_TYPE::ARROW);
+	const auto proj = a->AddComp<ProjArrow>(new ProjArrow);
+	const auto r = glm::rotate(glm::quat(glm::vec3(glm::radians(b_.rot_x), glm::radians(b_.rot_y), 0.0f)), glm::vec3(0.0f, 0.0f, 1.0f));
+	const glm::vec3 p = b_.pos + glm::vec3(0.0f, 1.7f, 0.0f) + glm::normalize(r) * 0.75f;
+
+	a->SetPos(p);
+	a->SetVelocity(r * 32.0f);
+
+	return a;
 }

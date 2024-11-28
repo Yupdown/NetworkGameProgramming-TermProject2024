@@ -5,7 +5,7 @@
 #include "MCWorld.h"
 #include "MCTilemap.h"
 #include "Object.h"
-#include "EntityMovement.h"
+#include "PathFollower.h"
 #include "MCObjectFactory.h"
 
 // c2s를 정의하는 CPP
@@ -104,9 +104,8 @@ DECLARE_PACKET_FUNC(c2s_MOVE_OBJECT)
 		const auto& obj = *b++;
 		if (obj->GetObjectID() == id)
 		{
-			const auto movement = obj->GetEntityMovement();
-			movement->current_position = { pkt_.position_x ,pkt_.position_y ,pkt_.position_z };
-			obj->SetPos(movement->current_position);
+			const auto movement = &obj->GetPosInfo();
+			movement->m_vPos = { pkt_.position_x ,pkt_.position_y ,pkt_.position_z };
 			movement->m_vVelocity = { pkt_.velocity_x ,pkt_.velocity_y ,pkt_.velocity_z };
 			movement->m_vAccelation = { pkt_.acceleration_x ,pkt_.acceleration_y ,pkt_.acceleration_z };
 			movement->m_cameraAngleAxisSmooth = { pkt_.cam_x,pkt_.cam_y ,pkt_.cam_z };
@@ -119,11 +118,8 @@ DECLARE_PACKET_FUNC(c2s_MOVE_OBJECT)
 
 DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)
 {
-
-	// TODO: 월드에 화살추가
 	s2c_ADD_PROJECTILE pkt;
 	
-
 	pkt.dir_x = pkt_.dir_x;
 	pkt.dir_y = pkt_.dir_y;
 
@@ -131,8 +127,19 @@ DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)
 	pkt.pos_y = pkt_.pos_y;
 	pkt.pos_z = pkt_.pos_z;
 
-	pkt.projectile_id = Mgr(IOExecutor)->GetObjectIDAndIncrement(); // TODO 월드에 오브젝트로서 만들고 해야함
+	ProjArrowBuilder b;
+	b.pos.x = pkt_.pos_x;
+	b.pos.y = pkt_.pos_y;
+	b.pos.z = pkt_.pos_z;
+	b.rot_x = pkt_.dir_x;
+	b.rot_y = pkt_.dir_y;
+
+	auto a = MCObjectFactory::CreateProjArrow(b);
+
+	pkt.projectile_id = a->GetObjectID();
 	
+	Mgr(MCWorld)->PostWorldEvent([arrow = std::move(a)]()mutable {Mgr(MCWorld)->AddObject(std::move(arrow), MC_OBJECT_TYPE::ARROW); });
+
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
 

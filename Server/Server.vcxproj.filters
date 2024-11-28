@@ -95,6 +95,9 @@
     <Filter Include="MCContents\Object\Component\EnderDragon">
       <UniqueIdentifier>{99893ba1-a1b5-4906-8854-596d4831ff8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCContents\Object\Component\ProjArrow">
+      <UniqueIdentifier>{54cb9597-acd3-454f-b100-5689b2c0ef58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -142,7 +145,7 @@
     <ClCompile Include="Object.cpp">
       <Filter>MCContents\Object</Filter>
     </ClCompile>
-    <ClCompile Include="EntityMovement.cpp">
+    <ClCompile Include="PathFollower.cpp">
       <Filter>MCContents\Object\Component\EntityMovement</Filter>
     </ClCompile>
     <ClCompile Include="FSM.cpp">
@@ -165,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="EnderDragon.cpp">
       <Filter>MCContents\Object\Component\EnderDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjArrow.cpp">
+      <Filter>MCContents\Object\Component\ProjArrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,7 +246,7 @@
     <ClInclude Include="Component.h">
       <Filter>MCContents\Object\Component</Filter>
     </ClInclude>
-    <ClInclude Include="EntityMovement.h">
+    <ClInclude Include="PathFollower.h">
       <Filter>MCContents\Object\Component\EntityMovement</Filter>
     </ClInclude>
     <ClInclude Include="FSM.h">
@@ -263,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="EnderDragon.h">
       <Filter>MCContents\Object\Component\EnderDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjArrow.h">
+      <Filter>MCContents\Object\Component\ProjArrow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

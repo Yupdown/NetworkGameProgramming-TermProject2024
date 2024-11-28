@@ -3,7 +3,7 @@
 #include "Session.h"
 #include "IOExecutor.h"
 #include "Component.h"
-#include "EntityMovement.h"
+#include "PathFollower.h"
 #include "PacketBase.hpp"
 #include "MCWorld.h"
 
@@ -16,7 +16,6 @@ Object::Object()
 Object::Object(std::shared_ptr<Session> session)
 	: m_obj_id{ session->GetSessionID()}
 	, m_session{ std::move(session) }
-	, m_pEntityMovement{ (EntityMovement*)AddComp(new EntityMovement) }
 {
 }
 
@@ -42,10 +41,10 @@ void Object::Update(const float DT) noexcept
 		s2c_MOVE_OBJECT pkt;
 		pkt.object_id = (uint32_t)m_obj_id;
 
-		const auto pos = m_pos;
-		const auto vel = m_pEntityMovement->m_vVelocity;
-		const auto accel = m_pEntityMovement->m_vAccelation;
-		const auto body_angle = m_pEntityMovement->m_rendererBodyAngleY;
+		const auto pos = m_posInfo.m_vPos;
+		const auto vel = m_posInfo.m_vVelocity;
+		const auto accel = m_posInfo.m_vAccelation;
+		const auto body_angle = m_posInfo.m_rendererBodyAngleY;
 
 		pkt.position_x = pos.x;
 		pkt.position_y = pos.y;

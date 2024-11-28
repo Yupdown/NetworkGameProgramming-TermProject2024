@@ -13,8 +13,10 @@ public:
 		// 찾아서 없으면 시원하게 터지자 !
 		m_curState = m_mapState.find(state)->second.get();
 	}
+	const auto GetPathFollower()const noexcept { return m_pathFollower; }
+	void SetPathFollower(class PathFollower* const pathFollower_) { m_pathFollower = pathFollower_; }
 public:
-	class EntityMovement* m_movement;
+	class PathFollower* m_pathFollower;
 	std::unordered_map<uint8_t, std::unique_ptr<State>> m_mapState;
 	State* m_curState = nullptr;
 	S_ptr<class Object> target;

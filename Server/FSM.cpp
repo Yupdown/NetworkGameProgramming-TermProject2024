@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "FSM.h"
 #include "State.h"
+#include "Object.h"
 
 void FSM::Update(const float DT)
 {
 	if (m_curState)
 	{
 		const MON_STATE cur_state = m_curState->m_state;
-		const MON_STATE next_state = m_curState->Update(m_movement, DT);
+		const MON_STATE next_state = m_curState->Update(&GetOwner()->GetPosInfo(), DT);
 
 		if (cur_state != next_state)
 		{

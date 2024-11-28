@@ -145,6 +145,7 @@ void MCWorld::Update()
 
 const S_ptr<Object>& MCWorld::AddObject(S_ptr<Object> obj, const MC_OBJECT_TYPE eType) noexcept
 {
+    obj->Init();
     m_mapWorldObjects.try_emplace(obj->GetObjectID(), obj);
     return m_worldObjects[static_cast<int>(eType)].emplace_back(std::move(obj));
 }
@@ -155,7 +156,7 @@ void MCWorld::AddAllObjects(const S_ptr<Session>& session) noexcept
     const auto iter = m_mapWorldObjects.try_emplace(session->GetSessionID(), obj);
 
     if (!iter.second)return;
-
+    obj->SetObjectType(MC_OBJECT_TYPE::PLAYER);
     m_worldObjects[etoi(MC_OBJECT_TYPE::PLAYER)].emplace_back(obj);
 
     session->RegisterSendBuffer();

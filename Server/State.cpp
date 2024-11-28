@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "State.h"
 #include "MCWorld.h"
-#include "EntityMovement.h"
+#include "PathFollower.h"
 #include "FSM.h"
 #include "Object.h"
 #include "PacketBase.hpp"
@@ -26,6 +26,7 @@ void check_and_hit(const glm::vec3& a, const glm::vec3& b,float& accTime,const f
 				//Protocol::s2c_MON_ATK pkt;
 				//pkt.set_hit_player_id(id);
 				//SessionMgr(MCWorld) << pkt;
+
 				s2c_MON_ATK pkt;
 				pkt.hit_player_id = (uint32_t)id;
 				Mgr(MCWorld)->AppendToWorldSendBuffer(pkt);
@@ -46,13 +47,13 @@ S_ptr<Object> FindClosestValidSession(const glm::vec3& current_position,const fl
 
 	for (const auto& player : players)
 	{
-		const auto player_movement = player->GetEntityMovement();
+		const auto player_movement = &player->GetPosInfo();
 
 		const auto entity_look = GetPlayerLook(player_movement->m_cameraAngleAxisSmooth);
-		const auto dir_mon_player = glm::normalize(current_position - player_movement->current_position);
+		const auto dir_mon_player = glm::normalize(current_position - player_movement->m_vPos);
 		const auto angle = glm::degrees(glm::acos(glm::dot(entity_look, dir_mon_player)));
 	
-		const float distance = glm::distance(current_position, player_movement->current_position);
+		const float distance = glm::distance(current_position, player_movement->m_vPos);
 
 		if (angle  <= th_hold && distance <= 30.f)
 		{
@@ -69,11 +70,10 @@ S_ptr<Object> FindClosestValidSession(const glm::vec3& current_position,const fl
 	return closest_session;
 }
 
-MON_STATE Patrol::Update(EntityMovement* const move_system, const float DT)
+MON_STATE Patrol::Update(PositionInfo* const pos_info, const float DT)
 {
-	const auto entity_movement = move_system;
-
-	const auto cur_target = FindClosestValidSession(entity_movement->current_position, 10.f);
+	const auto pf = m_fsm->GetPathFollower();
+	const auto cur_target = FindClosestValidSession(pos_info->m_vPos, 10.f);
 	
 	if ((cur_target == m_fsm->target) && m_fsm->target)
 	{
@@ -82,8 +82,10 @@ MON_STATE Patrol::Update(EntityMovement* const move_system, const float DT)
 		//check_and_hit(target->current_position, entity_movement->current_position, target->m_accAtkTime, DT, target->GetSessionID(),target->flag);
 		if (m_accTime >= 1.5f)
 		{
-			entity_movement->dest = m_fsm->target->GetPos();
-			entity_movement->chase_flag = true;
+			// return MON_STATE::PATROL; 충돌검사 테스트용으로 하려면 이렇게
+			pf->dest = m_fsm->target->GetPos();
+			pf->chase_flag = true;
+			return MON_STATE::PATROL;
 			return MON_STATE::CHASE;
 		}
 	}
@@ -106,9 +108,8 @@ void Patrol::ExitState(const float DT)
 {
 }
 
-MON_STATE Chase::Update(EntityMovement* const move_system, const float DT)
+MON_STATE Chase::Update(PositionInfo* const pos_info, const float DT)
 {
-	const auto entity_movement = move_system;
 	auto& target = m_fsm->target;
 	if (target)
 	{
@@ -120,9 +121,9 @@ MON_STATE Chase::Update(EntityMovement* const move_system, const float DT)
 	}
 	if (m_fsm->target)
 	{
-		const auto movement = target->GetEntityMovement();
-		entity_movement->dest = movement->current_position;
-		check_and_hit(movement->current_position, entity_movement->current_position,target->m_accAtkTime, DT, target->GetObjectID(), target->flag);
+		const auto movement = &target->GetPosInfo();
+		m_fsm->GetPathFollower()->dest = movement->m_vPos;
+		check_and_hit(movement->m_vPos, pos_info->m_vPos,target->m_accAtkTime, DT, target->GetObjectID(), target->flag);
 	}
 	
 	return MON_STATE::CHASE;
