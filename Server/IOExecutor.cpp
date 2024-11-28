@@ -176,7 +176,11 @@ void IOExecutor::FlushSendQueue() noexcept
 {
     const auto mc_world = Mgr(MCWorld);
 
-    while (const auto broad_event = m_broadCastQueue.Pop())m_flush_buffer.emplace_back(broad_event);
+    int limit_len = 0;
+    while (const auto broad_event = m_broadCastQueue.Pop()) {
+        limit_len += m_flush_buffer.emplace_back(broad_event)->GetLen();
+        if (8192 <= limit_len)break;   
+    }
 
     const auto sentinel = m_mapSession.cend();
 
