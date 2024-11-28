@@ -25,7 +25,7 @@ void MCItemManager::LoadItems()
 	//m_registry.Insert("arrow", make_shared<MCItem>("Arrow", "item_arrow.png"));
 
 	// 나중에 다형성을 쓰고싶다면
-	//MCItemTable::CreateItemForClient<MCArrow>("arrow")
+	// MCItemTable::CreateItemForClient<MCArrow>("arrow")
 
 	for (const auto& [key, val] : MCItemTable::GetStrTable())
 	{
