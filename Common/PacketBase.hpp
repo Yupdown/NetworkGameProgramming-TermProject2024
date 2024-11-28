@@ -294,6 +294,7 @@ struct s2c_REMOVE_OBJECT
     :public PacketHeader
 {
     uint32 object_id;
+    uint8 obj_type;
     DECLARE_PACKET(s2c_REMOVE_OBJECT);
 };
 

@@ -22,6 +22,10 @@ Object::Object(std::shared_ptr<Session> session)
 Object::~Object() noexcept
 {
 	std::cout << "~Object\n";
+	if (nullptr == m_session)
+	{
+		SendRemovePacket();
+	}
 }
 
 void Object::Init() noexcept
@@ -68,4 +72,12 @@ void Object::Update(const float DT) noexcept
 		
 	}
 	m_bDirtyFlag = false;
+}
+
+void Object::SendRemovePacket() const noexcept
+{
+	s2c_REMOVE_OBJECT pkt;
+	pkt.object_id = GetObjectID();
+	pkt.obj_type = (uint8)GetObjectType();
+	Mgr(MCWorld)->AppendToWorldSendBuffer(pkt);
 }

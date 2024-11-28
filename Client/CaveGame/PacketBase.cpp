@@ -98,11 +98,6 @@ DECLARE_PACKET_FUNC(s2c_USE_ITEM)
 
 }
 
-DECLARE_PACKET_FUNC(s2c_REMOVE_OBJECT)
-{
-	Mgr(ServerObjectManager)->RemoveObject(pkt_.object_id);
-}
-
 DECLARE_PACKET_FUNC(s2c_MON_ATK)
 {
 }
@@ -126,4 +121,29 @@ DECLARE_PACKET_FUNC(s2c_SUMMON_BOSS)
 	b.pos.y = pkt_.pos_y;
 	b.pos.z = pkt_.pos_z;
 	Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateEnderDragon(b), GROUP_TYPE::MONSTER);
+}
+
+DECLARE_PACKET_FUNC(s2c_REMOVE_OBJECT)
+{
+	// TODO: 사라지는 오브젝트 타입에따라 다른행동하기
+	if (!Mgr(ServerObjectManager)->FindObject(pkt_.object_id))return;
+	Mgr(ServerObjectManager)->RemoveObject(pkt_.object_id);
+
+	const auto type = (MC_OBJECT_TYPE)pkt_.obj_type;
+
+	// TODO: 오브젝트별로 사라질 때 뭔가 이벤트가 있다면
+	switch (type)
+	{
+	case MC_OBJECT_TYPE::ARROW:
+	{
+		break;
+	}
+	case MC_OBJECT_TYPE::MONSTER:
+	{
+		break;
+	}
+	default:
+		break;	
+	}
+
 }

@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "MCTilemap.h"
 #include "MCWorld.h"
+#include "PacketBase.hpp"
 
 void ProjArrow::Update(const float DT)
 {
@@ -33,7 +34,8 @@ void ProjArrow::Update(const float DT)
         // 각 그룹에 대해 충돌 검사를 수행할 람다 함수
         constexpr const auto group_collision_func = [](ProjArrow* const pArrow, MC_OBJECT_TYPE type, float radius, float height)noexcept {
             const auto& monster_group = Mgr(MCWorld)->GetWorldObjects(type);
-            const auto project_pos = pArrow->GetOwner()->GetPos();
+            const auto owner = pArrow->GetOwner();
+            const auto project_pos = owner->GetPos();
             for (const auto& monster : monster_group)
             {
                 const auto& monster_pos = monster->GetPos();
@@ -54,22 +56,23 @@ void ProjArrow::Update(const float DT)
                     // 화살 삭제; 서버오브젝트로 전환시 ServerObjectManager::RemoveObject() 호출
                     //DestroyObj(std::move(pArrow));
                     std::cout << "충돌!\n";
-                    pArrow->GetOwner()->SetInvalid();
+                    monster->DecHP(G_ARROW_DMG);
+                    owner->SetInvalid();
                     return;
                 }
             }
             };
         if (m_isPinned)return;
         group_collision_func(this, MC_OBJECT_TYPE::MONSTER, 0.5f, 3.0f);
-        group_collision_func(this, MC_OBJECT_TYPE::PLAYER, 0.5f, 2.0f);
+       // group_collision_func(this, MC_OBJECT_TYPE::PLAYER, 0.5f, 2.0f); 팀킬 방지
     }
     // 화살이 벽에 고정되어 있다면
     else
     {
-       //// 타일 정보를 가져와서 화살이 고정되어 있는지 확인
-       //glm::ivec3 tilePos = GetPosition();
-       //// 타일이 비어있다면 고정을 해제
-       //if (m_refTilemap->GetTile(tilePos) == 0)
-       //    m_isPinned = false;
+        m_accArrowTime += DT;
+        if (G_ARROW_REMAIN_TIME <= m_accArrowTime)
+        {
+            GetOwner()->SetInvalid();
+        }
     }
 }

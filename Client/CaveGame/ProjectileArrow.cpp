@@ -60,6 +60,7 @@ void ProjectileArrow::Update()
             SetRotation(lookRotation);
         }
 
+        // if 추후 서버에서 오동작하면 이거로 대체
        //// 각 그룹에 대해 충돌 검사를 수행할 람다 함수
        //constexpr const auto group_collision_func = [](std::shared_ptr<ProjectileArrow> pArrow,GROUP_TYPE type, float radius, float height)noexcept {
        //        const auto& monster_group = Mgr(ServerObjectManager)->GetTargetScene()->GetGroupObj(type);
