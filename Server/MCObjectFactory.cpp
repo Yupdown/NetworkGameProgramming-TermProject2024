@@ -43,6 +43,7 @@ S_ptr<Object> MCObjectFactory::CreateEnderDragon(EnderDragonBuilder& b_)
 {
 	auto ed = std::make_shared<Object>();
 	ed->SetPos(b_.pos);
+	ed->SetObjectType(MC_OBJECT_TYPE::BOSS);
 	const auto edc = ed->AddComp<EnderDragon>(new EnderDragon);
 
 	return ed;
