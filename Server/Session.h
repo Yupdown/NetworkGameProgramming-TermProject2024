@@ -9,7 +9,7 @@ class Session
 {
 	friend class IOExecutor;
 public:
-	Session(const uint64_t id, const SOCKET sock, const uint8_t texID_)noexcept;
+	Session(const uint64_t id, const SOCKET sock)noexcept;
 	~Session()noexcept;
 	void RegisterSendBuffer()
 	{
@@ -76,6 +76,8 @@ private:
 	std::vector<WSABUF> m_wsaBuf;
 
 	const uint8_t m_texID;
+
+	static inline uint64_t g_global_player_tex_id = 0;
 };
 
 
