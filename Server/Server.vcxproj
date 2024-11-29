@@ -154,6 +154,7 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="c2s_PacketHandler.cpp" />
     <ClCompile Include="EnderDragon.cpp" />
+    <ClCompile Include="HP.cpp" />
     <ClCompile Include="PathFollower.cpp" />
     <ClCompile Include="FSM.cpp" />
     <ClCompile Include="func.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="CustomMath.hpp" />
     <ClInclude Include="EnderDragon.h" />
+    <ClInclude Include="HP.h" />
     <ClInclude Include="PathFollower.h" />
     <ClInclude Include="FSM.h" />
     <ClInclude Include="func.h" />

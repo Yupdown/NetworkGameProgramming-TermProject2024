@@ -7,6 +7,7 @@
 #include "Object.h"
 #include "PathFollower.h"
 #include "MCObjectFactory.h"
+#include "HP.h"
 
 // c2s를 정의하는 CPP
 

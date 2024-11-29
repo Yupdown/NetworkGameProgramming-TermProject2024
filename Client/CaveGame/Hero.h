@@ -7,7 +7,7 @@ class MCTilemap;
 class Hero :
     public Player
 {
-    static constexpr const float G_SEND_INTERVAL = 0.02f;
+    static constexpr const float G_SEND_INTERVAL = 0.01f;
 private:
     void InputMove()noexcept;
     void UpdateTileManipulation()noexcept;

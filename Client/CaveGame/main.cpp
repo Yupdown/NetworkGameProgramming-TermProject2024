@@ -37,6 +37,8 @@ std::function<void(void)> g_fpNewGameFunc;
 
 int G_MC_SEED = -1;
 
+glm::vec3 G_INIT_POS = glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2);
+
 int main()
 {
     Mgr(Core)->Init(1440, 720);
@@ -172,7 +174,7 @@ int main()
             player->SetRendererTexture(Mgr(ServerObjectManager)->GetMyTexIDFromServer());
 
             // 플레이어 스폰 위치를 맵의 정중앙, 하늘 위로 설정
-            player->GetTransform()->SetLocalPosition(glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2));
+            player->GetTransform()->SetLocalPosition(G_INIT_POS);
             curScene->AddObject(player, GROUP_TYPE::PLAYER);
             /*player->AddChild(make_shared<PlayerCam>());*/
             curScene->RegisterPlayer(player);

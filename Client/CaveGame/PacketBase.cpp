@@ -154,3 +154,26 @@ DECLARE_PACKET_FUNC(s2c_REMOVE_OBJECT)
 
 	Mgr(ServerObjectManager)->RemoveObject(pkt_.object_id);
 }
+
+DECLARE_PACKET_FUNC(s2c_PLAYER_HIT)
+{
+	const bool bIsDead = 0 >= pkt_.hit_after_hp;
+
+	std::shared_ptr<ServerObject> target = {};
+
+	if (Mgr(ServerObjectManager)->IsMyID(pkt_.hit_player_id))
+	{
+		std::cout << "¾Æ¾ß !\n";
+		target = Mgr(ServerObjectManager)->GetHero();
+	}
+	else if (const auto player = Mgr(ServerObjectManager)->FindObject(pkt_.hit_player_id))
+	{
+		target = player;
+	}
+
+	if (target)
+	{
+		if(bIsDead)
+			target->SetPosition(G_INIT_POS);
+	}
+}

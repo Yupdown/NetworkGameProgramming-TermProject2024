@@ -7,7 +7,7 @@ class ServerObject;
 class MCTilemap;
 class Hero;
 
-static constexpr glm::vec3 G_INIT_POS = glm::vec3(256.0f, 16.0f, 256.0f);
+extern glm::vec3 G_INIT_POS;
 
 class ServerObjectManager : public Singleton<ServerObjectManager>
 {

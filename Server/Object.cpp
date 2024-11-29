@@ -6,6 +6,7 @@
 #include "PathFollower.h"
 #include "PacketBase.hpp"
 #include "MCWorld.h"
+#include "HP.h"
 
 Object::Object()
 	: m_obj_id{ IssueGlobalObjectID() }
@@ -17,6 +18,7 @@ Object::Object(std::shared_ptr<Session> session)
 	: m_obj_id{ session->GetSessionID()}
 	, m_session{ std::move(session) }
 {
+	InitHP<PlayerHP>(PLAYER_START_HP);
 }
 
 Object::~Object() noexcept
@@ -75,10 +77,36 @@ void Object::Update(const float DT) noexcept
 	m_bDirtyFlag = false;
 }
 
+void Object::SetHP(const int hp_) noexcept
+{
+	m_HP->SetHP(hp_);
+}
+
+const int Object::GetHP() const noexcept
+{
+	return m_HP->GetHP();
+}
+
+void Object::IncHP(const int inc_) noexcept
+{
+	m_HP->IncHP(inc_);
+}
+
+void Object::DecHP(const int dec_) noexcept
+{
+	m_HP->DecHP(dec_);
+}
+
 void Object::SendRemovePacket() const noexcept
 {
 	s2c_REMOVE_OBJECT pkt;
 	pkt.object_id = GetObjectID();
 	pkt.obj_type = (uint8)GetObjectType();
 	Mgr(MCWorld)->AppendToWorldSendBuffer(pkt);
+}
+
+void Object::SetUpHP(const int hp_)noexcept
+{
+	m_HP->SetHP(hp_);
+	m_HP->SetOwner(this);
 }

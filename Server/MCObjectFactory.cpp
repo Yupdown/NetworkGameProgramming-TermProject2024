@@ -8,6 +8,7 @@
 #include "EnderDragon.h"
 #include "MCTilemap.h"
 #include "ProjArrow.h"
+#include "HP.h"
 
 S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 {
@@ -22,7 +23,7 @@ S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 	const auto m = mon->AddComp<PathFollower>(new PathFollower);
 	fsm->SetPathFollower(m);
 	mon->SetPos(b_.pos);
-	
+	mon->InitHP<EnderManHP>(ENDER_MAN_START_HP);
 	
 	return mon;
 }
@@ -45,7 +46,8 @@ S_ptr<Object> MCObjectFactory::CreateEnderDragon(EnderDragonBuilder& b_)
 	ed->SetPos(b_.pos);
 	ed->SetObjectType(MC_OBJECT_TYPE::BOSS);
 	const auto edc = ed->AddComp<EnderDragon>(new EnderDragon);
-
+	ed->InitHP<EnderDragonHP>(BOSS_START_HP);
+	
 	return ed;
 }
 

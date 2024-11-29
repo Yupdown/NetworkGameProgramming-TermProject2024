@@ -98,6 +98,9 @@
     <Filter Include="MCContents\Object\Component\ProjArrow">
       <UniqueIdentifier>{54cb9597-acd3-454f-b100-5689b2c0ef58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCContents\Object\Component\HP">
+      <UniqueIdentifier>{5ec38eca-b6f8-43dc-a64d-f743c9aa6d5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -171,6 +174,9 @@
     </ClCompile>
     <ClCompile Include="ProjArrow.cpp">
       <Filter>MCContents\Object\Component\ProjArrow</Filter>
+    </ClCompile>
+    <ClCompile Include="HP.cpp">
+      <Filter>MCContents\Object\Component\HP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="ProjArrow.h">
       <Filter>MCContents\Object\Component\ProjArrow</Filter>
+    </ClInclude>
+    <ClInclude Include="HP.h">
+      <Filter>MCContents\Object\Component\HP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

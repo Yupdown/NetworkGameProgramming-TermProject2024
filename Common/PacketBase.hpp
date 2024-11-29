@@ -56,6 +56,10 @@ enum class PKT_ID : uint8
     c2s_SUMMON_BOSS = 19,
     s2c_SUMMON_BOSS = 20,
 
+
+
+    s2c_PLAYER_HIT = 21,
+
     END,
 };
 
@@ -340,6 +344,19 @@ struct s2c_SUMMON_BOSS
     float pos_x, pos_y, pos_z;
 
     DECLARE_PACKET(s2c_SUMMON_BOSS);
+};
+
+/// <summary>
+/// 플레이어 피격
+/// </summary>
+/// 
+
+struct s2c_PLAYER_HIT
+    :public PacketHeader
+{
+    uint32 hit_player_id;
+    int hit_after_hp;
+    DECLARE_PACKET(s2c_PLAYER_HIT);
 };
 
 #pragma pack (pop)

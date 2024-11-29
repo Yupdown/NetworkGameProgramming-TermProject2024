@@ -63,8 +63,9 @@ void ProjArrow::Update(const float DT)
             }
             };
         if (m_isPinned)return;
+        // TODO: 분리하고 객체화
         group_collision_func(this, MC_OBJECT_TYPE::MONSTER, 0.5f, 3.0f);
-       // group_collision_func(this, MC_OBJECT_TYPE::PLAYER, 0.5f, 2.0f); 팀킬 방지
+        group_collision_func(this, MC_OBJECT_TYPE::PLAYER, 0.5f, 2.0f); 
     }
     // 화살이 벽에 고정되어 있다면
     else
