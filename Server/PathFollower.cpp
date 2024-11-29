@@ -8,7 +8,8 @@
 void PathFollower::Update(const float DT)
 {
 	// 가속도 (중력으로 초기화)
-	const auto pos_comp = &GetOwner()->GetPosInfo();
+	const auto owner = GetOwner();
+	const auto pos_comp = &owner->GetPosInfo();
 	pos_comp->m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
 	
 	// 목적지로 삼을 월드 내의 플레이어 지정
@@ -80,14 +81,14 @@ void PathFollower::Update(const float DT)
 	const auto& t = GetTileMap();
 	m_bGround = t->HandleCollision(origin_pos, positionPost, pos_comp->m_vVelocity);
 
-	if (origin_pos == positionPost)
+	if (origin_pos == positionPost || (m_bGround && !chase_flag))
 	{
 		return;
 	}
 
-	GetOwner()->SetDirtyFlag();
+	owner->SetDirtyFlag();
 	// 최종 위치 적용
-	GetOwner()->SetPos(positionPost);
+	owner->SetPos(positionPost);
 	
 	prev_path = std::move(path);
 	
