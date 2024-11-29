@@ -85,7 +85,6 @@ MON_STATE Patrol::Update(PositionInfo* const pos_info, const float DT)
 			// return MON_STATE::PATROL; 충돌검사 테스트용으로 하려면 이렇게
 			pf->dest = m_fsm->target->GetPos();
 			pf->chase_flag = true;
-			return MON_STATE::PATROL;
 			return MON_STATE::CHASE;
 		}
 	}
