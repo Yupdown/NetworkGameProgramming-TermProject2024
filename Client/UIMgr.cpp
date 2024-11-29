@@ -121,6 +121,9 @@ void UIMgr::Init()
 
 		auto cross_line = make_shared<PannelUI>(glm::vec2{ w,h } / 2.f, "cross.png", 2.f);
 		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(cross_line);
+
+		auto health_bar = make_shared<PannelUI>(glm::vec2(w * 0.5f - 148.0f, h - 85.0f), "gui_health.png", 3.0f, glm::zero<glm::vec2>(), glm::vec2(1.0f, 0.5f));
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(health_bar);
 	}
 
 	SetSelectIndex(0);
