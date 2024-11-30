@@ -2,6 +2,36 @@
 #include "EnderDragon.h"
 #include "MCTilemap.h"
 #include "Object.h"
+#include <random>
+#include <algorithm>
+#include "MCWorld.h"
+
+static std::default_random_engine dre{ };
+static std::uniform_int_distribution uid{ 0,19 };
+
+void EnderDragon::SetBezierPoints() noexcept
+{
+    m_points[0] = GetOwner()->GetPos();
+    const auto num = uid(dre);
+
+    const auto b = m_randomPoints.data();
+    m_points[1] = *(b + num);
+    m_points[2] = *(b + (19 - num));
+    const auto& players = Mgr(MCWorld)->GetWorldObjects(MC_OBJECT_TYPE::PLAYER);
+    if (const auto num = (int)players.size())
+    {
+        const auto y = m_points[2].y;
+        glm::vec3 temp{};
+        auto b = players.data();
+        const auto e = b + num;
+        while (e != b) { temp += (*b++)->GetPos(); }
+        temp /= num;
+        m_points[2] = temp;
+        m_points[2].y = y;
+    }
+    GenerateArcLengthTable(m_points[0], m_points[1], m_points[2]);
+    m_curveLength = m_arcLengthTable.back().second;
+}
 
 void EnderDragon::Init()
 {
@@ -11,38 +41,32 @@ void EnderDragon::Init()
 
     for (int i = 0; i < 20; ++i)
     {
-        const float x = BASE_X + static_cast<float>(std::rand()) / RAND_MAX * 120.0f - 60.0f; 
-        const float y = BASE_Y + static_cast<float>(std::rand()) / RAND_MAX * 10.0f - 5.0f; 
+        const float x = BASE_X + static_cast<float>(std::rand()) / RAND_MAX * 120.0f - 60.0f;
+        const float y = BASE_Y + static_cast<float>(std::rand()) / RAND_MAX * 10.0f - 5.0f;
         const float z = BASE_Z + static_cast<float>(std::rand()) / RAND_MAX * 120.0f - 60.0f;
         m_randomPoints.emplace_back(x, y, z);
     }
 
-   const auto owner = GetOwner();
-
-   p0 = owner->GetPos();
-   p1 = m_randomPoints[std::rand() % m_randomPoints.size()];
-   p2 = m_randomPoints[std::rand() % m_randomPoints.size()];
-
-   owner->SetPos(bezier(p0, p1, p2, m_bezierT));
+    SetBezierPoints(); 
+    m_traveledDistance = 0.0f;
+    m_bezierT = 0.0f;
 }
 
 void EnderDragon::Update(const float DT)
 {
-    m_bezierT = glm::fclamp(m_bezierT += DT / 10.f, 0.f, 1.f);
+    const float distanceToTravel = m_speed * DT;
+    m_traveledDistance = glm::clamp(m_traveledDistance + distanceToTravel, 0.f, m_curveLength);
+
+    m_bezierT = MapDistanceToT(m_traveledDistance);
+
     const auto owner = GetOwner();
+    owner->SetPos(bezier(m_points[0], m_points[1], m_points[2], m_bezierT));
     owner->SetDirtyFlag();
-    if (1.f <= m_bezierT)
-    {
-        m_bezierT = 0.f;
 
-        p0 = owner->GetPos();
-        p1 = m_randomPoints[std::rand() % m_randomPoints.size()];
-        p2 = m_randomPoints[std::rand() % m_randomPoints.size()];
-
-        owner->SetPos(bezier(p0, p1, p2, m_bezierT));
-    }
-    else
+    if (m_traveledDistance >= m_curveLength)
     {
-        owner->SetPos(bezier(p0, p1, p2, m_bezierT));
+        m_traveledDistance = 0.0f;
+        m_bezierT = 0.0f;
+        SetBezierPoints();
     }
 }
