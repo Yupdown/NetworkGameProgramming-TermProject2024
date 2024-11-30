@@ -26,7 +26,6 @@ Object::~Object() noexcept
 	std::cout << "~Object\n";
 	if (nullptr == m_session)
 	{
-		if (MC_OBJECT_TYPE::BOSS == m_eObjType)return; // TODO юс╫ц
 		SendRemovePacket();
 	}
 }

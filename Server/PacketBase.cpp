@@ -147,9 +147,9 @@ DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
 	// TODO: 드래곤소환후 월드에 넣기
 
 	EnderDragonBuilder b;
-	b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2);
+	b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT - 10, MCTilemap::MAP_WIDTH / 2);
 
-	const auto ed = MCObjectFactory::CreateEnderDragon(b);
+	auto ed = MCObjectFactory::CreateEnderDragon(b);
 
 	s2c_SUMMON_BOSS pkt;
 	pkt.boss_id = ed->GetObjectID();
@@ -157,5 +157,6 @@ DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
 	pkt.pos_y = b.pos.y;
 	pkt.pos_z = b.pos.z;
 
+	Mgr(MCWorld)->PostWorldEvent([ed = std::move(ed)]() {Mgr(MCWorld)->AddObject(ed, MC_OBJECT_TYPE::BOSS); });
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }

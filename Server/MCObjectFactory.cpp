@@ -47,7 +47,9 @@ S_ptr<Object> MCObjectFactory::CreateEnderDragon(EnderDragonBuilder& b_)
 	ed->SetObjectType(MC_OBJECT_TYPE::BOSS);
 	const auto edc = ed->AddComp<EnderDragon>(new EnderDragon);
 	ed->InitHP<EnderDragonHP>(BOSS_START_HP);
-	
+	ed->Init();
+	edc->Init();
+
 	return ed;
 }
 
