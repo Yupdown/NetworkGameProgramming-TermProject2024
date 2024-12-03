@@ -28,6 +28,13 @@ public:
 	void SetAcceleration(const glm::vec3& acceleration) { m_acceleration = acceleration; }
 
 	void SetID(const int id_) { m_id = id_; }
+
+	/// <summary>
+	/// 오브젝트가 투사체나 근접 등으로 공격을 받았을 때 클라이언트에서 이벤트를 처리할 수 있도록 하는 함수
+	/// </summary>
+	/// <param name="value">
+	/// 공격을 받은 후의 체력
+	/// </param>
 	virtual void OnObjectDamaged(int value);
 
 protected:

@@ -326,7 +326,7 @@ void Hero::Update()
 	UpdateCameraTransform(m_pCacheMyTransformCamera);
 }
 
-void Hero::OnDamaged()
+void Hero::OnObjectDamaged(int value)
 {
 	// play Player_hurt1.ogg
 	Mgr(SoundMgr)->PlayEffect("Player_hurt1.ogg", 1.0f);

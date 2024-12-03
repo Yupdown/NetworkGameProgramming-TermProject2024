@@ -22,7 +22,7 @@ public:
     Hero(std::shared_ptr<MCTilemap> pTilemap)noexcept;
     void Start()override;
     void Update()override;
-    void OnDamaged();
+    void OnObjectDamaged(int value) override;
     void SendMyMoveData()const noexcept;
     void InitCamDirection()noexcept;
     void UpdatePlayerCamFpsMode()noexcept;
