@@ -21,6 +21,7 @@ private:
 	int m_iSelectedIndex = 0;
 	shared_ptr<PannelUI> m_pTargetUI;
 	shared_ptr<PannelProgressUI> m_pHealthBar;
+	shared_ptr<PannelProgressUI> m_pBossHealthBar;
 
 public:
 	void Init();
@@ -56,5 +57,7 @@ public:
 	int GetSelectIndex() const { return m_iSelectedIndex; };
 	void SetSelectIndex(int index);
 	void SetHealth(int health);
+	void SetBossHealth(int health);
+	void SetBossHealthActive(bool active);
 };
 

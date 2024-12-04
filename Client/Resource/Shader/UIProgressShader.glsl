@@ -160,8 +160,7 @@ out vec4 FragColor;
 void main()
 {
 	vec2 texCoords = TexCoords;
-	if (uProgress < texCoords.x)
-		texCoords.y = TexCoords.y + 0.5f;
+	texCoords.y = TexCoords.y + max(0, sign(texCoords.x - uProgress)) * 0.5f;
 	vec4 color = texture(uTexture2D, texCoords);
 	FragColor = color;
 }

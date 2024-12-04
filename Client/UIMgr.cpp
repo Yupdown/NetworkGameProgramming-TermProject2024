@@ -126,6 +126,11 @@ void UIMgr::Init()
 
 		m_pHealthBar = make_shared<PannelProgressUI>(glm::vec2(w * 0.5f - 148.0f, h - 85.0f), "gui_health.png", 3.0f, glm::zero<glm::vec2>(), glm::vec2(1.0f, 0.5f));
 		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pHealthBar);
+
+		m_pBossHealthBar = make_shared<PannelProgressUI>(glm::vec2(w * 0.5f, 24.0f), "gui_healthboss.png", 3.0f, glm::zero<glm::vec2>(), glm::vec2(1.0f, 0.5f));
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pBossHealthBar);
+
+		m_pBossHealthBar->SetActivate(false);
 	}
 
 	SetSelectIndex(0);
@@ -207,6 +212,7 @@ void UIMgr::Render()
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_MULTISAMPLE);
 
 	static UBOData& sceneData = Mgr(Core)->GetUBOData();
 	sceneData.viewMat = glm::mat4{ 1.f };
@@ -225,6 +231,7 @@ void UIMgr::Render()
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
+	glEnable(GL_MULTISAMPLE);
 
 	//insertionSort(m_vecUI, [](const shared_ptr<PannelUI>& a, const shared_ptr<PannelUI>& b) {return *a < *b; });
 	
@@ -302,4 +309,15 @@ void UIMgr::SetHealth(int health)
 {
 	float progress = static_cast<float>(health) / PLAYER_START_HP;
 	m_pHealthBar->SetProgress(progress);
+}
+
+void UIMgr::SetBossHealth(int health)
+{
+	float progress = static_cast<float>(health) / BOSS_START_HP;
+	m_pBossHealthBar->SetProgress(progress);
+}
+
+void UIMgr::SetBossHealthActive(bool bActive)
+{
+	m_pBossHealthBar->SetActivate(bActive);
 }
