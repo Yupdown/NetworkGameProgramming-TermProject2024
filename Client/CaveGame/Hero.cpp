@@ -259,8 +259,7 @@ void Hero::UpdateTileManipulation()noexcept
 
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_LEFT) && result.hit)
 	{
-		// TODO: 수정한부분
-
+		if (0 == result.hitTilePosition.y)return;
 		c2s_DESTROY_BLOCK pkt;
 		pkt.x = result.hitTilePosition.x;
 		pkt.y = result.hitTilePosition.y;
