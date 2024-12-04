@@ -327,7 +327,7 @@ void Hero::Update()
 
 void Hero::OnObjectDamaged(int value)
 {
-	Player::OnObjectDamaged(value);
+	Mgr(UIMgr)->SetHealth(value);
 
 	// play Player_hurt1.ogg
 	Mgr(SoundMgr)->PlayEffect("Player_hurt1.ogg", 1.0f);
@@ -336,7 +336,7 @@ void Hero::OnObjectDamaged(int value)
 	float magnitude = 10.0f;
 	m_vVelocity += glm::vec3(glm::cos(theta), 1.0f, glm::sin(theta)) * magnitude;
 
-	Mgr(UIMgr)->SetHealth(value);
+	Player::OnObjectDamaged(value);
 }
 
 void Hero::OnObjectDead()
