@@ -170,7 +170,5 @@ DECLARE_PACKET_FUNC(s2c_PLAYER_HIT)
 	if (target)
 	{
 		target->OnObjectDamaged(pkt_.hit_player_id);
-		if(bIsDead)
-			target->SetPosition(G_INIT_POS);
 	}
 }

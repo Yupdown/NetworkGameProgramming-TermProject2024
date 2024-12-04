@@ -2,6 +2,7 @@
 
 class UI;
 class PannelUI;
+class PannelProgressUI;
 
 class UIMgr
 	:public Singleton<UIMgr>
@@ -19,6 +20,7 @@ private:
 private:
 	int m_iSelectedIndex = 0;
 	shared_ptr<PannelUI> m_pTargetUI;
+	shared_ptr<PannelProgressUI> m_pHealthBar;
 
 public:
 	void Init();
@@ -53,5 +55,6 @@ public:
 public:
 	int GetSelectIndex() const { return m_iSelectedIndex; };
 	void SetSelectIndex(int index);
+	void SetHealth(int health);
 };
 

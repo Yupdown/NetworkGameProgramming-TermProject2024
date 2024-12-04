@@ -256,8 +256,10 @@ void UI::Render()
 		childUI->Render();
 	}
 
-	m_uiTex[etoi(m_eCurUIState)]->BindTexture();
+	Mgr(ResMgr)->GetRes<Shader>("UIShader.glsl")->Use();
 	Mgr(ResMgr)->GetRes<Shader>("UIShader.glsl")->SetUniformMat4(GetObjectWorldTransform(), "uModel");
+
+	m_uiTex[etoi(m_eCurUIState)]->BindTexture();
 	m_uiMesh[etoi(m_eCurUIState)]->Render();
 	m_uiTex[etoi(m_eCurUIState)]->UnBindTexture();
 }

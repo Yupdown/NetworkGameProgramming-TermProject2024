@@ -402,6 +402,9 @@
     <ClCompile Include="Scene_Intro.cpp">
       <Filter>Engine\05. Scene\Scene_Intro</Filter>
     </ClCompile>
+    <ClCompile Include="PannelProgressUI.cpp">
+      <Filter>Engine\02. Manager\UIMgr\UI\PannelUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -640,6 +643,9 @@
     </ClInclude>
     <ClInclude Include="SRWLock.hpp">
       <Filter>Utility\struct</Filter>
+    </ClInclude>
+    <ClInclude Include="PannelProgressUI.h">
+      <Filter>Engine\02. Manager\UIMgr\UI\PannelUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

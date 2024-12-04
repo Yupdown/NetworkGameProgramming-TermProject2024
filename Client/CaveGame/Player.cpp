@@ -247,5 +247,19 @@ void Player::Update()
 
 void Player::OnObjectDamaged(int value)
 {
+	const bool isDead = value <= 0;
+	
+	if (isDead)
+	{
+		OnObjectDead();
+	}
+
 	std::cout << "Player Damaged: " << value << std::endl;
+}
+
+void Player::OnObjectDead()
+{
+	std::cout << "Player Dead" << std::endl;
+
+	SetPosition(G_INIT_POS);
 }

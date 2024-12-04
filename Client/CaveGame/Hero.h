@@ -23,6 +23,7 @@ public:
     void Start()override;
     void Update()override;
     void OnObjectDamaged(int value) override;
+    void OnObjectDead() override;
     void SendMyMoveData()const noexcept;
     void InitCamDirection()noexcept;
     void UpdatePlayerCamFpsMode()noexcept;

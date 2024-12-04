@@ -60,7 +60,8 @@ public:
 
 	void Start()override;
 	void Update()override;
-	void OnObjectDamaged(int value)override;
+	void OnObjectDamaged(int value) override;
+	virtual void OnObjectDead();
 
 public:
 	virtual void InitializeRenderer();
