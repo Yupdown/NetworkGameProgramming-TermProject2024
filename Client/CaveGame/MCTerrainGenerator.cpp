@@ -67,7 +67,9 @@ void MCTerrainGenerator::Generate(const shared_ptr<MCTilemap>& tilemap)const noe
 		"080",
 	};
 
-	for (int n = 0; n < 512; ++n)
+	constexpr int TREE_COUNT = 128;
+
+	for (int n = 0; n < TREE_COUNT; ++n)
 	{
 		int x = uid(dre) % MCTilemap::MAP_WIDTH;
 		int z = uid(dre) % MCTilemap::MAP_WIDTH;
