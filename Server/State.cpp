@@ -23,7 +23,6 @@ void check_and_hit(const glm::vec3& a, const glm::vec3& b,float& accTime,const f
 			
 			if (accTime >= ATK_TIME)
 			{
-				std::cout << "!!" << std::endl;
 				accTime = 0.f;
 				
 				const auto player = Mgr(MCWorld)->GetWorldObject(id);
@@ -33,6 +32,7 @@ void check_and_hit(const glm::vec3& a, const glm::vec3& b,float& accTime,const f
 	}
 	else
 	{
+		// 이거 하면 X
 		// accTime = 0.f;
 	}
 }
