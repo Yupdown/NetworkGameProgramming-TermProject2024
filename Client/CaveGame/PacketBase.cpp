@@ -100,10 +100,6 @@ DECLARE_PACKET_FUNC(s2c_USE_ITEM)
 
 }
 
-DECLARE_PACKET_FUNC(s2c_MON_ATK)
-{
-}
-
 DECLARE_PACKET_FUNC(s2c_ITEM_DROP)
 {
 	// 아이템 종류, 수량 등 더 받아야할정보가 있음

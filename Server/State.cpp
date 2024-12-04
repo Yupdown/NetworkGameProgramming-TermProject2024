@@ -23,13 +23,9 @@ void check_and_hit(const glm::vec3& a, const glm::vec3& b,float& accTime,const f
 			if (accTime >= ATK_TIME)
 			{
 				accTime = 0.f;
-				//Protocol::s2c_MON_ATK pkt;
-				//pkt.set_hit_player_id(id);
-				//SessionMgr(MCWorld) << pkt;
-
-				s2c_MON_ATK pkt;
-				pkt.hit_player_id = (uint32_t)id;
-				Mgr(MCWorld)->AppendToWorldSendBuffer(pkt);
+				
+				const auto player = Mgr(MCWorld)->GetWorldObject(id);
+				player->DecHP(1);
 			}
 		}
 	}

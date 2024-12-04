@@ -303,17 +303,6 @@ struct s2c_REMOVE_OBJECT
 };
 
 /// <summary>
-/// 몬스터 공격
-/// </summary>
-/// 
-struct s2c_MON_ATK
-    :public PacketHeader
-{
-    uint32 hit_player_id;
-    DECLARE_PACKET(s2c_MON_ATK);
-};
-
-/// <summary>
 /// 아이템 드랍
 /// </summary>
 /// 
