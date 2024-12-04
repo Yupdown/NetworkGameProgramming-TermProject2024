@@ -159,7 +159,7 @@ DECLARE_PACKET_FUNC(s2c_PLAYER_HIT)
 
 	if (Mgr(ServerObjectManager)->IsMyID(pkt_.hit_player_id))
 	{
-		std::cout << "아야 !\n";
+		std::cout << "아우치 !\n";
 		target = Mgr(ServerObjectManager)->GetHero();
 	}
 	else if (const auto player = Mgr(ServerObjectManager)->FindObject(pkt_.hit_player_id))

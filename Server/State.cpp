@@ -20,8 +20,10 @@ void check_and_hit(const glm::vec3& a, const glm::vec3& b,float& accTime,const f
 		{
 			flag = false;
 			accTime += DT;
+			
 			if (accTime >= ATK_TIME)
 			{
+				std::cout << "!!" << std::endl;
 				accTime = 0.f;
 				
 				const auto player = Mgr(MCWorld)->GetWorldObject(id);
@@ -31,7 +33,7 @@ void check_and_hit(const glm::vec3& a, const glm::vec3& b,float& accTime,const f
 	}
 	else
 	{
-		accTime = 0.f;
+		// accTime = 0.f;
 	}
 }
 S_ptr<Object> FindClosestValidSession(const glm::vec3& current_position,const float th_hold)
@@ -113,12 +115,9 @@ MON_STATE Chase::Update(PositionInfo* const pos_info, const float DT)
 			target.reset();
 			return MON_STATE::PATROL;
 		}
-	}
-	if (m_fsm->target)
-	{
 		const auto movement = &target->GetPosInfo();
 		m_fsm->GetPathFollower()->dest = movement->m_vPos;
-		check_and_hit(movement->m_vPos, pos_info->m_vPos,target->m_accAtkTime, DT, target->GetObjectID(), target->flag);
+		check_and_hit(movement->m_vPos, pos_info->m_vPos, target->m_accAtkTime, DT, target->GetObjectID(), target->flag);
 	}
 	
 	return MON_STATE::CHASE;
