@@ -83,6 +83,9 @@ void Hero::Start()
 
 	m_cameraAnchor->AddChild(m_cameraObj);
 	m_pCacheMyTransformCamera = m_cameraObj->GetTransform();
+
+	SetPlayerControl(true);
+	Mgr(UIMgr)->SetPopdownCallback([this]() { SetPlayerControl(true); });
 }
 
 shared_ptr<GameObj> Hero::CreateCursorBlockObj() const
@@ -201,6 +204,13 @@ glm::vec3 Hero::GetCameraDirection() const
 	return glm::rotate(glm::quat(glm::vec3(glm::radians(m_cameraAngleAxisSmooth.x), glm::radians(m_cameraAngleAxisSmooth.y), 0.0f)), glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
+void Hero::SetPlayerControl(bool bControl) noexcept
+{
+	m_bIsPlayerControl = bControl;
+
+	Mgr(KeyMgr)->SetMouseMode(bControl ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+}
+
 void Hero::InputMove() noexcept
 {
 	if (KEY_HOLD(GLFW_KEY_A))
@@ -305,9 +315,13 @@ void Hero::Update()
 	m_rendererObj->GetTransform()->SetLocalScale(!m_bIsHero || m_curCamMode ? glm::one<glm::vec3>() * 0.003f : glm::zero<glm::vec3>());
 
 	m_vAccelation = glm::vec3(0.0f, -40.0f, 0.0f);
-	InputMove();
-	UpdatePlayerCamFpsMode();
-	UpdateTileManipulation();
+	
+	if (m_bIsPlayerControl)
+	{
+		InputMove();
+		UpdatePlayerCamFpsMode();
+		UpdateTileManipulation();
+	}
 
 	m_lookYaw = glm::mix(m_lookYaw, m_cameraAngleAxis.y, DT * 16.0f);
 	m_lookPitch = glm::mix(m_lookPitch, -m_cameraAngleAxis.x, DT * 16.0f);
@@ -346,6 +360,8 @@ void Hero::OnObjectDead()
 
 	Player::OnObjectDead();
 
+	SetPlayerControl(false);
+	Mgr(UIMgr)->SetGameOverPanelActive(true);
 	Mgr(UIMgr)->SetHealth(PLAYER_START_HP);
 }
 

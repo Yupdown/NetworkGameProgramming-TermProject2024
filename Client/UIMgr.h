@@ -1,5 +1,8 @@
 #pragma once
 
+#include "pch.h"
+#include "Singleton.hpp"
+
 class UI;
 class PannelUI;
 class PannelProgressUI;
@@ -22,6 +25,11 @@ private:
 	shared_ptr<PannelUI> m_pTargetUI;
 	shared_ptr<PannelProgressUI> m_pHealthBar;
 	shared_ptr<PannelProgressUI> m_pBossHealthBar;
+	shared_ptr<PannelUI> m_pGameOverPanel;
+	shared_ptr<PannelUI> m_pGameOverButton;
+	shared_ptr<PannelUI> m_pGameClearPanel;
+	shared_ptr<PannelUI> m_pGameClearButton;
+	std::function<void()> m_popdownCallback = nullptr;
 
 public:
 	void Init();
@@ -59,5 +67,8 @@ public:
 	void SetHealth(int health);
 	void SetBossHealth(int health);
 	void SetBossHealthActive(bool active);
+	void SetGameOverPanelActive(bool active);
+	void SetGameClearPanelActive(bool active);
+	void SetPopdownCallback(std::function<void()> callback);
 };
 

@@ -28,5 +28,6 @@ public:
 	glm::vec2 GetMouseDelta()const noexcept{ return m_vMousePos - m_vPrevMousePos; }
 	const tKeyInfo& GetKeyInfo(const int _VKval) noexcept{ return m_mapKey.try_emplace(_VKval, tKeyInfo{ _VKval }).first->second; }
 	const KEY_STATE GetKeyState(const int _VKval) noexcept{ return GetKeyInfo(_VKval).eState; }
+	void SetMouseMode(const int _mode)noexcept;
 };
 

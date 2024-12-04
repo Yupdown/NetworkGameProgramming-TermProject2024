@@ -41,7 +41,7 @@ glm::vec3 G_INIT_POS = glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT
 
 int main()
 {
-    Mgr(Core)->Init(1440, 720);
+    Mgr(Core)->Init(1280, 720);
     Mgr(Core)->SetClearColor(RGBA_WHITE);
     MCItemTable::Init();
     Mgr(MCItemManager)->LoadItems();
@@ -63,7 +63,6 @@ int main()
     Mgr(SceneMgr)->GetScene(SCENE_TYPE::INTRO)->AddUpdateFp(SCENE_ADDED_UPDATE::UPDATE,[]() {
         if (g_bCanResume && KEY_TAP(GLFW_KEY_ESCAPE))
         {
-            glfwSetInputMode(Mgr(Core)->GetWinInfo(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
             ChangeScene(SCENE_TYPE::STAGE, false);
         }
         });
@@ -75,8 +74,6 @@ int main()
         shared_ptr<MCTerrainGenerator> terrainGenerator = make_shared<MCTerrainGenerator>();
         shared_ptr<MCTilemapMeshGenerator> meshGenerator = make_shared<MCTilemapMeshGenerator>();
         terrainGenerator->Generate(tilemap);
-        
-        glfwSetInputMode(Mgr(Core)->GetWinInfo(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         const auto curScene = Mgr(SceneMgr)->GetCurScene();
 
@@ -165,7 +162,6 @@ int main()
 
         Mgr(CollisionMgr)->RegisterGroup(GROUP_TYPE::MONSTER, GROUP_TYPE::PROJ_PLAYER);
         {
-
             auto player = make_shared<Hero>(tilemap);
           
             Mgr(ServerObjectManager)->SetHero(player);
@@ -180,7 +176,7 @@ int main()
             curScene->RegisterPlayer(player);
             g_fpNewGameFunc = [player]() 
                 {
-                    glfwSetInputMode(Mgr(Core)->GetWinInfo(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                    Mgr(KeyMgr)->SetMouseMode(GLFW_CURSOR_DISABLED);
                     player->GetTransform()->SetLocalPosition(glm::vec3(256.0f, 16.0f, 256.0f));
                 };//여기서 뉴게임 눌렀을 때 어떤 반응할 지 정하기 
         } 
@@ -222,7 +218,7 @@ void Update()
     {
         if (g_bTileFinish)
         {
-            glfwSetInputMode(Mgr(Core)->GetWinInfo(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            Mgr(KeyMgr)->SetMouseMode(GLFW_CURSOR_NORMAL);
             UnLoadScene();
         }
     }

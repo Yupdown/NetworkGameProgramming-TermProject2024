@@ -29,9 +29,11 @@ public:
     void UpdatePlayerCamFpsMode()noexcept;
     void UpdateCameraTransform(const shared_ptr<Transform>& pCameraTransfrom) noexcept;
     glm::vec3 GetCameraDirection() const;
+    void SetPlayerControl(bool bControl)noexcept;
 
 private:
     float m_fAccTime = 0.f;
+    bool m_bIsPlayerControl = true;
 
     shared_ptr<GameObj> m_cameraAnchor;
     shared_ptr<GameObj> m_cameraObj;

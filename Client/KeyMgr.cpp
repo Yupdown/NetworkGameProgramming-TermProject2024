@@ -74,3 +74,8 @@ void KeyMgr::Update()noexcept
 		}
 	}
 }
+
+void KeyMgr::SetMouseMode(const int _mode) noexcept
+{
+	glfwSetInputMode(m_pWinInfo, GLFW_CURSOR, _mode);
+}

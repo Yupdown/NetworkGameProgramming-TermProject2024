@@ -131,6 +131,34 @@ void UIMgr::Init()
 		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pBossHealthBar);
 
 		m_pBossHealthBar->SetActivate(false);
+
+		m_pGameOverPanel = make_shared<PannelUI>(glm::vec2{ w / 2.f,h / 2.f }, "panel_gameover.png", 1.f);
+		m_pGameOverButton = make_shared<PannelUI>(glm::vec2{ w / 2.f, (h / 2.f) + 100.f }, "introGUI_Resume.png", 3.f, glm::vec2{ 0,0 }, glm::vec2{ 1,1 / 3.f });
+		m_pGameOverButton->AddClickedEvent([this]() {
+			Mgr(SoundMgr)->PlayEffect("click.ogg", 0.25f);
+			SetGameOverPanelActive(false);
+			if (m_popdownCallback)
+				m_popdownCallback();
+			});
+
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pGameOverPanel);
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pGameOverButton);
+
+		m_pGameClearPanel = make_shared<PannelUI>(glm::vec2{ w / 2.f,h / 2.f }, "panel_gameclear.png", 1.f);
+
+		m_pGameClearButton = make_shared<PannelUI>(glm::vec2{ w / 2.f, (h / 2.f) + 100.f }, "introGUI_Resume.png", 3.f, glm::vec2{ 0,0 }, glm::vec2{ 1,1 / 3.f });
+		m_pGameClearButton->AddClickedEvent([this]() {
+			Mgr(SoundMgr)->PlayEffect("click.ogg", 0.25f);
+			SetGameClearPanelActive(false);
+			if (m_popdownCallback)
+				m_popdownCallback();
+			});
+
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pGameClearPanel);
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pGameClearButton);
+
+		SetGameOverPanelActive(false);
+		SetGameClearPanelActive(false);
 	}
 
 	SetSelectIndex(0);
@@ -320,4 +348,22 @@ void UIMgr::SetBossHealth(int health)
 void UIMgr::SetBossHealthActive(bool bActive)
 {
 	m_pBossHealthBar->SetActivate(bActive);
+}
+
+void UIMgr::SetGameOverPanelActive(bool active)
+{
+	m_pGameOverPanel->SetActivate(active);
+	m_pGameOverButton->SetActivate(active);
+}
+
+void UIMgr::SetGameClearPanelActive(bool active)
+{
+	m_pGameClearPanel->SetActivate(active);
+	m_pGameClearButton->SetActivate(active);
+
+}
+
+void UIMgr::SetPopdownCallback(std::function<void()> callback)
+{
+	m_popdownCallback = callback;
 }
