@@ -328,12 +328,26 @@ void Hero::Update()
 
 void Hero::OnObjectDamaged(int value)
 {
+	Player::OnObjectDamaged(value);
+
 	// play Player_hurt1.ogg
 	Mgr(SoundMgr)->PlayEffect("Player_hurt1.ogg", 1.0f);
 	m_cameraAngleAxisSmooth.z = 30.0f;
 	float theta = (m_lookYaw + 90.0f) * F_DEG2RAD;
 	float magnitude = 10.0f;
 	m_vVelocity += glm::vec3(glm::cos(theta), 1.0f, glm::sin(theta)) * magnitude;
+
+	Mgr(UIMgr)->SetHealth(value);
+}
+
+void Hero::OnObjectDead()
+{
+	// Mgr(UIMgr)->SetHealth(0);
+	// Mgr(UIMgr)->SetGameOver();
+
+	Player::OnObjectDead();
+
+	Mgr(UIMgr)->SetHealth(PLAYER_START_HP);
 }
 
 void Hero::SendMyMoveData() const noexcept

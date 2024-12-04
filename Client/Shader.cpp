@@ -13,6 +13,11 @@ Shader::~Shader()
 {
 }
 
+void Shader::SetFloat(const float _float, string_view _uName) const
+{
+	glUniform1f(glGetUniformLocation(m_shaderID, _uName.data()), _float);
+}
+
 void Shader::SetUniformMat4(const glm::mat4& _mat4,string_view _uName) const
 {
     glUniformMatrix4fv(glGetUniformLocation(m_shaderID, _uName.data()), 1, GL_FALSE, glm::value_ptr(_mat4));

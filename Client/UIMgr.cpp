@@ -2,6 +2,7 @@
 #include "UIMgr.h"
 #include "UI.h"
 #include "PannelUI.h"
+#include "PannelProgressUI.h"
 #include "KeyMgr.h"
 #include "Transform.h"
 #include "TimeMgr.h"
@@ -13,6 +14,7 @@
 #include "PannelUI.h"
 #include "EventMgr.h"
 #include "SoundMgr.h"
+#include "../Common/Constants.h"
 
 const std::function<bool(const UI*, const UI*)> UIMgr::cmpZDepth = [](const UI* a, const UI* b){ return *a > *b; };
 
@@ -122,8 +124,8 @@ void UIMgr::Init()
 		auto cross_line = make_shared<PannelUI>(glm::vec2{ w,h } / 2.f, "cross.png", 2.f);
 		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(cross_line);
 
-		auto health_bar = make_shared<PannelUI>(glm::vec2(w * 0.5f - 148.0f, h - 85.0f), "gui_health.png", 3.0f, glm::zero<glm::vec2>(), glm::vec2(1.0f, 0.5f));
-		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(health_bar);
+		m_pHealthBar = make_shared<PannelProgressUI>(glm::vec2(w * 0.5f - 148.0f, h - 85.0f), "gui_health.png", 3.0f, glm::zero<glm::vec2>(), glm::vec2(1.0f, 0.5f));
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pHealthBar);
 	}
 
 	SetSelectIndex(0);
@@ -214,7 +216,6 @@ void UIMgr::Render()
 	sceneData.viewMat = glm::mat4{ 1.f };
 	
 	Mgr(Core)->BindUBOData();
-	Mgr(ResMgr)->GetRes<Shader>("UIShader.glsl")->Use();
 
 	for (auto ui = m_setUI.rbegin(); ui != m_setUI.rend(); ++ui)
 	{
@@ -295,4 +296,10 @@ void UIMgr::SetSelectIndex(int index)
 
 	m_iSelectedIndex = index;
 	m_pTargetUI->SetUIPosition(glm::vec2(w * 0.5f + (index - 4) * 60.0f, h - 35.0f));
+}
+
+void UIMgr::SetHealth(int health)
+{
+	float progress = static_cast<float>(health) / PLAYER_START_HP;
+	m_pHealthBar->SetProgress(progress);
 }

@@ -30,14 +30,14 @@ protected:
 	enum UI_RECT{LT,RB,END};
 
 private:
-	UI_STATE	m_eCurUIState = UI_STATE::NONE;
+	UI_STATE m_eCurUIState = UI_STATE::NONE;
 	Delegate m_onClickEvent;
 	Delegate m_ClickedEvent;
 protected:
 	array<glm::vec2, UI_RECT::END> m_arrLTRB;
 
 	array<shared_ptr<Texture2D>,etoi(UI_STATE::END)> m_uiTex;
-	array <shared_ptr<Mesh>, etoi(UI_STATE::END)> m_uiMesh;
+	array<shared_ptr<Mesh>, etoi(UI_STATE::END)> m_uiMesh;
 
 	float m_fCurZDepth = 0.f;
 	bool m_bIsActivate = true;
