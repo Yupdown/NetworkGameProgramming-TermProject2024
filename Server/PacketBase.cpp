@@ -9,7 +9,7 @@
 #include "MCObjectFactory.h"
 #include "HP.h"
 
-// c2s¸¦ Á¤ÀÇÇÏ´Â CPP
+// c2sï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ CPP
 
 #define DECLARE_PACKET_FUNC(pkt_name) void pkt_name::Handle(const uint64 id, const pkt_name& pkt_) noexcept
 

@@ -23,7 +23,7 @@ Object::Object(std::shared_ptr<Session> session)
 
 Object::~Object() noexcept
 {
-	std::cout << "~Object\n";
+	//std::cout << "~Object\n";
 	if (nullptr == m_session)
 	{
 		SendRemovePacket();
