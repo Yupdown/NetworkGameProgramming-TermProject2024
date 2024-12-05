@@ -56,19 +56,19 @@ UI_STATE UI::UpdateCurUIState()
 	const bool bIsOnMouse = ptInRect(MousePos, m_arrLTRB[LT], m_arrLTRB[RB]);
 	const KEY_STATE MouseStateL = Mgr(KeyMgr)->GetKeyState(GLFW_MOUSE_BUTTON_LEFT);
 	const KEY_STATE MouseStateM = Mgr(KeyMgr)->GetKeyState(GLFW_MOUSE_BUTTON_MIDDLE);
-	const KEY_STATE MouseStateR = Mgr(KeyMgr)->GetKeyState(GLFW_MOUSE_BUTTON_RIGHT);
+	// const KEY_STATE MouseStateR = Mgr(KeyMgr)->GetKeyState(GLFW_MOUSE_BUTTON_RIGHT);
 
 	if (bIsOnMouse)
 	{
 		if (MouseStateL == KEY_STATE::TAP 
-			|| MouseStateM == KEY_STATE::TAP 
-			|| MouseStateR == KEY_STATE::TAP)
+			|| MouseStateM == KEY_STATE::TAP )
+			//|| MouseStateR == KEY_STATE::TAP)
 		{
 			return UI_STATE::ON_CLICK;
 		}
 		else if (MouseStateL == KEY_STATE::AWAY
-			|| MouseStateM == KEY_STATE::AWAY
-			|| MouseStateR == KEY_STATE::AWAY)
+			|| MouseStateM == KEY_STATE::AWAY)
+			//|| MouseStateR == KEY_STATE::AWAY)
 		{
 			return UI_STATE::CLICKED;
 		}
