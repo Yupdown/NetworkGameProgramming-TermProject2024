@@ -14,11 +14,11 @@ void PathFollower::Update(const float DT)
 	
 	// 목적지로 삼을 월드 내의 플레이어 지정
 	//dest = FindTarget();
-
+	m_fMoveSpeed = chase_flag ? 100.f : 50.f;
 	float mul_vel = 0.f;
 	const auto prev_vel = pos_comp->m_vAccelation;
 	// 정해진 목적지가 있을 경우
-	if (dest != glm::ivec3{ 0,0,0 } && chase_flag)
+	if (dest != glm::ivec3{ 0,0,0 })
 	{
 		path = AStar::GetAStarPath(pos_comp->m_vPos, dest);
 
@@ -87,7 +87,7 @@ void PathFollower::Update(const float DT)
 		return;
 	}
 
-	if (chase_flag)
+	//if (chase_flag)
 		owner->SetDirtyFlag();
 	// 최종 위치 적용
 	owner->SetPos(positionPost);

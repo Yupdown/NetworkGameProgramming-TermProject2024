@@ -38,6 +38,8 @@ public:
 	virtual void ExitState(const float DT)override;
 public:
 	float m_accTime = 0.f;
+	float m_accDist = 0.f;
+	float m_destDest = 0.f;
 };
 
 class Chase

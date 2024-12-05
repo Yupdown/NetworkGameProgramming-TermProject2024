@@ -31,7 +31,7 @@ class ProjFireBall
 	:public Projectile
 {
 private:
-	static constexpr int G_FIRE_BALL_DMG = 5;
+	static constexpr int G_FIRE_BALL_DMG = 3;
 private:
 	virtual void UpdateProjectile(const float DT)noexcept override;
 };
