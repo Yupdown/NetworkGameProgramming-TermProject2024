@@ -96,6 +96,7 @@ public:
 		requires std::invocable<Func, Args...>
 	void AddClickedEvent(Func&& fp, Args&&... args) { m_ClickedEvent += std::bind_front(std::forward<Func>(fp), std::forward<Args>(args)...); }
 
+	void SetUITex(string_view sTex);
 	void ResetUIState() { m_eCurUIState = UI_STATE::NONE; }
 	UI_STATE GetCurUIState()const { return m_eCurUIState; }
 

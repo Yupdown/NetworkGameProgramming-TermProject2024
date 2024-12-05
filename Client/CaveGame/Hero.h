@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Player.h"
+#include "MCItemStack.h"
 
 class MCTilemap;
 
@@ -16,8 +17,6 @@ private:
     shared_ptr<GameObj> CreateCursorBlockObj() const;
     shared_ptr<GameObj> CreateParticlePrefab() const;
 
-    static void Fire(const glm::vec3& arrow_pos, const float x_, const float y_)noexcept;
-
 public:
     Hero(std::shared_ptr<MCTilemap> pTilemap)noexcept;
     void Start()override;
@@ -30,6 +29,8 @@ public:
     void UpdateCameraTransform(const shared_ptr<Transform>& pCameraTransfrom) noexcept;
     glm::vec3 GetCameraDirection() const;
     void SetPlayerControl(bool bControl)noexcept;
+    void UpdatePlayerInventoryUI() noexcept;
+    void Fire();
 
 private:
     float m_fAccTime = 0.f;
@@ -49,4 +50,6 @@ private:
     shared_ptr<Camera> m_pCamera;
     shared_ptr<Transform> m_pCacheMyTransformCamera;
     ushort m_curCamMode = 0;
+
+	std::array<MCItemStack, 9> m_inventory;
 };
