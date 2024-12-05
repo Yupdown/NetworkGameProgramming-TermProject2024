@@ -20,6 +20,10 @@ constexpr int Tile::TILE_OPAQUE[] = {
 	0, 1, 1, 1, 1, 1, 1, 1, 0, 0
 };
 
+constexpr int Tile::TILE_DROPITEM[] = {
+	0, 1, 0, 0, 1, 2, 3, 4, 0, 5
+};
+
 MCTileChunk::MCTileChunk() : tileData()
 {
 

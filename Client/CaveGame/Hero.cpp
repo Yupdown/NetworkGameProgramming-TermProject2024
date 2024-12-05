@@ -75,10 +75,15 @@ Hero::Hero(std::shared_ptr<MCTilemap> pTilemap) noexcept
 	m_bIsHero = true;
 	m_pCamera->SetMainCam();
 
-	for (int id = 0; id < 9; ++id)
-	{
-		m_inventory[id] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(id), 10 };
-	}
+	m_inventory[0] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(0), 64 };
+	m_inventory[1] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(1), 64 };
+	m_inventory[2] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(2), 64 };
+	m_inventory[3] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(3), 64 };
+	m_inventory[4] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(4), 64 };
+	m_inventory[5] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(5), 64 };
+	m_inventory[6] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(6), 0 };
+	m_inventory[7] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(7), 1 };
+	m_inventory[8] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(8), 0 };
 	UpdatePlayerInventoryUI();
 }
 
@@ -221,6 +226,19 @@ void Hero::SetPlayerControl(bool bControl) noexcept
 	Mgr(KeyMgr)->SetMouseMode(bControl ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
+void Hero::AddItemToInventory(const MCItemStack& item) noexcept
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		if (m_inventory[i].GetItem() == item.GetItem())
+		{
+			MCItemStack::AddStack(m_inventory[i], item.GetStackSize());
+			UpdatePlayerInventoryUI();
+			return;
+		}
+	}
+}
+
 void Hero::UpdatePlayerInventoryUI() noexcept
 {
 	for (int i = 0; i < 9; ++i)
@@ -300,7 +318,14 @@ void Hero::UpdateTileManipulation()noexcept
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_RIGHT))
 	{
 		int index = Mgr(UIMgr)->GetSelectIndex();
-		m_inventory[index].GetItem()->OnUseItem(m_refTilemap.get(), this, result);
+		MCItemStack& stack = m_inventory[index];
+		if (stack.GetStackSize() <= 0)
+			return;
+		if (m_inventory[index].GetItem()->OnUseItem(m_refTilemap.get(), this, result))
+		{
+			MCItemStack::AddStack(stack, -1);
+			UpdatePlayerInventoryUI();
+		}
 	}
 }
 

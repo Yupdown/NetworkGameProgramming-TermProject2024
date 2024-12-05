@@ -1,36 +1,46 @@
 #include "pch.h"
 #include "NumTextUI.h"
+#include "Core.h"
+#include "UI.h"
+#include "Camera.h"
+#include "KeyMgr.h"
+#include "Transform.h"
+#include "PathMgr.h"
+#include "Mesh.h"
+#include "Texture2D.h"
+#include "ResMgr.h"
 
-NumTextUI::NumTextUI(const glm::vec2 midPos, const float scaleFactor) : PannelUI(midPos, "ascii.png", 0.0f)
+NumTextUI::NumTextUI(const glm::vec2 midPos, string_view strTexName, const float scaleFactor, glm::vec2 startUV, glm::vec2 endUV)
+	:PannelUI{ midPos,strTexName,scaleFactor,startUV,endUV }
 {
-	for (int i = 0; i < 10; ++i)
-	{
-		glm::vec2 unit = glm::one<glm::vec2>() / 16;
-		glm::vec2 startUV = glm::vec2(unit.x * i, unit.y * 3);
-		glm::vec2 endUV = startUV + unit;
-		m_digit1[i] = make_shared<PannelUI>(midPos, "ascii.png", scaleFactor, startUV, endUV);
-		m_digit10[i] = make_shared<PannelUI>(midPos - glm::vec2(2.0f, 0.0f), "ascii.png", scaleFactor, startUV, endUV);
-	}
 }
 
-void NumTextUI::SetNumber(int num)
+void NumTextUI::Render()
 {
-	int digit1 = num % 10;
-	int digit10 = num / 10;
-	for (int i = 0; i < 10; ++i)
-	{
-		m_digit1[i]->SetActivate(digit1 == i);
-		m_digit10[i]->SetActivate(digit10 > 0 && digit10 == i);
-	}
-}
-
-void NumTextUI::Start()
-{
-	for (int i = 0; i < 10; ++i)
-	{
-		AddChild(m_digit1[i]);
-		AddChild(m_digit10[i]);
+	for (const auto& childUI : m_vecChildObj) {
+		childUI->Render();
 	}
 
-	PannelUI::Start();
+	int digit1 = m_num % 10;
+	int digit10 = m_num / 10;
+
+	shared_ptr<Shader> pShader = Mgr(ResMgr)->GetRes<Shader>("UIDigitShader.glsl");
+
+	pShader->Use();
+	m_uiTex[etoi(UI_STATE::NONE)]->BindTexture();
+
+	glm::mat4 model = GetObjectWorldTransform();
+
+	pShader->SetUniformMat4(glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f)), "uModel");
+	pShader->SetFloat(static_cast<float>(digit1), "uDigit");
+	m_uiMesh[etoi(UI_STATE::NONE)]->Render();
+
+	if (digit10 != 0)
+	{
+		pShader->SetUniformMat4(glm::translate(model, glm::vec3(-3.0f, 0.0f, 0.0f)), "uModel");
+		pShader->SetFloat(static_cast<float>(digit10), "uDigit");
+		m_uiMesh[etoi(UI_STATE::NONE)]->Render();
+	}
+
+	m_uiTex[etoi(UI_STATE::NONE)]->UnBindTexture();
 }

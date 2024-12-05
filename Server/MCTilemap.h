@@ -6,6 +6,7 @@ class Tile
 public:
 	static const int TEXTURES[][6];
 	static const int TILE_OPAQUE[];
+	static const int TILE_DROPITEM[];
 	constexpr static const char* TILE_PLACE_SOUND[] = {
 		"stone4.ogg",
 		"stone4.ogg",

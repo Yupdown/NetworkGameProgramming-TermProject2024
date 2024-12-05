@@ -36,7 +36,8 @@ S_ptr<Object> MCObjectFactory::CreateItem(MCItemBuilder& b_)
 	//const auto m = item->AddComp<EntityMovement>(new EntityMovement);
 	//item->SetEntityMovement(m);
 	item->SetPos(b_.pos);
-	item->AddComp<DropItem>(new DropItem);
+	auto comp = item->AddComp<DropItem>(new DropItem);
+	comp->SetItemID(b_.item_id);
 
 	item->Init();
 	//item->GetEntityMovement()->current_position = b_.pos;

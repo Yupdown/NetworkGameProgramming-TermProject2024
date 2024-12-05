@@ -24,3 +24,6 @@ static constexpr int PLAYER_START_HP = 10;
 static constexpr int ENDER_MAN_START_HP = 3;
 
 static constexpr int BOSS_START_HP = 20;
+
+static constexpr int G_END_POS_X = 96;
+static constexpr int G_END_POS_Z = 32;

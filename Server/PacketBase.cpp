@@ -55,7 +55,12 @@ DECLARE_PACKET_FUNC(c2s_DESTROY_BLOCK)
 	pkt.z = pkt_.z;
 	
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
-	Mgr(MCWorld)->GetTileMap()->SetTile({ pkt_.x ,pkt_.y ,pkt_.z }, 0);
+
+	Mgr(MCWorld)->PostWorldEvent([pkt_]() noexcept {
+		uint8_t tile_id = Mgr(MCWorld)->GetTileMap()->GetTile({ pkt_.x ,pkt_.y ,pkt_.z });
+		Mgr(MCWorld)->GetTileMap()->SetTile({ pkt_.x ,pkt_.y ,pkt_.z }, 0);
+		Mgr(MCWorld)->AddDropItem(glm::vec3(pkt_.x ,pkt_.y ,pkt_.z) + glm::one<glm::vec3>() * 0.5f, Tile::TILE_DROPITEM[tile_id]);
+		});
 }
 
 DECLARE_PACKET_FUNC(c2s_CREATE_BLOCK)
@@ -157,4 +162,8 @@ DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
 
 	Mgr(MCWorld)->PostWorldEvent([ed = std::move(ed)]()mutable {Mgr(MCWorld)->AddObject(std::move(ed), MC_OBJECT_TYPE::BOSS); });
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+}
+
+DECLARE_PACKET_FUNC(c2s_USE_ENDER_EYE)
+{
 }

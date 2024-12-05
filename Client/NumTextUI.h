@@ -5,13 +5,12 @@
 class NumTextUI : public PannelUI
 {
 public:
-	NumTextUI(const glm::vec2 posLB, const float scaleFactor = 1.f);
+	NumTextUI(const glm::vec2 midPos, string_view strTexName, const float scaleFactor, glm::vec2 startUV, glm::vec2 endUV);
 
 public:
-	void Start() override;
-	void SetNumber(int num);
+	void Render() override;
+	void SetNumber(int num) { m_num = num; }
 
 private:
-	std::shared_ptr<PannelUI> m_digit1[10];
-	std::shared_ptr<PannelUI> m_digit10[10];
+	int m_num = 0;
 };

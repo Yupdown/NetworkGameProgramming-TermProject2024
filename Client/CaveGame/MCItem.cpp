@@ -64,8 +64,8 @@ bool MCItemBlock::OnUseItem(MCTilemap* world, Hero* owner, const RaycastResult& 
 	return true;
 }
 
-MCItemCallback::MCItemCallback(std::string name, std::string k_element, std::function<void(MCTilemap*, Hero*, const RaycastResult&)> callback)
-	:MCItem(name, k_element), m_callback(callback)
+MCItemCallback::MCItemCallback(std::string name, std::string k_element, std::function<bool(MCTilemap*, Hero*, const RaycastResult&)> callback)
+	: MCItem(name, k_element), m_callback(callback)
 {
 
 }
@@ -73,9 +73,6 @@ MCItemCallback::MCItemCallback(std::string name, std::string k_element, std::fun
 bool MCItemCallback::OnUseItem(MCTilemap* world, Hero* owner, const RaycastResult& raycast)
 {
 	if (m_callback)
-	{
-		m_callback(world, owner, raycast);
-		return true;
-	}
+		return m_callback(world, owner, raycast);
 	return false;
 }

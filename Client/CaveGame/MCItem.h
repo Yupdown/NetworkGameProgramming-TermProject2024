@@ -37,8 +37,8 @@ private:
 class MCItemCallback : public MCItem
 {
 public:
-	MCItemCallback(std::string name, std::string k_texture, std::function<void(MCTilemap*, Hero*, const RaycastResult&)> callback);
+	MCItemCallback(std::string name, std::string k_texture, std::function<bool(MCTilemap*, Hero*, const RaycastResult&)> callback);
 	bool OnUseItem(MCTilemap* world, Hero* owner, const RaycastResult& raycast) override;
 private:
-	std::function<void(MCTilemap*, Hero*, const RaycastResult&)> m_callback;
+	std::function<bool(MCTilemap*, Hero*, const RaycastResult&)> m_callback;
 };

@@ -35,6 +35,7 @@
  	void Update();
 
     const S_ptr<Object>& AddObject(S_ptr<Object> obj, const MC_OBJECT_TYPE eType)noexcept;
+    const S_ptr<Object>& AddDropItem(glm::vec3 pos, uint8_t item_id) noexcept;
 
     template<typename... Args>
     void PostWorldEvent(Args&&... args)noexcept { m_worldEventQueue.Push(std::forward<Args>(args)...); }

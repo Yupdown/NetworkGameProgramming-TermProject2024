@@ -6,6 +6,7 @@
 class UI;
 class PannelUI;
 class PannelProgressUI;
+class NumTextUI;
 
 class UIMgr
 	:public Singleton<UIMgr>
@@ -23,6 +24,7 @@ private:
 private:
 	int m_iSelectedIndex = 0;
 	std::array<shared_ptr<PannelUI>, 9> m_arrInventoryUI;
+	std::array<shared_ptr<NumTextUI>, 9> m_arrInventoryNumUI;
 	shared_ptr<PannelUI> m_pTargetUI;
 	shared_ptr<PannelProgressUI> m_pHealthBar;
 	shared_ptr<PannelProgressUI> m_pBossHealthBar;

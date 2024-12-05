@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "MCWorld.h"
 #include "MCTilemap.h"
+#include "Session.h"
 
 void DropItem::Update(const float DT)
 {
@@ -28,6 +29,13 @@ void DropItem::Update(const float DT)
 			const glm::ivec3 ipos = glm::ivec3(pos);
 			if (ipos == item_pos)
 			{
+				s2c_ITEM_GET pkt;
+				pkt.item_id = m_item_id;
+				pkt.item_count = 1;
+
+				auto buffer = player->GetSession()->GetSendBuffer();
+				if (buffer != nullptr)
+					buffer->Append(pkt);
 				owner->SetInvalid();
 				return;
 			}

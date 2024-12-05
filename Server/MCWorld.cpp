@@ -9,6 +9,7 @@
 #include "MCObjectFactory.h"
 #include "Session.h"
 #include "Component.h"
+#include "DropItem.h"
 
 MCWorld::MCWorld()
     : m_tileMap{ std::make_shared<MCTilemap>() }
@@ -43,17 +44,14 @@ void MCWorld::Init() noexcept
         mon->Init();
     }
 
-    for (int i = 0; i < 100; ++i)
     {
-        MCItemBuilder b;
+		MCItemBuilder b;
 
-        const float dx = static_cast<float>(rand() % 16 * 8 - 64);
-        const float dz = static_cast<float>(rand() % 16 * 8 - 64);
-        b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2 + dx, 16.0f, MCTilemap::MAP_WIDTH / 2 + dz);
+		b.pos = glm::vec3(G_END_POS_X, 16.0f, G_END_POS_Z) + glm::one<glm::vec3>() * 0.5f;
+		b.item_id = 8;
 
-        const auto& item = AddObject(MCObjectFactory::CreateItem(b), MC_OBJECT_TYPE::ITEM);
-        
-        item->Init();
+		const auto& item = AddObject(MCObjectFactory::CreateItem(b), MC_OBJECT_TYPE::ITEM);
+		item->Init();
     }
 
     m_worldUpdateThread = std::thread{ [this]()noexcept {this->Update(); } };
@@ -154,7 +152,28 @@ const S_ptr<Object>& MCWorld::AddObject(S_ptr<Object> obj, const MC_OBJECT_TYPE 
 {
     obj->Init();
     m_mapWorldObjects.try_emplace(obj->GetObjectID(), obj);
-    return m_worldObjects[static_cast<int>(eType)].emplace_back(std::move(obj));
+    return m_worldObjects[etoi(eType)].emplace_back(std::move(obj));
+}
+
+const S_ptr<Object>& MCWorld::AddDropItem(glm::vec3 pos, uint8_t item_id) noexcept
+{
+    MCItemBuilder builder;
+	builder.pos = pos;
+	builder.item_id = item_id;
+
+	auto instance = MCObjectFactory::CreateItem(builder);
+	instance->Init();
+
+	s2c_ITEM_DROP pkt;
+	pkt.obj_id = instance->GetObjectID();
+	pkt.item_id = item_id;
+	pkt.x = pos.x;
+	pkt.y = pos.y;
+	pkt.z = pos.z;
+	AppendToWorldSendBuffer(pkt);
+
+	m_mapWorldObjects.try_emplace(instance->GetObjectID(), instance);
+	return m_worldObjects[etoi(MC_OBJECT_TYPE::ITEM)].emplace_back(std::move(instance));
 }
 
 void MCWorld::AddAllObjects(const S_ptr<Session>& session) noexcept
@@ -192,12 +211,11 @@ void MCWorld::AddAllObjects(const S_ptr<Session>& session) noexcept
         const auto pos = item->GetPos();
 
         p.obj_id = item->GetObjectID();
+		p.item_id = item->GetComp<DropItem>()->GetItemID();
 
         p.x = pos.x;
         p.y = pos.y;
         p.z = pos.z;
-
-        // TODO 아이템 종류
 
         session->GetSendBuffer()->Append(p);
     }

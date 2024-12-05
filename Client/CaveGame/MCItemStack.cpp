@@ -58,11 +58,7 @@ void MCItemStack::Apply(MCItemStack& dest, MCItemStack& src)
 	if (flag)
 	{
 		int size = dest.StackUp(src.GetStackSize());
-
-		if (size > 0)
-			src.m_stackSize = size;
-		else
-			src = MCItemStack();
+		src.m_stackSize = size;
 	}
 	else
 		std::swap(dest, src);
@@ -71,7 +67,4 @@ void MCItemStack::Apply(MCItemStack& dest, MCItemStack& src)
 void MCItemStack::AddStack(MCItemStack& dest, int amount)
 {
 	dest.StackUp(amount);
-
-	if (dest.m_stackSize <= 0)
-		dest = MCItemStack();
 }

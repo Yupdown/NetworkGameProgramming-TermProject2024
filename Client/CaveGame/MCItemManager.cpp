@@ -20,12 +20,17 @@ void MCItemManager::LoadItems()
 	m_registry.Insert("block_bricks", make_shared<MCItemBlock>("Bricks", "tile_preview_06.png", 6));
 	m_registry.Insert("block_wood", make_shared<MCItemBlock>("Wood", "tile_preview_07.png", 7));
 	m_registry.Insert("block_glass", make_shared<MCItemBlock>("Glass", "tile_preview_09.png", 9));
-	m_registry.Insert("eye", make_shared<MCItem>("Ender Eye", "item_eye.png"));
+	m_registry.Insert("eye", make_shared<MCItemCallback>("Ender Eye", "item_eye.png", [](MCTilemap*, Hero* player, const RaycastResult&) {
+		player->Fire();
+		return true;
+		}));
 	m_registry.Insert("bow", make_shared<MCItemCallback>("Bow", "bow.png", [](MCTilemap*, Hero* player, const RaycastResult&) {
 		player->Fire();
+		return false;
 		}));
 	m_registry.Insert("spawn_egg", make_shared<MCItemCallback>("Spawn Egg", "item_egg.png", [](MCTilemap*, Hero* player, const RaycastResult&) {
 		Send(c2s_SUMMON_BOSS{});
+		return true;
 		}));
 
 	// 나중에 다형성을 쓰고싶다면

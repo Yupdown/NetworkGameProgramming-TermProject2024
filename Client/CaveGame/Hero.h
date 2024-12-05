@@ -29,6 +29,7 @@ public:
     void UpdateCameraTransform(const shared_ptr<Transform>& pCameraTransfrom) noexcept;
     glm::vec3 GetCameraDirection() const;
     void SetPlayerControl(bool bControl)noexcept;
+	void AddItemToInventory(const MCItemStack& item) noexcept;
     void UpdatePlayerInventoryUI() noexcept;
     void Fire();
 

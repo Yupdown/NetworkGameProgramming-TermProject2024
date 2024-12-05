@@ -66,6 +66,8 @@ enum class PKT_ID : uint8
     c2s_USE_ENDER_EYE = 23,
     s2c_USE_ENDER_EYE = 24,
 
+    s2c_ITEM_GET = 25,
+
     END,
 };
 
@@ -317,7 +319,7 @@ struct s2c_ITEM_DROP
 {
     float x, y, z;
     uint32_t obj_id;
-    uint32_t item_type;
+    uint8_t item_id;
     DECLARE_PACKET(s2c_ITEM_DROP);
 };
 
@@ -383,4 +385,17 @@ struct s2c_USE_ENDER_EYE
 {
     DECLARE_PACKET(s2c_USE_ENDER_EYE);
 };
+
+/// <summary>
+/// «√∑π¿ÃæÓ æ∆¿Ã≈€ »πµÊ
+/// </summary>
+
+struct s2c_ITEM_GET
+    :public PacketHeader
+{
+    uint8_t item_id;
+    uint8_t item_count;
+    DECLARE_PACKET(s2c_ITEM_GET);
+};
+
 #pragma pack (pop)
