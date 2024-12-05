@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "MCWorld.h"
 #include "MCTilemap.h"
+#include "Session.h"
 
 void DropItem::Update(const float DT)
 {

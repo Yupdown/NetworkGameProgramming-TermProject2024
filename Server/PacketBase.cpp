@@ -158,3 +158,7 @@ DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
 	Mgr(MCWorld)->PostWorldEvent([ed = std::move(ed)]()mutable {Mgr(MCWorld)->AddObject(std::move(ed), MC_OBJECT_TYPE::BOSS); });
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
+
+DECLARE_PACKET_FUNC(c2s_USE_ENDER_EYE)
+{
+}

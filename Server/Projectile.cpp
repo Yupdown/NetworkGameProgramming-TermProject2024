@@ -37,6 +37,11 @@ void Projectile::CheckGroupCollision(Projectile* const proj, const MC_OBJECT_TYP
         if (is_hit)
         {
             //  std::cout << "Ãæµ¹!\n";
+            if (target->GetObjectType() == MC_OBJECT_TYPE::MONSTER)
+            {
+                auto& v = target->GetPosInfo().m_vVelocity;
+                v.y = 20.f;
+            }
             target->DecHP(dmg);
             owner->SetInvalid();
             return;
