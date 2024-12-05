@@ -16,9 +16,10 @@ void PlayerHP::AfterDecHPAction(const int hp_)noexcept
 
 void EnderManHP::AfterDecHPAction(const int hp_)noexcept
 {
+	const auto owner = GetOwner();
+	SendHitPacket(owner, hp_);
 	if (IsDead())
 	{
-		auto owner = GetOwner();
 		owner->SetInvalid();
 
 		glm::vec3 pos = owner->GetPos();

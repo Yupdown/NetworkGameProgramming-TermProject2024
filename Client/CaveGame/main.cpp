@@ -19,6 +19,7 @@
 #include "MCItemManager.h"
 #include "MCItemTable.h"
 #include "EnderDragonRenderer.h"
+#include <regex>
 
 shared_ptr<GameObj> pObserver;
 shared_ptr<GameObj> pClouds;
@@ -39,6 +40,11 @@ int G_MC_SEED = -1;
 
 glm::vec3 G_INIT_POS = glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT, MCTilemap::MAP_WIDTH / 2);
 
+bool isValidIPAddress(std::string_view ipAddress) {
+    const std::regex ipRegex("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+    return std::regex_match(ipAddress.data(), ipRegex);
+}
+
 int main()
 {
     Mgr(Core)->Init(1280, 720);
@@ -46,11 +52,23 @@ int main()
     MCItemTable::Init();
     Mgr(MCItemManager)->LoadItems();
 
-    if (false == Mgr(NetworkMgr)->InitClient("127.0.0.1", "8888"))
-    {
-        std::cout << "서버와 연결 실패\n";
-        return 1;
-    }
+    std::string inputIP;
+    do {
+    RE_INPUT:
+        std::cout << "Input IP Address: ";
+        std::cin >> inputIP;
+        if (!isValidIPAddress(inputIP))
+        {
+            std::wcout << L"Invalid Address !'\n";
+            goto RE_INPUT;
+        }
+    } while (!Mgr(NetworkMgr)->InitClient(inputIP, "8888"));
+
+    //if (false == Mgr(NetworkMgr)->InitClient("127.0.0.1", "8888"))
+    //{
+    //    std::cout << "서버와 연결 실패\n";
+    //    return 1;
+    //}
     
    Send(c2s_LOGIN{});
 
