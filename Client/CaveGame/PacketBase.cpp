@@ -198,3 +198,7 @@ DECLARE_PACKET_FUNC(s2c_ITEM_GET)
 	MCItemStack item(Mgr(MCItemManager)->GetItemByID(item_id), 1);
 	Mgr(ServerObjectManager)->GetHero()->AddItemToInventory(item);
 }
+
+DECLARE_PACKET_FUNC(s2c_HIT_MONSTER)
+{
+}

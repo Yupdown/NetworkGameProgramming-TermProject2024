@@ -300,10 +300,9 @@ void Hero::UpdateTileManipulation()noexcept
 			float t;
 			if (RayAABBIntersection(wv, GetCameraDirection(), monsterPos - glm::vec3(width, 0, width), monsterPos + glm::vec3(width, height, width), t) && t < 5.0f)
 			{
-				monsterHit = true;
-			
 				if (const auto val_mon = dynamic_cast<ServerObject*>(monster.get()))
 				{
+					monsterHit = true;
 					c2s_HIT_MONSTER pkt;
 					pkt.hit_monster_id = val_mon->GetID();
 					Send(pkt);
@@ -357,6 +356,19 @@ void Hero::Update()
 
 	m_pCamera->SetCamFov(Lerp(m_pCamera->GetCamFov(), glm::radians(KEY_HOLD(GLFW_KEY_LEFT_CONTROL) ? 60.0f : 45.0f), DT * 8.0f));
 	UpdateCameraTransform(m_pCacheMyTransformCamera);
+}
+
+void Hero::AddItemToInventory(const MCItemStack& item) noexcept
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		if (m_inventory[i].GetItem() == item.GetItem())
+		{
+			MCItemStack::AddStack(m_inventory[i], item.GetStackSize());
+			UpdatePlayerInventoryUI();
+			return;
+		}
+	}
 }
 
 void Hero::OnObjectDamaged(int value)

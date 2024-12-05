@@ -168,6 +168,12 @@ DECLARE_PACKET_FUNC(c2s_USE_ENDER_EYE)
 {
 }
 
-DECLARE_PACKET_FUNC(c2s_USE_ENDER_EYE)
+DECLARE_PACKET_FUNC(c2s_HIT_MONSTER)
 {
+	Mgr(MCWorld)->PostWorldEvent([id = pkt_.hit_monster_id]() {
+		const auto mon = Mgr(MCWorld)->GetWorldObject(id);
+		if (!mon)return;
+		mon->DecHP(1);
+		mon->GetPosInfo().m_vVelocity.y += 20.f;
+		});
 }
