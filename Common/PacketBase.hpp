@@ -68,6 +68,9 @@ enum class PKT_ID : uint8
 
     s2c_ITEM_GET = 25,
 
+    c2s_HIT_MONSTER = 26,
+    s2c_HIT_MONSTER = 27,
+
     END,
 };
 
@@ -398,4 +401,23 @@ struct s2c_ITEM_GET
     DECLARE_PACKET(s2c_ITEM_GET);
 };
 
+
+/// <summary>
+/// 플레이어 근접공격
+/// </summary>
+
+struct c2s_HIT_MONSTER
+    :public PacketHeader
+{
+    uint32_t hit_monster_id;
+    DECLARE_PACKET(c2s_HIT_MONSTER);
+};
+
+
+struct s2c_HIT_MONSTER
+    :public PacketHeader
+{
+    uint32_t hit_monster_id;
+    DECLARE_PACKET(s2c_HIT_MONSTER);
+};
 #pragma pack (pop)
