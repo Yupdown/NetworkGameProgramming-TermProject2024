@@ -15,6 +15,7 @@ public:
 private:
 	virtual void AfterDecHPAction(const int hp_)noexcept = 0;
 protected:
+	static void SendHitPacket(const Object* const owner, const int hp_)noexcept;
 	const bool IsDead()const noexcept { return 0 >= m_HP; }
 private:
 	Object* m_pOwner = nullptr;

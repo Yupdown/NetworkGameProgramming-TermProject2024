@@ -60,6 +60,7 @@ public:
 	void Update(const float DT)override;
 private:
 	std::vector<glm::vec3> m_randomPoints;
+    glm::vec3 m_oldPos = {};
 
 	float m_bezierT = 0.f;
 	float m_curveLength = 0.f;

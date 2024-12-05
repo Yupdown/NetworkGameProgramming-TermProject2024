@@ -81,12 +81,14 @@ void PathFollower::Update(const float DT)
 	const auto& t = GetTileMap();
 	m_bGround = t->HandleCollision(origin_pos, positionPost, pos_comp->m_vVelocity);
 
-	if (origin_pos == positionPost || (m_bGround && !chase_flag))
+	if (origin_pos == positionPost)
 	{
+		ClearPath();
 		return;
 	}
 
-	owner->SetDirtyFlag();
+	if (chase_flag)
+		owner->SetDirtyFlag();
 	// 최종 위치 적용
 	owner->SetPos(positionPost);
 	
@@ -98,4 +100,6 @@ void PathFollower::Update(const float DT)
 	
 	pos_comp->m_cameraAngleAxisSmooth = body_dir;
 	pos_comp->m_rendererBodyAngleY = glm::degrees(std::atan2(body_dir.x, body_dir.z));
+
+	ClearPath();
 }

@@ -6,6 +6,8 @@ class ProjArrow
 {
 	static constexpr float G_ARROW_REMAIN_TIME = 3.f;
 	static constexpr int G_ARROW_DMG = 1;
+private:
+	void CheckCollisionToEnderDragon();
 public:
 	void Update(const float DT)override;
 private:

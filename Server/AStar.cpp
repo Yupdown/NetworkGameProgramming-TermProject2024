@@ -40,9 +40,9 @@ std::vector<glm::ivec3> AStar::reconstruct_path(const std::unordered_map<glm::iv
 
 std::vector<glm::ivec3> AStar::GetAStarPath(const glm::ivec3& start, const glm::ivec3& goal)
 {
-    thread_local std::priority_queue<Node> open_set;
-    thread_local std::unordered_map<glm::ivec3, glm::ivec3> came_from;
-    thread_local std::unordered_map<Node, int> g_score;
+    constinit static std::priority_queue<Node> open_set;
+    static std::unordered_map<glm::ivec3, glm::ivec3> came_from;
+    static std::unordered_map<Node, int> g_score;
 
     while (!open_set.empty()) { open_set.pop(); }
     came_from.clear();

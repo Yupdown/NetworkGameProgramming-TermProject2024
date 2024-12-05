@@ -58,7 +58,7 @@ enum class PKT_ID : uint8
 
 
 
-    s2c_PLAYER_HIT = 21,
+    s2c_OBJECT_HIT = 21,
 
     END,
 };
@@ -340,12 +340,12 @@ struct s2c_SUMMON_BOSS
 /// </summary>
 /// 
 
-struct s2c_PLAYER_HIT
+struct s2c_OBJECT_HIT
     :public PacketHeader
 {
-    uint32 hit_player_id;
+    uint32 hit_object_id;
     int hit_after_hp;
-    DECLARE_PACKET(s2c_PLAYER_HIT);
+    DECLARE_PACKET(s2c_OBJECT_HIT);
 };
 
 #pragma pack (pop)

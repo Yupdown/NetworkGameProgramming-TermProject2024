@@ -19,7 +19,6 @@ enum class MC_OBJECT_TYPE :unsigned char
 
 static constexpr int G_NUM_OF_PLAYER_MODEL = 9;
 
-
 static constexpr int PLAYER_START_HP = 10;
 
 static constexpr int ENDER_MAN_START_HP = 3;

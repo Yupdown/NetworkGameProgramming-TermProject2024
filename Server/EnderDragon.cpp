@@ -54,13 +54,20 @@ void EnderDragon::Init()
 
 void EnderDragon::Update(const float DT)
 {
+    const auto owner = GetOwner();
+    auto& pos_info = owner->GetPosInfo();
+    m_oldPos = pos_info.m_vPos;
+
     const float distanceToTravel = m_speed * DT;
     m_traveledDistance = glm::clamp(m_traveledDistance + distanceToTravel, 0.f, m_curveLength);
 
     m_bezierT = MapDistanceToT(m_traveledDistance);
 
-    const auto owner = GetOwner();
-    owner->SetPos(bezier(m_points[0], m_points[1], m_points[2], m_bezierT));
+   
+    pos_info.m_vPos = (bezier(m_points[0], m_points[1], m_points[2], m_bezierT));
+
+    pos_info.m_vVelocity = glm::normalize(pos_info.m_vPos - m_oldPos) * m_speed;
+
     owner->SetDirtyFlag();
 
     if (m_traveledDistance >= m_curveLength)

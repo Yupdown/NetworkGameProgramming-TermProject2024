@@ -5,6 +5,63 @@
 #include "MCWorld.h"
 #include "PacketBase.hpp"
 
+glm::vec3 TransformPointToCylinderLocal(
+    const glm::vec3& point,
+    const glm::vec3& cylinderBase,
+    const float zRotation,
+    const float yRotation
+)noexcept
+{
+    const glm::vec3 translatedPoint = point - cylinderBase;
+    const glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
+    const glm::vec4 rotatedPointY = rotationY * glm::vec4(translatedPoint, 1.0f);
+    const glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
+    const glm::vec4 rotatedPointZ = rotationZ * rotatedPointY;
+
+    return rotatedPointZ;
+}
+
+void ProjArrow::CheckCollisionToEnderDragon()
+{
+    const auto& bs = Mgr(MCWorld)->GetWorldObjects(MC_OBJECT_TYPE::BOSS);
+    const auto num = bs.size();
+    if (0 == num)return;
+    auto b = bs.data();
+    const auto owner = GetOwner();
+    const auto e = b + num;
+    constexpr const float BOSS_RADIUS = 2.f;
+    constexpr const float BOSS_HEIGHT = 7.f;
+    const auto project_pos = owner->GetPos();
+    while (e != b)
+    {
+        const auto& ed = (*b++);
+        const auto& pos_info = ed->GetPosInfo();
+
+        const auto& monster_pos = pos_info.m_vPos;
+        const float collision_radius = BOSS_RADIUS;
+        const float collision_height = BOSS_HEIGHT;
+
+        const auto v = ed->GetVelocity();
+        const auto r = glm::degrees(-std::atan2(v.z, v.x)) - 90.f;
+
+        const glm::vec3 localPoint = TransformPointToCylinderLocal(project_pos, monster_pos, glm::radians(90.f), glm::radians(r));
+       
+        const float distanceFromCenter = std::sqrt(localPoint.x * localPoint.x + localPoint.z * localPoint.z);
+        const bool isWithinRadius = distanceFromCenter <= BOSS_RADIUS;
+        const bool isWithinHeight = localPoint.y >= 0 && localPoint.y <= BOSS_HEIGHT;
+
+        const bool is_hit = isWithinRadius && isWithinHeight;
+       
+        if (is_hit)
+        {
+            ed->DecHP(G_ARROW_DMG);
+            owner->SetInvalid();
+            return;
+        }
+           
+    }
+}
+
 void ProjArrow::Update(const float DT)
 {
     
@@ -48,13 +105,6 @@ void ProjArrow::Update(const float DT)
                 is_hit &= project_pos.y >= monster_pos.y && project_pos.y <= monster_pos.y + collision_height;
                 if (is_hit)
                 {
-                    // 오브젝트에게 대미지를 입힘
-                    // 몬스터가 확실하니 믿고 static
-                    //const auto serverObj = static_cast<ServerObject*>(monster.get());
-                    //serverObj->OnObjectDamaged(ARROW_DMG);
-
-                    // 화살 삭제; 서버오브젝트로 전환시 ServerObjectManager::RemoveObject() 호출
-                    //DestroyObj(std::move(pArrow));
                     std::cout << "충돌!\n";
                     monster->DecHP(G_ARROW_DMG);
                     owner->SetInvalid();
@@ -66,6 +116,7 @@ void ProjArrow::Update(const float DT)
         // TODO: 분리하고 객체화
         group_collision_func(this, MC_OBJECT_TYPE::MONSTER, 0.5f, 3.0f);
         group_collision_func(this, MC_OBJECT_TYPE::PLAYER, 0.5f, 2.0f); 
+        CheckCollisionToEnderDragon();
     }
     // 화살이 벽에 고정되어 있다면
     else

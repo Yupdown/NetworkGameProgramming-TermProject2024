@@ -74,12 +74,12 @@ public:
 	bool flag = true;
 private:
 	bool m_bIsValid = true;
-	std::unique_ptr<HP> m_HP;
+	bool m_bDirtyFlag = false;
 	MC_OBJECT_TYPE m_eObjType;
-	const uint64_t m_obj_id;
+	const uint32_t m_obj_id;
 	const std::shared_ptr<Session> m_session;
+	std::unique_ptr<HP> m_HP;
 	std::vector<std::unique_ptr<Component>> m_vecComp;
 	PositionInfo m_posInfo;
-	bool m_bDirtyFlag = false;
 };
 

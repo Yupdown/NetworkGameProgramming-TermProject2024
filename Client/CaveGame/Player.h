@@ -14,8 +14,7 @@ protected:
 	shared_ptr<GameObj> m_particlePrefab;
 
 	float m_fMoveSpeed = 100.f;
-	float m_fMoveTime = 0.0f;
-
+	
 	float m_vVelocityMax = 7.5f;
 	bool m_bGround = false;
 

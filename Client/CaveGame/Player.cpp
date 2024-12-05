@@ -75,7 +75,7 @@ void Player::UpdateRenderer()
 {
 	const float vl = glm::length(glm::vec2(m_vVelocity.x, m_vVelocity.z));
 	const float rotationFactor = glm::min(vl * glm::pi<float>() * 0.05f, 0.75f) * sin(m_fMoveTime * 1.75f);
-	const float l = 60.0f;
+	constexpr const float l = 60.0f;
 	const float dx = l * sin(rotationFactor);
 	const float dy = l * (1.0f - cos(rotationFactor));
 	m_rendererBodyAngleY = glm::clamp(m_rendererBodyAngleY, m_lookYaw - 30.0f, m_lookYaw + 30.0f);
