@@ -6,8 +6,6 @@
 #include "AssimpMgr.h"
 #include "Transform.h"
 #include "Camera.h"
-#include "AssimpMgr.h"
-#include "ProjectileArrow.h"
 #include "EventMgr.h"
 #include "RayCaster.h"
 #include "MeshRenderer.h"
@@ -259,7 +257,7 @@ void Player::OnObjectDamaged(int value)
 
 void Player::OnObjectDead()
 {
-	std::cout << "Player Dead" << std::endl;
-
 	SetPosition(G_INIT_POS);
+
+	std::cout << "Player Dead" << std::endl;
 }

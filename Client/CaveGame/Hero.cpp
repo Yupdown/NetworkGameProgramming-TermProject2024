@@ -16,6 +16,9 @@
 #include "UIMgr.h"
 #include "PacketBase.hpp"
 #include "NetworkMgr.h"
+#include "ProjectileArrow.h"
+#include "ProjectileFireball.h"
+#include "EventMgr.h"
 
 extern std::atomic_bool g_bTileFinish;
 
@@ -300,7 +303,9 @@ void Hero::UpdateTileManipulation()noexcept
 	}
 	if (KEY_TAP(GLFW_MOUSE_BUTTON_MIDDLE))
 	{
-		Fire(m_pCacheMyTransform->GetLocalPosition(), m_cameraAngleAxisSmooth.x, m_cameraAngleAxisSmooth.y);
+		const glm::vec3 r = GetCameraDirection();
+		const glm::vec3 p = GetPosition() + glm::vec3(0.0f, 1.7f, 0.0f) + glm::normalize(r) * 0.75f;
+		Fire(p, m_cameraAngleAxisSmooth.x, m_cameraAngleAxisSmooth.y);
 	}
 
 	// TODO 임시 드래곤 소환
@@ -403,6 +408,8 @@ void Hero::MoveByView(const glm::vec3& vDelta)
 void Hero::Fire(const glm::vec3& arrow_pos, const float x_, const float y_) noexcept
 {
 	c2s_ADD_PROJECTILE pkt;
+
+	pkt.obj_type = static_cast<uint8>(MC_OBJECT_TYPE::ARROW);
 
 	pkt.pos_x = arrow_pos.x;
 	pkt.pos_y = arrow_pos.y;

@@ -36,11 +36,13 @@ void EnderEye::Start()
 	indices = { 0, 1, 2, 1, 3, 2 };
 	auto mesh = make_shared<Mesh>();
 	mesh->Init(std::move(vertices), std::move(indices));
+
 	shared_ptr<Model> model = make_shared<Model>();
 	material = make_shared<Material>();
 	material->AddTexture2D("item_eye.png");
 	model->AddMesh(mesh);
 	model->AddMaterial(material);
+
 	renderer->SetModelData(model);
 	renderer->SetShader("BillboardShader.glsl");
 }

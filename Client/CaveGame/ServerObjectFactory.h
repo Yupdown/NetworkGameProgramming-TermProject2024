@@ -16,7 +16,7 @@ struct PlayerBuilder
 	uint8_t tex_id;
 };
 
-struct ProjArrowBuilder
+struct ProjBuilder
 	:public ServerObjectBulider
 {
 	float rot_x, rot_y;
@@ -40,6 +40,7 @@ public:
 	static shared_ptr<ServerObject> CreatePlayer(ServerObjectBulider& b_)noexcept;
 	static shared_ptr<ServerObject> CreateMonster(ServerObjectBulider& b_)noexcept;
 	static shared_ptr<ServerObject> CreateProjArrow(ServerObjectBulider& b_)noexcept;
+	static shared_ptr<ServerObject> CreateProjFireball(ServerObjectBulider& b_)noexcept;
 	static shared_ptr<ServerObject> CreateEnderDragon(ServerObjectBulider& b_)noexcept;
 private:
 	static inline std::shared_ptr<MCTilemap> g_tileMapForCreateObject;

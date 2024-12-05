@@ -40,9 +40,6 @@
     <Filter Include="CaveObject\Monster">
       <UniqueIdentifier>{6b34388e-4f51-479c-873b-8a7e9cb3ab43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CaveObject\EnderEye">
-      <UniqueIdentifier>{d38dc739-69ac-4534-8360-185fb6b0128e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{f6b44639-873c-4fee-a35d-a6aef96a5a0a}</UniqueIdentifier>
     </Filter>
@@ -120,9 +117,6 @@
     <ClCompile Include="Monster.cpp">
       <Filter>CaveObject\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="EnderEye.cpp">
-      <Filter>CaveObject\EnderEye</Filter>
-    </ClCompile>
     <ClCompile Include="ServerObject.cpp">
       <Filter>CaveObject\ServerObject</Filter>
     </ClCompile>
@@ -192,6 +186,12 @@
     <ClCompile Include="DeathObject.cpp">
       <Filter>CaveObject\DeathObject</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectileFireball.cpp">
+      <Filter>CaveObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="EnderEye.cpp">
+      <Filter>CaveObject\Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3D.hpp">
@@ -229,9 +229,6 @@
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>CaveObject\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="EnderEye.h">
-      <Filter>CaveObject\EnderEye</Filter>
     </ClInclude>
     <ClInclude Include="ServerObject.h">
       <Filter>CaveObject\ServerObject</Filter>
@@ -310,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="DeathObject.h">
       <Filter>CaveObject\DeathObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileFireball.h">
+      <Filter>CaveObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="EnderEye.h">
+      <Filter>CaveObject\Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

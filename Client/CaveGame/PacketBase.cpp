@@ -84,7 +84,7 @@ DECLARE_PACKET_FUNC(s2c_MOVE_OBJECT)
 
 DECLARE_PACKET_FUNC(s2c_ADD_PROJECTILE)
 {
-	ProjArrowBuilder b;
+	ProjBuilder b;
 	b.obj_id = pkt_.projectile_id;
 	b.pos.x = pkt_.pos_x;
 	b.pos.y = pkt_.pos_y;
@@ -92,7 +92,15 @@ DECLARE_PACKET_FUNC(s2c_ADD_PROJECTILE)
 	b.rot_x = pkt_.dir_x;
 	b.rot_y = pkt_.dir_y;
 
-	Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjArrow(b), GROUP_TYPE::PROJ_PLAYER);
+	switch (static_cast<MC_OBJECT_TYPE>(pkt_.obj_type))
+	{
+	case MC_OBJECT_TYPE::ARROW:
+		Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjArrow(b), GROUP_TYPE::PROJ_PLAYER);
+		break;
+	case MC_OBJECT_TYPE::BOSS_PROJ:
+		Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjFireball(b), GROUP_TYPE::PROJ_MONSTER);
+		break;
+	}
 }
 
 DECLARE_PACKET_FUNC(s2c_USE_ITEM)

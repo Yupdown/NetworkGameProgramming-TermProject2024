@@ -258,6 +258,7 @@ struct s2c_MOVE_OBJECT
 struct c2s_ADD_PROJECTILE
     :public PacketHeader
 {
+    uint8 obj_type;
     float pos_x, pos_y, pos_z;
     float dir_x, dir_y;
     DECLARE_PACKET(c2s_ADD_PROJECTILE);
@@ -267,6 +268,7 @@ struct s2c_ADD_PROJECTILE
     :public PacketHeader
 {
     uint32 projectile_id;
+	uint8 obj_type;
     float pos_x, pos_y, pos_z;
     float dir_x, dir_y;
     DECLARE_PACKET(s2c_ADD_PROJECTILE);

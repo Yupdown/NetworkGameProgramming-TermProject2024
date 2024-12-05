@@ -114,6 +114,8 @@ DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)
 {
 	s2c_ADD_PROJECTILE pkt;
 	
+	pkt.obj_type = pkt_.obj_type;
+
 	pkt.dir_x = pkt_.dir_x;
 	pkt.dir_y = pkt_.dir_y;
 
@@ -128,13 +130,26 @@ DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)
 	b.rot_x = pkt_.dir_x;
 	b.rot_y = pkt_.dir_y;
 
-	auto a = MCObjectFactory::CreateProjArrow(b);
-
-	pkt.projectile_id = a->GetObjectID();
+	// 투사체의 종류에 따른 월드 이벤트 처리
+	// 실질적으로 플레이어로부터 요청되어지는 투사체 생성은 현재 화살뿐이다.
+	S_ptr<Object> instance = nullptr;
+	switch (static_cast<MC_OBJECT_TYPE>(pkt_.obj_type))
+	{
+	case MC_OBJECT_TYPE::ARROW:
+		instance = MCObjectFactory::CreateProjArrow(b);
+		pkt.projectile_id = instance->GetObjectID();
+		Mgr(MCWorld)->PostWorldEvent([arrow = std::move(instance)]() mutable {Mgr(MCWorld)->AddObject(std::move(arrow), MC_OBJECT_TYPE::ARROW); });
+		Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+		break;
 	
-	Mgr(MCWorld)->PostWorldEvent([arrow = std::move(a)]()mutable {Mgr(MCWorld)->AddObject(std::move(arrow), MC_OBJECT_TYPE::ARROW); });
-
-	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+	// 플레이어가 발사하는 보스 투사체 (시험용)
+	case MC_OBJECT_TYPE::BOSS_PROJ:
+		instance = MCObjectFactory::CreateProjArrow(b);
+		pkt.projectile_id = instance->GetObjectID();
+		Mgr(MCWorld)->PostWorldEvent([arrow = std::move(instance)]() mutable {Mgr(MCWorld)->AddObject(std::move(arrow), MC_OBJECT_TYPE::ARROW); });
+		Mgr(IOExecutor)->AppendToSendBuffer(pkt);
+		break;
+	}
 }
 
 DECLARE_PACKET_FUNC(c2s_USE_ITEM)
