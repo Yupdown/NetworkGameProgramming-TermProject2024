@@ -173,10 +173,12 @@ void UIMgr::Update()
 
 	for (auto& ui : m_vecUI[etoi(m_eCurUIScene)])
 	{
+		if (false == ui->IsActivate())continue;
+
 		std::ranges::for_each(*ui, std::mem_fn(&UI::Update));
-
+		
 		const UI_STATE eCurState = ui->GetCurUIState();
-
+		
 		if (UI_STATE::ON_CLICK == eCurState ||
 			UI_STATE::CLICKED == eCurState)
 		{
