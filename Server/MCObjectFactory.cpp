@@ -9,6 +9,7 @@
 #include "MCTilemap.h"
 #include "Projectile.h"
 #include "HP.h"
+#include "DropItem.h"
 
 S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
 {
@@ -35,6 +36,9 @@ S_ptr<Object> MCObjectFactory::CreateItem(MCItemBuilder& b_)
 	//const auto m = item->AddComp<EntityMovement>(new EntityMovement);
 	//item->SetEntityMovement(m);
 	item->SetPos(b_.pos);
+	item->AddComp<DropItem>(new DropItem);
+
+	item->Init();
 	//item->GetEntityMovement()->current_position = b_.pos;
 	// TODO: 어떤아이템인가의 정보 추가하기
 	return item;

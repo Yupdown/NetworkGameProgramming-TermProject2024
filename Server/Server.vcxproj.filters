@@ -101,6 +101,9 @@
     <Filter Include="MCContents\Object\Component\HP">
       <UniqueIdentifier>{5ec38eca-b6f8-43dc-a64d-f743c9aa6d5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCContents\Object\Component\DropItem">
+      <UniqueIdentifier>{3fbc3aeb-b95f-479c-b0dc-95fceb7faf5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -177,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="HP.cpp">
       <Filter>MCContents\Object\Component\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItem.cpp">
+      <Filter>MCContents\Object\Component\DropItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="HP.h">
       <Filter>MCContents\Object\Component\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItem.h">
+      <Filter>MCContents\Object\Component\DropItem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

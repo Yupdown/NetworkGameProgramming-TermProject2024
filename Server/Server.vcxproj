@@ -153,6 +153,7 @@
     </ClCompile>
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="c2s_PacketHandler.cpp" />
+    <ClCompile Include="DropItem.cpp" />
     <ClCompile Include="EnderDragon.cpp" />
     <ClCompile Include="HP.cpp" />
     <ClCompile Include="PathFollower.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="c2s_PacketHandler.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CustomMath.hpp" />
+    <ClInclude Include="DropItem.h" />
     <ClInclude Include="EnderDragon.h" />
     <ClInclude Include="HP.h" />
     <ClInclude Include="PathFollower.h" />
