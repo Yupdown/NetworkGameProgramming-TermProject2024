@@ -114,8 +114,6 @@ DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)
 {
 	s2c_ADD_PROJECTILE pkt;
 	
-	pkt.obj_type = pkt_.obj_type;
-
 	pkt.dir_x = pkt_.dir_x;
 	pkt.dir_y = pkt_.dir_y;
 
@@ -130,26 +128,13 @@ DECLARE_PACKET_FUNC(c2s_ADD_PROJECTILE)
 	b.rot_x = pkt_.dir_x;
 	b.rot_y = pkt_.dir_y;
 
-	// 투사체의 종류에 따른 월드 이벤트 처리
-	// 실질적으로 플레이어로부터 요청되어지는 투사체 생성은 현재 화살뿐이다.
-	S_ptr<Object> instance = nullptr;
-	switch (static_cast<MC_OBJECT_TYPE>(pkt_.obj_type))
-	{
-	case MC_OBJECT_TYPE::ARROW:
-		instance = MCObjectFactory::CreateProjArrow(b);
-		pkt.projectile_id = instance->GetObjectID();
-		Mgr(MCWorld)->PostWorldEvent([arrow = std::move(instance)]() mutable {Mgr(MCWorld)->AddObject(std::move(arrow), MC_OBJECT_TYPE::ARROW); });
-		Mgr(IOExecutor)->AppendToSendBuffer(pkt);
-		break;
-	
-	// 플레이어가 발사하는 보스 투사체 (시험용)
-	case MC_OBJECT_TYPE::BOSS_PROJ:
-		instance = MCObjectFactory::CreateProjArrow(b);
-		pkt.projectile_id = instance->GetObjectID();
-		Mgr(MCWorld)->PostWorldEvent([arrow = std::move(instance)]() mutable {Mgr(MCWorld)->AddObject(std::move(arrow), MC_OBJECT_TYPE::ARROW); });
-		Mgr(IOExecutor)->AppendToSendBuffer(pkt);
-		break;
-	}
+	auto a = MCObjectFactory::CreateProjArrow(b);
+
+	pkt.projectile_id = a->GetObjectID();
+
+	Mgr(MCWorld)->PostWorldEvent([arrow = std::move(a)]()mutable {Mgr(MCWorld)->AddObject(std::move(arrow), MC_OBJECT_TYPE::ARROW); });
+
+	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_USE_ITEM)
@@ -159,8 +144,6 @@ DECLARE_PACKET_FUNC(c2s_USE_ITEM)
 
 DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
 {
-	// TODO: 드래곤소환후 월드에 넣기
-
 	EnderDragonBuilder b;
 	b.pos = glm::vec3(MCTilemap::MAP_WIDTH / 2, MCTilemap::MAP_HEIGHT - 10, MCTilemap::MAP_WIDTH / 2);
 
@@ -172,6 +155,6 @@ DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
 	pkt.pos_y = b.pos.y;
 	pkt.pos_z = b.pos.z;
 
-	Mgr(MCWorld)->PostWorldEvent([ed = std::move(ed)]() {Mgr(MCWorld)->AddObject(ed, MC_OBJECT_TYPE::BOSS); });
+	Mgr(MCWorld)->PostWorldEvent([ed = std::move(ed)]()mutable {Mgr(MCWorld)->AddObject(std::move(ed), MC_OBJECT_TYPE::BOSS); });
 	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }

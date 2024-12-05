@@ -65,6 +65,7 @@ private:
 	float m_bezierT = 0.f;
 	float m_curveLength = 0.f;
 	float m_speed = 10.f;
+    float m_accTime = 0.f;
 
     glm::vec3 m_points[3];
 

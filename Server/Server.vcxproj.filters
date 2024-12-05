@@ -172,7 +172,7 @@
     <ClCompile Include="EnderDragon.cpp">
       <Filter>MCContents\Object\Component\EnderDragon</Filter>
     </ClCompile>
-    <ClCompile Include="ProjArrow.cpp">
+    <ClCompile Include="Projectile.cpp">
       <Filter>MCContents\Object\Component\ProjArrow</Filter>
     </ClCompile>
     <ClCompile Include="HP.cpp">
@@ -276,7 +276,7 @@
     <ClInclude Include="EnderDragon.h">
       <Filter>MCContents\Object\Component\EnderDragon</Filter>
     </ClInclude>
-    <ClInclude Include="ProjArrow.h">
+    <ClInclude Include="Projectile.h">
       <Filter>MCContents\Object\Component\ProjArrow</Filter>
     </ClInclude>
     <ClInclude Include="HP.h">

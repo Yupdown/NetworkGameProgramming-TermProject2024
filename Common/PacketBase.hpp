@@ -60,6 +60,9 @@ enum class PKT_ID : uint8
 
     s2c_OBJECT_HIT = 21,
 
+
+    s2c_BOSS_PROJECTILE = 22,
+
     END,
 };
 
@@ -258,7 +261,6 @@ struct s2c_MOVE_OBJECT
 struct c2s_ADD_PROJECTILE
     :public PacketHeader
 {
-    uint8 obj_type;
     float pos_x, pos_y, pos_z;
     float dir_x, dir_y;
     DECLARE_PACKET(c2s_ADD_PROJECTILE);
@@ -268,7 +270,6 @@ struct s2c_ADD_PROJECTILE
     :public PacketHeader
 {
     uint32 projectile_id;
-	uint8 obj_type;
     float pos_x, pos_y, pos_z;
     float dir_x, dir_y;
     DECLARE_PACKET(s2c_ADD_PROJECTILE);
@@ -348,6 +349,19 @@ struct s2c_OBJECT_HIT
     uint32 hit_object_id;
     int hit_after_hp;
     DECLARE_PACKET(s2c_OBJECT_HIT);
+};
+
+/// <summary>
+/// 보스 투사체
+/// </summary>
+
+struct s2c_BOSS_PROJECTILE
+    :public PacketHeader
+{
+    uint32 projectile_id;
+    float pos_x, pos_y, pos_z;
+    float vel_x, vel_y, vel_z;
+    DECLARE_PACKET(s2c_BOSS_PROJECTILE);
 };
 
 #pragma pack (pop)

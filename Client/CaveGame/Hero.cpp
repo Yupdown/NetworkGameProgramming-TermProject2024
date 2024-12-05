@@ -409,8 +409,6 @@ void Hero::Fire(const glm::vec3& arrow_pos, const float x_, const float y_) noex
 {
 	c2s_ADD_PROJECTILE pkt;
 
-	pkt.obj_type = static_cast<uint8>(MC_OBJECT_TYPE::ARROW);
-
 	pkt.pos_x = arrow_pos.x;
 	pkt.pos_y = arrow_pos.y;
 	pkt.pos_z = arrow_pos.z;

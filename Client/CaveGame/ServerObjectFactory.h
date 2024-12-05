@@ -28,6 +28,12 @@ struct EnderDragonBuilder
 	// TODO: 보스를 위해 필요한 정보들
 };
 
+struct BossProjBuilder
+	:public ServerObjectBulider
+{
+	float vel_x, vel_y, vel_z;
+};
+
 class ServerObjectFactory
 {
 public:

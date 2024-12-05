@@ -170,7 +170,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ProjArrow.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="SendBufferPool.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="State.cpp" />
@@ -202,7 +202,7 @@
     <ClInclude Include="packet_define.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PerlinNoise.hpp" />
-    <ClInclude Include="ProjArrow.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="SendBufferPool.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="Singleton.hpp" />

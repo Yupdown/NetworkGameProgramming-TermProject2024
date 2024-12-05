@@ -92,15 +92,7 @@ DECLARE_PACKET_FUNC(s2c_ADD_PROJECTILE)
 	b.rot_x = pkt_.dir_x;
 	b.rot_y = pkt_.dir_y;
 
-	switch (static_cast<MC_OBJECT_TYPE>(pkt_.obj_type))
-	{
-	case MC_OBJECT_TYPE::ARROW:
-		Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjArrow(b), GROUP_TYPE::PROJ_PLAYER);
-		break;
-	case MC_OBJECT_TYPE::BOSS_PROJ:
-		Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjFireball(b), GROUP_TYPE::PROJ_MONSTER);
-		break;
-	}
+	Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjArrow(b), GROUP_TYPE::PROJ_PLAYER);
 }
 
 DECLARE_PACKET_FUNC(s2c_USE_ITEM)
@@ -179,4 +171,18 @@ DECLARE_PACKET_FUNC(s2c_OBJECT_HIT)
 	{
 		target->OnObjectDamaged(pkt_.hit_after_hp);
 	}
+}
+
+DECLARE_PACKET_FUNC(s2c_BOSS_PROJECTILE)
+{
+	 BossProjBuilder b;
+	 b.obj_id = pkt_.projectile_id;
+	 b.pos.x = pkt_.pos_x;
+	 b.pos.y = pkt_.pos_y;
+	 b.pos.z = pkt_.pos_z;
+	 b.vel_x = pkt_.vel_x;
+	 b.vel_y = pkt_.vel_y;
+	 b.vel_z = pkt_.vel_z;
+
+	 Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjFireball(b), GROUP_TYPE::PROJ_MONSTER);
 }

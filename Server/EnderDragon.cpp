@@ -5,6 +5,9 @@
 #include <random>
 #include <algorithm>
 #include "MCWorld.h"
+#include "PacketBase.hpp"
+#include "MCObjectFactory.h"
+#include "IOExecutor.h"
 
 static std::default_random_engine dre{ };
 static std::uniform_int_distribution uid{ 0,19 };
@@ -58,6 +61,44 @@ void EnderDragon::Update(const float DT)
     auto& pos_info = owner->GetPosInfo();
     m_oldPos = pos_info.m_vPos;
 
+    m_accTime += DT;
+    if (3.f <= m_accTime)
+    {
+        m_accTime = 0.f;
+        const auto& players = Mgr(MCWorld)->GetWorldObjects(MC_OBJECT_TYPE::PLAYER);
+        const auto mc_world = Mgr(MCWorld);
+        s2c_BOSS_PROJECTILE pkt;
+        pkt.pos_x = m_oldPos.x;
+        pkt.pos_y = m_oldPos.y;
+        pkt.pos_z = m_oldPos.z;
+
+        std::vector<S_ptr<Object>> fire_ball;
+        fire_ball.reserve(players.size());
+
+        for (const auto& player : players)
+        {
+            const auto v = glm::normalize(player->GetPos() - m_oldPos) * 32.f;
+
+            ProjFireBallBuilder b;
+            b.pos = m_oldPos;
+            b.vel = v;
+
+            auto fb = MCObjectFactory::CreateProjFireBall(b);
+
+            pkt.projectile_id = fb->GetObjectID();
+            pkt.vel_x = v.x;
+            pkt.vel_y = v.y;
+            pkt.vel_z = v.z;
+            mc_world->AppendToWorldSendBuffer(pkt);
+            fire_ball.emplace_back(std::move(fb));
+        }
+
+        Mgr(MCWorld)->PostWorldEvent([fire_ball = std::move(fire_ball)]()mutable noexcept
+            {
+                for (auto& fb : fire_ball)
+                    Mgr(MCWorld)->AddObject(std::move(fb), MC_OBJECT_TYPE::BOSS_PROJ);
+            });
+    }
     const float distanceToTravel = m_speed * DT;
     m_traveledDistance = glm::clamp(m_traveledDistance + distanceToTravel, 0.f, m_curveLength);
 

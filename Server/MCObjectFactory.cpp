@@ -7,7 +7,7 @@
 #include "State.h"
 #include "EnderDragon.h"
 #include "MCTilemap.h"
-#include "ProjArrow.h"
+#include "Projectile.h"
 #include "HP.h"
 
 S_ptr<Object> MCObjectFactory::CreateMonster(MCObjectBuilder& b_)
@@ -63,6 +63,18 @@ S_ptr<Object> MCObjectFactory::CreateProjArrow(ProjArrowBuilder& b_)
 
 	a->SetPos(p);
 	a->SetVelocity(r * 32.0f);
+
+	return a;
+}
+
+S_ptr<Object> MCObjectFactory::CreateProjFireBall(ProjFireBallBuilder& b_)
+{
+	auto a = std::make_shared<Object>();
+	a->SetObjectType(MC_OBJECT_TYPE::BOSS_PROJ);
+	const auto proj = a->AddComp<ProjFireBall>(new ProjFireBall);
+	
+	a->SetPos(b_.pos);
+	a->SetVelocity(b_.vel);
 
 	return a;
 }

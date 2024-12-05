@@ -49,16 +49,13 @@ shared_ptr<ServerObject> ServerObjectFactory::CreateProjArrow(ServerObjectBulide
 
 shared_ptr<ServerObject> ServerObjectFactory::CreateProjFireball(ServerObjectBulider& b_) noexcept
 {
-	const auto& b = static_cast<ProjBuilder&>(b_);
+	const auto& b = static_cast<BossProjBuilder&>(b_);
 
 	auto projectile = make_shared<ProjectileFireball>(g_tileMapForCreateObject);
 
-	glm::quat qrot = glm::quat(glm::vec3(glm::radians(b.rot_x), glm::radians(b.rot_y), 0.0f));
-	const auto r = glm::rotate(qrot, glm::vec3(0.0f, 0.0f, 1.0f));
-
 	projectile->SetID(b.obj_id);
 	projectile->SetPosition(b.pos);
-	projectile->SetVelocity(r * 32.0f);
+	projectile->SetVelocity({ b.vel_x ,b.vel_y ,b.vel_z });
 
 	return projectile;
 }

@@ -26,6 +26,12 @@ struct ProjArrowBuilder
 	float rot_x, rot_y;
 };
 
+struct ProjFireBallBuilder
+	:public MCObjectBuilder
+{
+	glm::vec3 vel;
+};
+
 class MCObjectFactory
 {
 public:
@@ -36,5 +42,6 @@ public:
 	static S_ptr<Object> CreateItem(MCItemBuilder& b_);
 	static S_ptr<Object> CreateEnderDragon(EnderDragonBuilder& b_);
 	static S_ptr<Object> CreateProjArrow(ProjArrowBuilder& b_);
+	static S_ptr<Object> CreateProjFireBall(ProjFireBallBuilder& b_);
 };
 

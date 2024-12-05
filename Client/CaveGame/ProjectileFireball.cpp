@@ -62,6 +62,8 @@ void ProjectileFireball::Update()
 
 		m_isPinned = true;
 	}
+	if (m_isPinned)return;
+
 	SetPosition(pos_post);
 	SetVelocity(v);
 
