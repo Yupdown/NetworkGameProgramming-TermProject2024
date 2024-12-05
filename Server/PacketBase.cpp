@@ -166,6 +166,11 @@ DECLARE_PACKET_FUNC(c2s_SUMMON_BOSS)
 
 DECLARE_PACKET_FUNC(c2s_USE_ENDER_EYE)
 {
+	s2c_USE_ENDER_EYE pkt;
+	pkt.pos_x = pkt_.pos_x;
+	pkt.pos_y = pkt_.pos_y;
+	pkt.pos_z = pkt_.pos_z;
+	Mgr(IOExecutor)->AppendToSendBuffer(pkt);
 }
 
 DECLARE_PACKET_FUNC(c2s_HIT_MONSTER)

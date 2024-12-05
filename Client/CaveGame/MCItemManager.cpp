@@ -21,7 +21,12 @@ void MCItemManager::LoadItems()
 	m_registry.Insert("block_wood", make_shared<MCItemBlock>("Wood", "tile_preview_07.png", 7));
 	m_registry.Insert("block_glass", make_shared<MCItemBlock>("Glass", "tile_preview_09.png", 9));
 	m_registry.Insert("eye", make_shared<MCItemCallback>("Ender Eye", "item_eye.png", [](MCTilemap*, Hero* player, const RaycastResult&) {
-		player->Fire();
+		glm::vec3 v = player->GetPosition();
+		c2s_USE_ENDER_EYE pkt;
+		pkt.pos_x = v.x;
+		pkt.pos_y = v.y;
+		pkt.pos_z = v.z;
+		Send(pkt);
 		return true;
 		}));
 	m_registry.Insert("bow", make_shared<MCItemCallback>("Bow", "bow.png", [](MCTilemap*, Hero* player, const RaycastResult&) {

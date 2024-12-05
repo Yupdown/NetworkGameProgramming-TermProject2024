@@ -18,7 +18,13 @@ void EnderManHP::AfterDecHPAction(const int hp_)noexcept
 {
 	if (IsDead())
 	{
-		GetOwner()->SetInvalid();
+		auto owner = GetOwner();
+		owner->SetInvalid();
+
+		glm::vec3 pos = owner->GetPos();
+		Mgr(MCWorld)->PostWorldEvent([pos]() noexcept {
+			Mgr(MCWorld)->AddDropItem(pos, 6);
+			});
 	}
 }
 

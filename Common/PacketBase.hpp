@@ -379,6 +379,7 @@ struct s2c_BOSS_PROJECTILE
 struct c2s_USE_ENDER_EYE
     :public PacketHeader
 {
+	float pos_x, pos_y, pos_z;
     DECLARE_PACKET(c2s_USE_ENDER_EYE);
 };
 
@@ -386,6 +387,7 @@ struct c2s_USE_ENDER_EYE
 struct s2c_USE_ENDER_EYE
     :public PacketHeader
 {
+	float pos_x, pos_y, pos_z;
     DECLARE_PACKET(s2c_USE_ENDER_EYE);
 };
 

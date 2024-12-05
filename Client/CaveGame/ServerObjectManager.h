@@ -5,6 +5,7 @@
 
 class ServerObject;
 class MCTilemap;
+class EnderEye;
 class Hero;
 
 extern glm::vec3 G_INIT_POS;
@@ -31,6 +32,8 @@ public:
 	const auto GetMyID()const noexcept { return m_my_id_from_server; }
 	void SetHero(shared_ptr<Hero> hero);
 	auto& GetHero()noexcept { return m_hero; }
+	void SetEnderEye(shared_ptr<EnderEye> enderEye) { m_enderEye = std::move(enderEye); }
+	const auto& GetEnderEye()const noexcept { return m_enderEye; }
 	bool IsMyID(const uint32_t id_)const noexcept { return id_ == m_my_id_from_server; }
 	void SetMyTexID(const int id_) { m_my_tex_id = id_; }
 	const auto GetMyTexIDFromServer()const noexcept { return m_my_tex_id; }
@@ -41,6 +44,7 @@ private:
 
 	std::shared_ptr<MCTilemap> m_tileMap;
 	std::shared_ptr<Hero> m_hero;
+	std::shared_ptr<EnderEye> m_enderEye;
 
 	int m_my_id_from_server = -1;
 	int m_my_tex_id = -1;

@@ -198,6 +198,7 @@ int main()
         pEnderEye->GetTransform()->SetLocalPosition(glm::vec3(MCTilemap::MAP_WIDTH / 2, 16.0f, MCTilemap::MAP_WIDTH / 2));
         pEnderEye->GetTransform()->SetLocalScale(glm::one<glm::vec3>() * 0.5f);
         curScene->AddObject(pEnderEye, GROUP_TYPE::DEFAULT);
+		Mgr(ServerObjectManager)->SetEnderEye(pEnderEye);
 
         Mgr(ServerObjectManager)->SetTargetScene(Mgr(SceneMgr)->GetScene(SCENE_TYPE::STAGE));
         Send(c2s_ENTER{});

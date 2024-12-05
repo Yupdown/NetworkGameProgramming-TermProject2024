@@ -8,6 +8,7 @@
 #include "ProjectileArrow.h"
 #include "EventMgr.h"
 #include "DeathObject.h"
+#include "EnderEye.h"
 
 // Server -> Client , 서버로 부터의 패킷을 받아서 처리하는 함수들의 모임
 // c2s는 없으면 링크에러나서 더미로 만들었음 좋은 의견있으면 건의 부탁
@@ -189,7 +190,10 @@ DECLARE_PACKET_FUNC(s2c_BOSS_PROJECTILE)
 
 DECLARE_PACKET_FUNC(s2c_USE_ENDER_EYE)
 {
-	// 엔더의 눈 사용
+	auto enderEye = Mgr(ServerObjectManager)->GetEnderEye();
+	glm::vec3 from_pos = glm::vec3(pkt_.pos_x, pkt_.pos_y, pkt_.pos_z);
+	glm::vec3 to_pos = glm::vec3(G_END_POS_X, 16.0f, G_END_POS_Z);
+	enderEye->SetMoveSequence(from_pos, to_pos);
 }
 
 DECLARE_PACKET_FUNC(s2c_ITEM_GET)
