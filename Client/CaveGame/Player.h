@@ -16,8 +16,6 @@ protected:
 	float m_fMoveSpeed = 100.f;
 	float m_fMoveTime = 0.0f;
 
-	glm::vec3 m_vVelocity = glm::zero<glm::vec3>();
-	glm::vec3 m_vAccelation = glm::zero<glm::vec3>();
 	float m_vVelocityMax = 7.5f;
 	bool m_bGround = false;
 

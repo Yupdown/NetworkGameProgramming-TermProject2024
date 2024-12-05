@@ -4,7 +4,7 @@
 template <typename T>
 class LFQueue
 {
-	static constexpr uint64_t MAX_TASK = 1024 * 1024;
+	static constexpr uint64_t MAX_TASK = 1024 * 256;
 
 public:
 	void Push(T* const ptr)noexcept 
