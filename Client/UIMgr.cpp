@@ -14,6 +14,7 @@
 #include "PannelUI.h"
 #include "EventMgr.h"
 #include "SoundMgr.h"
+#include "NumTextUI.h"
 #include "../Common/Constants.h"
 
 const std::function<bool(const UI*, const UI*)> UIMgr::cmpZDepth = [](const UI* a, const UI* b){ return *a > *b; };
@@ -114,8 +115,8 @@ void UIMgr::Init()
 
 		for (int i = 0; i < 9; ++i)
 		{
-			auto item_icon = make_shared<PannelUI>(glm::vec2(w * 0.5f + (i - 4) * 60.0f, h - 35.0f), std::format("tile_preview_{:02d}.png", i + 1), 0.15f);
-			m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(item_icon);
+			m_arrInventoryUI[i] = make_shared<PannelUI>(glm::vec2(w * 0.5f + (i - 4) * 60.0f, h - 35.0f), std::format("tile_preview_{:02d}.png", i + 1), 0.15f);
+			m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_arrInventoryUI[i]);
 		}
 
 		m_pTargetUI = make_shared<PannelUI>(glm::vec2(), "gui_target.png", 3.0f);
@@ -153,6 +154,10 @@ void UIMgr::Init()
 			if (m_popdownCallback)
 				m_popdownCallback();
 			});
+
+		auto numtext = make_shared<NumTextUI>(glm::vec2{ w / 2.f, h / 2.f }, 3.0f);
+		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(numtext);
+		numtext->SetNumber(21);
 
 		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pGameClearPanel);
 		m_vecUI[etoi(SCENE_TYPE::STAGE)].emplace_back(m_pGameClearButton);
@@ -368,4 +373,9 @@ void UIMgr::SetGameClearPanelActive(bool active)
 void UIMgr::SetPopdownCallback(std::function<void()> callback)
 {
 	m_popdownCallback = callback;
+}
+
+void UIMgr::UpdateInventoryUI(int index, const pair<string_view, int>& data)
+{
+	m_arrInventoryUI[index]->SetUITex(data.first);
 }

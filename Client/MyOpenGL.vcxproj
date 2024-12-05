@@ -30,6 +30,7 @@
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="InstancingMgr.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="NumTextUI.cpp" />
     <ClCompile Include="PannelProgressUI.cpp" />
     <ClCompile Include="PannelUI.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -86,6 +87,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="NumTextUI.h" />
     <ClInclude Include="PannelProgressUI.h" />
     <ClInclude Include="PannelUI.h" />
     <ClInclude Include="Particle.h" />

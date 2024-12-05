@@ -3,6 +3,9 @@
 #include "pch.h"
 #include <Texture2D.h>
 
+#include "MCTilemap.h"
+#include "Hero.h"
+
 class MCTilemap;
 
 class MCItem
@@ -19,5 +22,23 @@ public:
 	std::string GetName() const;
 	int GetMaxStacksize() const;
 	std::string GetIconTexture() const;
-	virtual bool OnUseItem(MCTilemap* world, const glm::vec3& target_pos);
+	virtual bool OnUseItem(MCTilemap* world, Hero* owner, const RaycastResult& raycast);
+};
+
+class MCItemBlock : public MCItem
+{
+public:
+	MCItemBlock(std::string name, std::string k_texture, uint8_t tileID);
+	bool OnUseItem(MCTilemap* world, Hero* owner, const RaycastResult& raycast) override;
+private:
+	uint8 m_tileID;
+};
+
+class MCItemCallback : public MCItem
+{
+public:
+	MCItemCallback(std::string name, std::string k_texture, std::function<void(MCTilemap*, Hero*, const RaycastResult&)> callback);
+	bool OnUseItem(MCTilemap* world, Hero* owner, const RaycastResult& raycast) override;
+private:
+	std::function<void(MCTilemap*, Hero*, const RaycastResult&)> m_callback;
 };

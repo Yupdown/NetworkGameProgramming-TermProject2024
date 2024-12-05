@@ -19,6 +19,7 @@
 #include "ProjectileArrow.h"
 #include "ProjectileFireball.h"
 #include "EventMgr.h"
+#include "MCItemManager.h"
 
 extern std::atomic_bool g_bTileFinish;
 
@@ -73,6 +74,12 @@ Hero::Hero(std::shared_ptr<MCTilemap> pTilemap) noexcept
 
 	m_bIsHero = true;
 	m_pCamera->SetMainCam();
+
+	for (int id = 0; id < 9; ++id)
+	{
+		m_inventory[id] = MCItemStack{ Mgr(MCItemManager)->GetItemByID(id), 10 };
+	}
+	UpdatePlayerInventoryUI();
 }
 
 void Hero::Start()
@@ -214,6 +221,16 @@ void Hero::SetPlayerControl(bool bControl) noexcept
 	Mgr(KeyMgr)->SetMouseMode(bControl ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
+void Hero::UpdatePlayerInventoryUI() noexcept
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		string texName = m_inventory[i].GetItem()->GetIconTexture();
+		pair<string_view, int> p = make_pair(string_view(texName), m_inventory[i].GetStackSize());
+		Mgr(UIMgr)->UpdateInventoryUI(i, p);
+	}
+}
+
 void Hero::InputMove() noexcept
 {
 	if (KEY_HOLD(GLFW_KEY_A))
@@ -280,38 +297,10 @@ void Hero::UpdateTileManipulation()noexcept
 		Mgr(NetworkMgr)->Send(pkt);
 
 	}
-	if (KEY_TAP(GLFW_MOUSE_BUTTON_RIGHT) && result.hit)
+	if (KEY_TAP(GLFW_MOUSE_BUTTON_RIGHT))
 	{
-		glm::ivec3 placePos = result.hitTilePosition + glm::ivec3(result.hitNormal);
-
-		// 블럭을 설치하려는 위치에 플레이어가 서 있으면 블럭을 설치하지 않는다.
-		glm::ivec3 playerPos = glm::ivec3(m_pCacheMyTransform->GetWorldPosition());
-		glm::ivec3 deltaPos = placePos - playerPos;
-		if (deltaPos != glm::ivec3(0, 0, 0) && deltaPos != glm::ivec3(0, 1, 0))
-		{
-			// TODO: 수정한부분
-			const uint8_t tileID = static_cast<uint8_t>(Mgr(UIMgr)->GetSelectIndex() + 1);
-
-			const auto val = result.hitTilePosition + glm::ivec3(result.hitNormal);
-			c2s_CREATE_BLOCK pkt;
-			pkt.x = val.x;
-			pkt.y = val.y;
-			pkt.z = val.z;
-			pkt.tile_id = tileID;
-			Mgr(NetworkMgr)->Send(pkt);
-		}
-	}
-	if (KEY_TAP(GLFW_MOUSE_BUTTON_MIDDLE))
-	{
-		const glm::vec3 r = GetCameraDirection();
-		const glm::vec3 p = GetPosition() + glm::vec3(0.0f, 1.7f, 0.0f) + glm::normalize(r) * 0.75f;
-		Fire(p, m_cameraAngleAxisSmooth.x, m_cameraAngleAxisSmooth.y);
-	}
-
-	// TODO 임시 드래곤 소환
-	if (KEY_TAP(GLFW_KEY_BACKSLASH))
-	{
-		Send(c2s_SUMMON_BOSS{});
+		int index = Mgr(UIMgr)->GetSelectIndex();
+		m_inventory[index].GetItem()->OnUseItem(m_refTilemap.get(), this, result);
 	}
 }
 
@@ -360,9 +349,6 @@ void Hero::OnObjectDamaged(int value)
 
 void Hero::OnObjectDead()
 {
-	// Mgr(UIMgr)->SetHealth(0);
-	// Mgr(UIMgr)->SetGameOver();
-
 	Player::OnObjectDead();
 
 	SetPlayerControl(false);
@@ -405,16 +391,19 @@ void Hero::MoveByView(const glm::vec3& vDelta)
 	m_bForceSendData = true;
 }
 
-void Hero::Fire(const glm::vec3& arrow_pos, const float x_, const float y_) noexcept
+void Hero::Fire()
 {
+	const glm::vec3 r = GetCameraDirection();
+	const glm::vec3 p = GetPosition() + glm::vec3(0.0f, 1.7f, 0.0f) + glm::normalize(r) * 0.75f;
+
 	c2s_ADD_PROJECTILE pkt;
 
-	pkt.pos_x = arrow_pos.x;
-	pkt.pos_y = arrow_pos.y;
-	pkt.pos_z = arrow_pos.z;
+	pkt.pos_x = p.x;
+	pkt.pos_y = p.y;
+	pkt.pos_z = p.z;
 
-	pkt.dir_x = x_;
-	pkt.dir_y = y_;
+	pkt.dir_x = m_cameraAngleAxisSmooth.x;
+	pkt.dir_y = m_cameraAngleAxisSmooth.y;
 
 	Send(pkt);
 }

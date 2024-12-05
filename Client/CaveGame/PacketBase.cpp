@@ -103,7 +103,7 @@ DECLARE_PACKET_FUNC(s2c_USE_ITEM)
 DECLARE_PACKET_FUNC(s2c_ITEM_DROP)
 {
 	// 아이템 종류, 수량 등 더 받아야할정보가 있음
-	auto pDropItem = make_shared<DropItem>(GetTileMapGlobal(), Mgr(MCItemManager)->GetItemByID(10), 1);
+	auto pDropItem = make_shared<DropItem>(GetTileMapGlobal(), Mgr(MCItemManager)->GetItemByID(8), 1);
 	pDropItem->GetTransform()->SetLocalPosition({ pkt_.x,pkt_.y,pkt_.z });
 	pDropItem->SetID(pkt_.obj_id);
 	// 확인용

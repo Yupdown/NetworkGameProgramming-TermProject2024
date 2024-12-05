@@ -208,6 +208,9 @@
     <Filter Include="Engine\05. Scene\Scene_Intro">
       <UniqueIdentifier>{1d91a4e0-5885-4d02-8d54-bc4a0be6cd9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\02. Manager\UIMgr\UI\NumTextUI">
+      <UniqueIdentifier>{e2114cf3-6825-41ca-8103-6d80590fc837}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -404,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="PannelProgressUI.cpp">
       <Filter>Engine\02. Manager\UIMgr\UI\PannelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="NumTextUI.cpp">
+      <Filter>Engine\02. Manager\UIMgr\UI\NumTextUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="PannelProgressUI.h">
       <Filter>Engine\02. Manager\UIMgr\UI\PannelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="NumTextUI.h">
+      <Filter>Engine\02. Manager\UIMgr\UI\NumTextUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

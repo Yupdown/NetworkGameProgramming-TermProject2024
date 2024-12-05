@@ -22,6 +22,7 @@ private:
 
 private:
 	int m_iSelectedIndex = 0;
+	std::array<shared_ptr<PannelUI>, 9> m_arrInventoryUI;
 	shared_ptr<PannelUI> m_pTargetUI;
 	shared_ptr<PannelProgressUI> m_pHealthBar;
 	shared_ptr<PannelProgressUI> m_pBossHealthBar;
@@ -70,5 +71,6 @@ public:
 	void SetGameOverPanelActive(bool active);
 	void SetGameClearPanelActive(bool active);
 	void SetPopdownCallback(std::function<void()> callback);
+	void UpdateInventoryUI(int index, const pair<string_view, int>& data);
 };
 

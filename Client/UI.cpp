@@ -223,6 +223,13 @@ UI::~UI()
 {
 }
 
+void UI::SetUITex(string_view sTex)
+{
+	auto pTex = Mgr(ResMgr)->GetRes<Texture2D>(sTex);
+	for (auto& tex : m_uiTex)
+		tex = pTex;
+}
+
 void UI::Update()
 {
 	if (m_pParentGameObj.expired())
