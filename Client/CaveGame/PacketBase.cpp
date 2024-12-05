@@ -186,3 +186,8 @@ DECLARE_PACKET_FUNC(s2c_BOSS_PROJECTILE)
 
 	 Mgr(ServerObjectManager)->AddObject(ServerObjectFactory::CreateProjFireball(b), GROUP_TYPE::PROJ_MONSTER);
 }
+
+DECLARE_PACKET_FUNC(s2c_USE_ENDER_EYE)
+{
+	// 엔더의 눈 사용
+}

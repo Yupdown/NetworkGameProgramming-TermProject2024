@@ -63,6 +63,9 @@ enum class PKT_ID : uint8
 
     s2c_BOSS_PROJECTILE = 22,
 
+    c2s_USE_ENDER_EYE = 23,
+    s2c_USE_ENDER_EYE = 24,
+
     END,
 };
 
@@ -364,4 +367,20 @@ struct s2c_BOSS_PROJECTILE
     DECLARE_PACKET(s2c_BOSS_PROJECTILE);
 };
 
+/// <summary>
+/// 엔더의 눈 사용
+/// </summary>
+
+struct c2s_USE_ENDER_EYE
+    :public PacketHeader
+{
+    DECLARE_PACKET(c2s_USE_ENDER_EYE);
+};
+
+
+struct s2c_USE_ENDER_EYE
+    :public PacketHeader
+{
+    DECLARE_PACKET(s2c_USE_ENDER_EYE);
+};
 #pragma pack (pop)

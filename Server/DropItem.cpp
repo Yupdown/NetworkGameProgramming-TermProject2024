@@ -28,11 +28,9 @@ void DropItem::Update(const float DT)
 			const glm::ivec3 ipos = glm::ivec3(pos);
 			if (ipos == item_pos)
 			{
-				std::cout << "!\n";
 				owner->SetInvalid();
 				return;
 			}
 		}
 	}
-
 }
