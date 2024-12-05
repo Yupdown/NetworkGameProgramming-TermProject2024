@@ -131,8 +131,8 @@ void ProjArrow::UpdateProjectile(const float DT) noexcept
 
     if (m_isPinned)return;
 
-    Projectile::CheckGroupCollision(this, MC_OBJECT_TYPE::MONSTER, 0.5f, 3.0f, G_ARROW_DMG);
-    Projectile::CheckGroupCollision(this, MC_OBJECT_TYPE::PLAYER, 0.5f, 2.0f, G_ARROW_DMG);
+    Projectile::CheckGroupCollision(this, MC_OBJECT_TYPE::MONSTER, 0.5f, 4.5f, G_ARROW_DMG);
+    Projectile::CheckGroupCollision(this, MC_OBJECT_TYPE::PLAYER, 0.5f, 3.0f, G_ARROW_DMG);
     CheckCollisionToEnderDragon();
 }
 

@@ -147,8 +147,8 @@ void Player::HandleCollision() noexcept
 
 	if (bSoundPlay)
 	{
-		glm::vec3 vListenPos = m_pCacheMyTransform->GetWorldPosition();
-		glm::vec3 vSoundPos = m_pCacheMyTransform->GetWorldPosition();
+		glm::vec3 vListenPos = Mgr(ServerObjectManager)->GetHero()->GetPosition();
+		glm::vec3 vSoundPos = GetPosition();
 		float fDist = glm::distance(vListenPos, vSoundPos);
 		if (fDist < 16.0f)
 			Mgr(SoundMgr)->PlayEffect(std::format("grass{}.ogg", (int)(m_fMoveTime * 4) % 4 + 1), 0.5f * glm::pow(0.8f, fDist));
