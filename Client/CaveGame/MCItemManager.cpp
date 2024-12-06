@@ -2,7 +2,6 @@
 #include "MCItemManager.h"
 #include "MCItemTable.h"
 #include "NetworkMgr.h"
-#include "SoundMgr.h"
 #include "Hero.h"
 
 MCItemManager::MCItemManager()
@@ -28,7 +27,6 @@ void MCItemManager::LoadItems()
 		pkt.pos_y = v.y + 1.5f;
 		pkt.pos_z = v.z;
 		Send(pkt);
-		Mgr(SoundMgr)->PlayEffect("Ender_Eye_launch1.ogg", 1.0f);
 		return true;
 		}));
 	m_registry.Insert("bow", make_shared<MCItemCallback>("Bow", "bow.png", [](MCTilemap*, Hero* player, const RaycastResult&) {

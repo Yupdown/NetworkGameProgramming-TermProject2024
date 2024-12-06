@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "Mesh.h"
 #include "Transform.h"
+#include "SoundMgr.h"
 
 EnderEye::EnderEye()
 {
@@ -78,4 +79,6 @@ void EnderEye::SetMoveSequence(const glm::vec3& beginPos, const glm::vec3& endPo
 	{
 		m_endPos = endPos;
 	}
+
+	Mgr(SoundMgr)->PlayEffect("Ender_Eye_launch1.ogg", 1.0f);
 }
