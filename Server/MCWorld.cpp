@@ -54,6 +54,8 @@ void MCWorld::Init() noexcept
 		item->Init();
     }
 
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+
     m_worldUpdateThread = std::thread{ [this]()noexcept {this->Update(); } };
 }
 

@@ -14,6 +14,8 @@ int main()
     MCItemTable::Init();
     Mgr(MCWorld)->Init();
 
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+
     std::thread io_thread{ []() {Mgr(IOExecutor)->IORoutine(); } };
 
     std::string exit_word;
