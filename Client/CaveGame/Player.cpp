@@ -252,12 +252,12 @@ void Player::OnObjectDamaged(int value)
 		OnObjectDead();
 	}
 
-	std::cout << "Player Damaged: " << value << std::endl;
+	//std::cout << "Player Damaged: " << value << std::endl;
 }
 
 void Player::OnObjectDead()
 {
 	SetPosition(G_INIT_POS);
 
-	std::cout << "Player Dead" << std::endl;
+	//std::cout << "Player Dead" << std::endl;
 }

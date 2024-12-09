@@ -44,7 +44,7 @@ void Monster::UpdateRenderer()
 
 void Monster::OnObjectDamaged(int value)
 {
-	std::cout << "Monster Damaged: " << value << std::endl;
+	//std::cout << "Monster Damaged: " << value << std::endl;
 
 	Mgr(SoundMgr)->PlayEffect("Enderman_hurt2.ogg", 1.0f);
 }

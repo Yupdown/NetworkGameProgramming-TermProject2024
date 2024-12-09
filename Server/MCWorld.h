@@ -12,7 +12,7 @@
  class ClientSession;
  class Session;
 
- static constexpr const int G_NUM_OF_MONSTERS = 10;
+ static constexpr const int G_NUM_OF_MONSTERS = 20;
 
  class MCWorld
  	: public Singleton<MCWorld>

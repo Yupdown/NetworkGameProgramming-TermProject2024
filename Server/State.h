@@ -19,6 +19,8 @@ static constexpr float ATK_TIME = 1.f;
 class State
 {
 public:
+	virtual ~State()noexcept = default;
+public:
 	virtual MON_STATE Update(PositionInfo* const pos_info, const float DT) = 0;
 	virtual void EnterState(const float DT){}
 	virtual void ExitState(const float DT) {}

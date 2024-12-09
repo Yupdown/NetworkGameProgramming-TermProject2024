@@ -7,6 +7,8 @@ void FSM::Update(const float DT)
 {
 	if (m_curState)
 	{
+		if (target && !target->IsValid())target.reset();
+
 		const MON_STATE cur_state = m_curState->m_state;
 		const MON_STATE next_state = m_curState->Update(&GetOwner()->GetPosInfo(), DT);
 

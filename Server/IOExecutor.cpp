@@ -82,16 +82,17 @@ void IOExecutor::IORoutine() noexcept
                 OnAccept();
             }
 
-            for (int i = 1; i <= m_curNumOfClient+1;)
+            for (int i = 1; i <= NUM_OF_CLIENTS;)
             {
+                const auto sock = m_clientsFD[i].fd;
+                if (INVALID_SOCKET == sock)break;
                 if (m_clientsFD[i].revents & POLLRDNORM)
                 {
-                    // TODO: Recv·çÆ¾
-                    OnRecv(m_clientsFD[i].fd);
+                    OnRecv(sock);
                 }
                 else if (m_clientsFD[i].revents & POLLHUP)
                 {
-                    OnDisconnect(m_clientsFD[i].fd, i);
+                    OnDisconnect(sock, i);
                     continue;
                 }
                 ++i;
@@ -113,16 +114,24 @@ void IOExecutor::OnAccept() noexcept
     m_clientsFD[cur_idx].events = POLLRDNORM;
 
     const auto cur_ID = GetObjectIDAndIncrement();
-    const auto session = std::make_shared<Session>(cur_ID, m_clientsFD[cur_idx].fd);
+    auto session = std::make_shared<Session>(cur_ID, m_clientsFD[cur_idx].fd);
 
     BOOL flag = TRUE;
+
     if (setsockopt(m_clientsFD[cur_idx].fd, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(flag)) != 0)
     {
         std::cerr << "Failed to disable Nagle's algorithm: " << WSAGetLastError() << std::endl;
     }
 
+    u_long mode = 1;
+
+    if (ioctlsocket(m_clientsFD[cur_idx].fd, FIONBIO, &mode) != NO_ERROR)
+    {
+        std::cerr << "Failed to set non-blocking mode: " << WSAGetLastError() << std::endl;
+    }
+
     m_mapSession.try_emplace(cur_ID, session);
-    m_mapSocket2Session.try_emplace(m_clientsFD[cur_idx].fd, session);
+    m_mapSocket2Session.try_emplace(m_clientsFD[cur_idx].fd, std::move(session));
 
     std::cout << "Client In\n";
 }
@@ -162,7 +171,7 @@ void IOExecutor::OnRecv(const SOCKET sock) noexcept
 
     const auto recv_buff = session->GetRecvBuffer();
 
-    const int data_len = recv(sock, recv_buff->WritePos(), RecvBuffer::RECV_BUFFER_SIZE::BUFFER_SIZE, 0);
+    const int data_len = recv(sock, recv_buff->WritePos(), recv_buff->FreeSize(), 0);
     recv_buff->OnWrite(data_len);
 
     const int process_len = ::OnRecv(session->GetSessionID(),recv_buff->ReadPos(), recv_buff->DataSize(), c2s_PacketHandler::GetPacketHandlerList());
@@ -202,17 +211,22 @@ void IOExecutor::FlushSendQueue() noexcept
 
     const auto io_len = m_sendBuff.GetLen();
     const bool flag = 0 != io_len;
-
-    for (int i = 1; i <= m_curNumOfClient; ++i)
     {
-        const auto& session = m_mapSocket2Session[m_clientsFD[i].fd];
-        if (flag)
-            session->ReserveWSASend(&m_sendBuff);
-        for (const auto broad_cast_buff : m_flush_buffer)
+        const auto sentinel = m_mapSocket2Session.cend();
+
+        for (int i = 1; i <= m_curNumOfClient; ++i)
         {
-            session->ReserveWSASend(broad_cast_buff);
+            const auto iter = m_mapSocket2Session.find(m_clientsFD[i].fd);
+            if (sentinel == iter)continue;
+            const auto& session = iter->second;
+            if (flag)
+                session->ReserveWSASend(&m_sendBuff);
+            for (const auto broad_cast_buff : m_flush_buffer)
+            {
+                session->ReserveWSASend(broad_cast_buff);
+            }
+            session->ExecuteSend();
         }
-        session->ExecuteSend();
     }
 
     m_sendBuff.Clear();
